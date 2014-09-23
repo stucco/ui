@@ -7,15 +7,11 @@
 
 ## Build and Start Locally
 1. Open a terminal and cd into the ui directory
-2. Run the following command to download all the dependencies:
-	
-	bower update
-	
-3. To start the ui server run:
+2. To start the ui server run:
 
 	http-server ./
 	
-4. Open a Chrome window and go to the URL:
+3. Open a Chrome window and go to the URL:
 
 	http://0.0.0.0:8080
 	

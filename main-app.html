@@ -1,0 +1,55 @@
+<meta charset="US-ASCII">
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="elements/query-component.html">
+<link rel="import" href="elements/results-component.html">
+<link rel="import" href="elements/detail-query-component.html">
+<link rel="import" href="elements/traversal-component.html">
+<polymer-element name="main-app" attributes="querySource resultsView historyView">
+    <template>
+        <query-component id="queryCom" results="{{results}}" querySource="{{querySource}}" hidden?="{{!showQuery}}"></query-component>
+        <results-component id="resultsCom" rowData="{{results}}" detailId="{{detailId}}" resultsView="{{resultsView}}" hidden?="{{!showResults}}"></results-component>
+        <detail-query-component id="detailQueryCom" queryParams="{{detailId}}" vertices="{{vertices}}" edges="{{edges}}"></detail-query-component>
+        <traversal-component id="traverseCom" vertexDetails="{{vertices}}" edgeDetails="{{edges}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" hidden?="{{!showTraversal}}"></traversal-component>
+        <p>
+            <button on-click="{{goToQuery}}">Go To Query</button>
+        </p>
+    </template>
+    <script>
+        Polymer("main-app", {
+            querySource : "",
+            resultsView : "",
+            historyView : "",
+            showQuery : true,
+            showResults : false,
+            showTraversal : false,
+            ready : function() {
+                this.querySource = this.querySource || "rexster";
+                this.resultsView = this.resultsView || "table";
+                this.historyView = this.historyView || "grid";
+            },
+            resultsChanged : function() {
+                if (this.$.queryCom.results.length > 0) {
+                    this.showQuery = !this.showQuery;
+                    this.showResults = !this.showResults;
+                }
+            },
+            nextVertexIdChanged : function() {
+            	var nextId = this.$.traverseCom.nextVertexId;
+            	this.$.detailQueryCom.queryParams = nextId;
+                if (nextId != "") {
+                    this.showResults = false;
+                    this.showTraversal = true;
+                }
+            },
+            detailIdChanged : function() {
+                if ((this.$.detailQueryCom.queryParams != "") && (this.$.traverseCom.nextVertexId == "")) {
+                    this.showResults = !this.showResults;
+                    this.showTraversal = !this.showTraversal;
+                }
+            },
+            goToQuery : function() {
+                window.location.assign(window.location.origin);
+            }
+        });
+    </script>
+</polymer-element>

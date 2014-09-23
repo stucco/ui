@@ -1,0 +1,17 @@
+<meta charset="US-ASCII">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="rexster-query-component.html">
+<polymer-element name="query-component" attributes="results querySource">
+    <template>
+        <h1>Query</h1>
+        <rexster-query-component results="{{results}}" hidden?="{{querySource != "rexster"}}"></rexster-query-component>
+    </template>
+    <script>
+        Polymer("query-component", {
+            querySource : "",
+            ready : function() {
+                this.querySource = this.querySource | "rexster";
+            }
+        });
+    </script>
+</polymer-element>

@@ -1,0 +1,126 @@
+<meta charset="US-ASCII">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<polymer-element name="rexster-query-component" attributes="results">
+    <template>
+    	<core-ajax id="rexreq" url="http://localhost:8182/graphs/graph/tp/gremlin" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{queryRexster}}"></core-ajax>
+		<input id="query" type="text" value="{{userInput}}" /> 
+		
+		<button type="button" on-click="{{submitQuery}}">Submit Query</button>
+    </template>
+    <script>
+        Polymer('rexster-query-component', {
+		   userInput : 'MA',
+		   results : [],
+           ready : function() { 
+			   this.userInput = this.userInput || 'MA';
+           },
+           submitQuery : function() {
+			   this.userInput = this.userInput.trim();
+               if (this.validateQuery()) {
+				 	this.getRexsterQuery();
+				 	this.$.rexreq.go();
+               }
+			   else {
+				 	this.userInput = '';
+			   }
+           },
+		   validateQuery : function() {
+			   var queryPattern = /[A-Z]+:?.*=?.*/;
+			   if ((this.userInput.length > 0) & (queryPattern.test(this.userInput))) {
+				   return true;
+			   }
+			   else {
+			   		console.log(this.userInput + " is not valid!");
+			   }
+			   return false;
+		   },
+		   getRexsterQuery : function() {
+		   	   var paramString = "{\"script\":\"g.V.has(";
+			   var vertexTypeParam = "'vertexType',";
+			   var inputPieces = this.userInput.split(":");
+			   if (inputPieces.length >= 1) {
+			   		switch (inputPieces[0]) {
+			   			case 'SO' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'software')");
+			   				break;
+			   			case 'MA' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'malware')");
+			   				break;
+			   			case 'US' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'user')");
+			   				break;
+			   			case 'AC' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'account')");
+			   				break;
+			   			case 'HO' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'host')");
+			   				break;
+			   			case 'VU' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'vulnerability')");
+			   				break;
+			   			case 'AD' :
+			   				paramString = paramString.concat(vertexTypeParam + "'address')");
+			   				break;
+			   			case 'DN' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'DNSName')");
+			   				break;
+			   			case 'IP' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'IP')");
+			   				break;
+			   			case 'PO' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'port')");
+			   				break;
+			   			case 'AR' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'addressRange')");
+			   				break;
+			   			case 'SE' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'service')");
+			   				break;
+			   			case 'FL' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'flow')");
+			   				break;
+			   			case 'AT' :
+			   				paramString = paramString.concat(vertexTypeParam + "'attack')");
+			   				break;
+			   			case 'AK' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'attacker')");
+			   				break;
+			   			case 'AA' : 
+			   				paramString = paramString.concat(vertexTypeParam + "'attackAsset')");
+			   				break;
+			   			default : 
+			   				paramString = "{\"script\":\"g.V";
+			   				break;
+			   		}
+			   }
+			   if (inputPieces.length >= 2) {
+			   		var filterPairs = inputPieces[1].split(",");
+			   		for (var i=0; i<filterPairs.length; i++) {
+			   			var keyValue = filterPairs[i].split("=");
+			   			if (keyValue.length == 2) {
+			   				paramString = paramString.concat(".has('");
+			   				paramString = paramString.concat(keyValue[0] + "','" + keyValue[1] + "')");
+			   			}
+			   			keyValue = filterPairs[i].split(">");
+			   			if (keyValue.length == 2) {
+			   				paramString = paramString.concat(".has('");
+			   				paramString = paramString.concat(keyValue[0] + "',GREATER_THAN,'" + keyValue[1] + "')");
+			   			}
+			   			keyValue = filterPairs[i].split("<");
+			   			if (keyValue.length == 2) {
+			   				paramString = paramString.concat(".has('");
+			   				paramString = paramString.concat(keyValue[0] + "',LESS_THAN,'" + keyValue[1] + "')");
+			   			}
+			   		}
+
+			   }
+			   paramString = paramString.concat("\", \"rexster.offset.start\":0, \"rexster.offset.end\":10}");
+			   this.$.rexreq.params = paramString;
+		   },
+		   queryRexster : function() {
+				this.results = this.$.rexreq.response.results;
+		   }
+        });
+    </script>
+</polymer-element>

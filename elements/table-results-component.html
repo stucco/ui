@@ -1,0 +1,55 @@
+<meta charset="US-ASCII">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<polymer-element name="table-results-component" attributes="rowData detailId">
+  <template>
+      <style type="text/css">
+        table {
+          color: #333;
+          border-collapse: collapse;
+          border-spacing: 1px;
+          font-size: 18px;
+          border: 1px solid black;
+          width: 75%;
+          height: 50%;
+        }
+        tr, td {
+          padding: 8px;
+          border: 1px solid black;
+        }
+        #headerRow {
+          font-weight: bold;
+        }
+      </style>
+      <table>
+        <tr id="headerRow">
+          <td>Id</td><td>Vertex Type</td><td>Malware Type</td><td>Discovery Date</td><td>Source</td>
+        </tr>
+        <template repeat="{{vertex, index in rowData}}">
+          <tr id="{{index}}" on-click="{{showDetails}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
+            <td>{{vertex["_id"]}}</td><td>{{vertex["vertexType"]}}</td><td>{{vertex["malwareType"]}}</td><td>{{vertex["discoveryDate"]}}</td><td>{{vertex["source"]}}</td>
+          </tr>
+        </template>
+      </table>
+  </template>
+  <script>
+    Polymer('table-results-component', {
+      rowData : [],
+      detailId : "",
+      ready : function() {
+        this.rowData = this.rowData || [];
+      },
+      rowDataChanged : function() {
+        this.rowData = this.rowData;
+      },
+      showDetails : function(event, detail, sender) {
+        this.detailId = this.rowData[sender.id]["_id"];
+      },
+      highlightRow : function(event, detail, sender) {
+        sender.style.backgroundColor = '#F3F781';
+      },
+      unHighlightRow : function(event, detail, sender) {
+        sender.style.backgroundColor = 'white';
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<polymer-element name="detail-component" attributes="vertexDetails edgeDetails nextVertexId">
+    <template>
+        <template if="{{vertexDetails['_id']}}">
+    	   <b>ID: </b> {{vertexDetails["_id"]}}
+        </template>
+        <template if="{{vertexDetails['vertexType']}}">
+            <p>
+                <b>Type: </b> {{vertexDetails["vertexType"]}}
+            </p>
+        </template>
+        <template if="{{vertexDetails['source']}}">
+            <p>
+                <b>Source: </b> {{vertexDetails["source"]}}
+            </p>
+        </template>
+        <template if="{{vertexDetails['malwareType']}}">
+            <p>
+                <b>Malware Type: </b> {{vertexDetails["malwareType"]}}
+            </p>
+        </template>
+        <template if="{{vertexDetails['discoveryDate']}}">
+            <p>
+                <b>Discovery Date: </b> {{vertexDetails["discoveryDate"]}}
+            </p>
+        </template>
+        <template if="{{vertexDetails['fullDescription']}}">
+            <p>
+                <b>Full Description: </b> {{vertexDetails["fullDescription"]}}
+            </p>
+        </template>
+        <template if="{{edgeDetails}}">
+            <table>
+                <template repeat="{{edge, index in edgeDetails}}">
+                    <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
+                        <td>
+                            <b>{{edge["_inV"]}} ---{{edge["_label"]}}---> {{edge["_outV"]}}</b>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+        </template>
+    </template>
+    <script>
+        Polymer('detail-component', {
+        	vertexDetails : {},
+            edgeDetails : [],
+            nextVertexId : "",
+			ready : function() {
+            },
+            goToNextVertex : function (event, detail, sender) {
+                var selectedEdge = this.edgeDetails[sender.id];
+                if (this.vertexDetails["_id"] == selectedEdge["_inV"]) {
+                	this.nextVertexId = selectedEdge["_outV"];
+                }
+                else {
+                	this.nextVertexId = selectedEdge["_inV"];
+                }
+            },
+            highlightRow : function(event, detail, sender) {
+                sender.style.backgroundColor = '#F3F781';
+            },
+            unHighlightRow : function(event, detail, sender) {
+                sender.style.backgroundColor = 'white';
+            }
+       });
+    </script>
+</polymer-element>

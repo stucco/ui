@@ -19,8 +19,8 @@
 	
 6. Click the section labeled "tp:gremlin"
 7. In the "script" textbox type:
-	
-	g.loadGraphSON('<path_to_ui_directory>/resources/metasploit_short.json')
+
+	g.loadGraphSON('path-to-ui-directory/resources/metasploit_short.json')
 	
 8. Click "Execute"
 

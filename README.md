@@ -6,7 +6,7 @@
 * Titan-Rexster server started at http://localhost:8182
 
 ### Installing and Configuring Titan-Rexster Server
-1. Download (Titan-Rexster server)[https://github.com/thinkaurelius/titan/wiki/Downloads] version 0.4.4 referred to as "Titan Server (All + Rexster)"
+1. Download [Titan-Rexster server](https://github.com/thinkaurelius/titan/wiki/Downloads) - use version 0.4.4 referred to as "Titan Server (All + Rexster)"
 2. Open a Terminal, cd to the Titan download, and unzip it
 3. Move the server directory to another location, if desired
 4. To start the server:

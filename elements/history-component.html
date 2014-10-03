@@ -1,14 +1,56 @@
 <meta charset="US-ASCII">
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<polymer-element name="history-component">
+<polymer-element name="history-component" attributes="historyView currentVertex currentEdges">
     <template>
-        
+    	<style type="text/css">
+        table {
+          color: white;
+          border-collapse: collapse;
+          border-spacing: 1px;
+          font-size: 18px;
+          border: 1px solid black;
+          width: 80%;
+          height : 100%;
+        }
+        tr, td {
+          padding: 8px;
+          border: 1px solid black;
+          vertical-align: top;
+        }
+      </style>
+      <table>
+        <template repeat="{{element, index in historyStack}}">
+        	<tr id="{{index}}" on-click="{{showDetails}}" bgcolor="{{colorChart[element["vertex"]["vertexType"]]}}">
+            	<td>ID: {{element["vertex"]["_id"]}}</td>
+          	</tr>
+        </template>
+       </table>
     </template>
     <script>
         Polymer("history-component", {
+        	// TODO: Add to this color chart for all vertex types
+        	colorChart : {"malware" : "red", "vulnerability" : "green", "software" : "blue"},
             historyStack : [],
+            currentVertex : {},
+            currentEdges : [],
             ready : function() {
-            }
-        });
+            },
+            currentEdgesChanged : function() {
+            	if (this.currentVertex["_id"]) {
+            		var newHistoryElement = {};
+            		newHistoryElement["vertex"] = this.currentVertex;
+            		newHistoryElement["edges"] = this.currentEdges;
+            		this.historyStack.push(newHistoryElement);
+            		if (this.historyStack.length > 5) {
+            			this.historyStack.shift();
+            		}
+            	}
+            },
+            showDetails : function(event, detail, sender) {
+            	var stackIndex = sender.id;
+		        this.currentVertex = this.historyStack[stackIndex]["vertex"];
+		        this.currentEdges = this.historyStack[stackIndex]["edges"];
+		    }
+		});
     </script>
 </polymer-element>

@@ -1,9 +1,9 @@
 <meta charset="US-ASCII">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="rexster-detail-query-component.html">
-<polymer-element name="detail-query-component" attributes="queryParams vertices edges querySource">
+<polymer-element name="detail-query-component" attributes="queryParams vertices edges querySource queryHost queryPort">
     <template>
-        <rexster-detail-query-component queryParams="{{queryParams}}" vertices="{{vertices}}" edges="{{edges}}" hidden?="{{querySource != "rexster"}}"></rexster-detail-query-component>
+        <rexster-detail-query-component queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{queryParams}}" vertices="{{vertices}}" edges="{{edges}}" hidden?="{{querySource != "rexster"}}"></rexster-detail-query-component>
     </template>
     <script>
         Polymer("detail-query-component", {

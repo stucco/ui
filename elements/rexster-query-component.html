@@ -1,19 +1,20 @@
 <meta charset="US-ASCII">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
-<polymer-element name="rexster-query-component" attributes="results">
+<polymer-element name="rexster-query-component" attributes="queryHost queryPort results">
     <template>
-    	<core-ajax id="rexreq" url="http://localhost:8182/graphs/graph/tp/gremlin" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{queryRexster}}"></core-ajax>
-		<input id="query" type="text" value="{{userInput}}" /> 
+    	<core-ajax id="rexreq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/tp/gremlin" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{queryRexster}}"></core-ajax>
+		<input id="query" type="text" size="100" value="{{userInput}}" /> 
 		
 		<button type="button" on-click="{{submitQuery}}">Submit Query</button>
     </template>
     <script>
         Polymer('rexster-query-component', {
-		   userInput : 'MA',
+           queryHost : "localhost",
+           queryPort : 8182,
+		   userInput : "script:g.V.has('discoveryDate',GREATER_THAN,'2009-11-08').has('discoveryDate',LESS_THAN,'2009-11-10')",
 		   results : [],
-           ready : function() { 
-			   this.userInput = this.userInput || 'MA';
+           ready : function() {
            },
            submitQuery : function() {
 			   this.userInput = this.userInput.trim();
@@ -89,12 +90,19 @@
 			   			case 'AA' : 
 			   				paramString = paramString.concat(vertexTypeParam + "'attackAsset')");
 			   				break;
+			   			case 'script' :
+			   				paramString = "{\"script\":\"";
+			   				for (var i=1; i<inputPieces.length; i++) {
+			   					paramString = paramString.concat(inputPieces[i]);
+			   				}
+			   				break;
 			   			default : 
 			   				paramString = "{\"script\":\"g.V";
 			   				break;
 			   		}
 			   }
 			   if (inputPieces.length >= 2) {
+			   		
 			   		var filterPairs = inputPieces[1].split(",");
 			   		for (var i=0; i<filterPairs.length; i++) {
 			   			var keyValue = filterPairs[i].split("=");
@@ -112,10 +120,12 @@
 			   				paramString = paramString.concat(".has('");
 			   				paramString = paramString.concat(keyValue[0] + "',LESS_THAN,'" + keyValue[1] + "')");
 			   			}
+
 			   		}
 
 			   }
-			   paramString = paramString.concat("\", \"rexster.offset.start\":0, \"rexster.offset.end\":10}");
+			   paramString = paramString.concat("\", \"rexster.offset.start\":0, \"rexster.offset.end\":30}");
+			   console.log("rexster-query-component parameters = " + paramString);
 			   this.$.rexreq.params = paramString;
 		   },
 		   queryRexster : function() {

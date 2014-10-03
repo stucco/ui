@@ -1,6 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <polymer-element name="detail-component" attributes="vertexDetails edgeDetails nextVertexId">
-    <template>
+  	<style type="text/css">
+        table, tr, td {
+          vertical-align: top;
+        }
+     </style>
+     <template>
         <template if="{{vertexDetails['_id']}}">
     	   <b>ID: </b> {{vertexDetails["_id"]}}
         </template>
@@ -47,6 +52,11 @@
             edgeDetails : [],
             nextVertexId : "",
 			ready : function() {
+            },
+            vertexDetailsChanged : function() {
+            	if (this.vertexDetails["_id"]) {
+            		this.nextVertexId = this.vertexDetails["_id"];
+            	}
             },
             goToNextVertex : function (event, detail, sender) {
                 var selectedEdge = this.edgeDetails[sender.id];

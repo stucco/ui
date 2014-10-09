@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="detail-component.html">
 <link rel="import" href="history-component.html">
-<polymer-element name="traversal-component" attributes="vertexDetails edgeDetails nextVertexId historyView">
+<polymer-element name="traversal-component" attributes="vertexDetails edgeDetails nextVertexId historyView" noscript>
     <template>
         <style type="text/css">
             table {
@@ -35,10 +35,4 @@
             </tr>   
         </table>
     </template>
-    <script>
-        Polymer("traversal-component", {
-            ready : function() {
-            }
-        });
-    </script>
 </polymer-element>

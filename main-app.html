@@ -1,6 +1,5 @@
 <meta charset="US-ASCII">
 <link rel="import" href="bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="elements/query-component.html">
 <link rel="import" href="elements/results-component.html">
 <link rel="import" href="elements/detail-query-component.html">
@@ -28,7 +27,6 @@
                 this.querySource = this.querySource || "rexster";
                 this.resultsView = this.resultsView || "table";
                 this.historyView = this.historyView || "grid";
-                this.$.ontologyCom.go();
             },
             resultsChanged : function() {
                 if (this.$.queryCom.results.length > 0) {

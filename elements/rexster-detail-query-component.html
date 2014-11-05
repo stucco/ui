@@ -1,7 +1,7 @@
 <meta charset="US-ASCII">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
-<polymer-element name="rexster-detail-query-component" attributes="queryHost queryPort queryParams vertices edges">
+<polymer-element name="rexster-detail-query-component" attributes="queryHost queryPort queryParams vertex edges">
     <template>
     	<core-ajax id="vertexReq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/vertices/{{queryParams}}" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{getVertices}}"></core-ajax>
       <core-ajax id="edgeReq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/vertices/{{queryParams}}/bothE" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{getEdges}}"></core-ajax>
@@ -11,17 +11,15 @@
           queryHost : "localhost",
           queryPort : 8182,
 		      queryParams : "",
-          vertices : [],
+          vertex : [],
 		      edges : [],
-          ready : function() {
-          },
           queryParamsChanged : function() {
           	  if (this.queryParams != "") {
               	this.$.vertexReq.go();
               }
           },
           getVertices : function() {
-              this.vertices = this.$.vertexReq.response.results;
+              this.vertex = this.$.vertexReq.response.results;
               this.$.edgeReq.go();
           },
           getEdges : function() {

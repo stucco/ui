@@ -1,20 +1,22 @@
 <meta charset="US-ASCII">
 <link rel="import" href="bower_components/polymer/polymer.html">
+<script src="bower_components/jquery/dist/jquery.js"></script>
 <link rel="import" href="elements/query-component.html">
 <link rel="import" href="elements/results-component.html">
 <link rel="import" href="elements/detail-query-component.html">
 <link rel="import" href="elements/traversal-component.html">
 <polymer-element name="main-app" attributes="querySource resultsView historyView queryHost queryPort">
     <template>
-        <query-component id="queryCom" results="{{results}}" querySource="{{querySource}}" queryHost="{{queryHost}}" queryPort="{{queryPort}}" hidden?="{{!showQuery}}"></query-component>
-        <results-component id="resultsCom" rowData="{{results}}" detailId="{{detailId}}" resultsView="{{resultsView}}" hidden?="{{!showResults}}"></results-component>
-        <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertices="{{vertices}}" edges="{{edges}}"></detail-query-component>
-        <traversal-component id="traverseCom" vertexDetails="{{vertices}}" edgeDetails="{{edges}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" hidden?="{{!showTraversal}}"></traversal-component>
+        <query-component id="queryCom" results="{{results}}" querySource="{{querySource}}" queryHost="{{queryHost}}" queryPort="{{queryPort}}" vertexType="{{vertexType}}" hidden?="{{!showQuery}}"></query-component>
+        <results-component id="resultsCom" vertexProperties="{{vertexProperties}}" rowData="{{results}}" detailId="{{detailId}}" resultsView="{{resultsView}}" hidden?="{{!showResults}}"></results-component>
+        <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertex="{{vertex}}" edges="{{edges}}"></detail-query-component>
+        <traversal-component id="traverseCom" vertexDetails="{{vertex}}" edgeDetails="{{edges}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" vProps="{{vProps}}" hidden?="{{!showTraversal}}"></traversal-component>
         <p>
             <button on-click="{{goToQuery}}" hidden?="{{showQuery}}">Go To Query</button>
         </p>
     </template>
     <script>
+        var vertexOntology = [];
         Polymer("main-app", {
             querySource : "",
             resultsView : "",
@@ -22,16 +24,45 @@
             showQuery : true,
             showResults : false,
             showTraversal : false,
-            ontology : {},
+            vertexProperties : [],
+            vProps : [],
             ready : function() {
                 this.querySource = this.querySource || "rexster";
                 this.resultsView = this.resultsView || "table";
                 this.historyView = this.historyView || "grid";
+                jQuery.getJSON('ontology/stucco_schema.json', function(json) {
+                    vertexOntology = json["properties"]["vertices"]["items"];
+                    console.log(vertexOntology.length);
+                });
             },
             resultsChanged : function() {
                 if (this.$.queryCom.results.length > 0) {
+                    console.log("main-app looking for " + this.$.queryCom.vertexType + "-type vertex properties");
+                    console.log(vertexOntology.length);
+                    for (var i=0; i<vertexOntology.length; i++) {
+                        var currentVert = vertexOntology[i];
+                        if (currentVert["title"] == this.$.queryCom.vertexType) {
+                            this.vertexProperties = Object.keys(currentVert["properties"]);
+                            console.log(this.vertexProperties);
+                            break;
+                        }
+                    }
                     this.showQuery = !this.showQuery;
                     this.showResults = !this.showResults;
+                }
+            },
+            vertexChanged : function() {
+                console.log("vertex changed " + JSON.stringify(this.$.detailQueryCom.vertex));
+                if (this.$.detailQueryCom.vertex != {}) {
+                    console.log("main-app looking for " + this.$.detailQueryCom.vertex["vertexType"] + "-type vertex properties");
+                    for (var i=0; i<vertexOntology.length; i++) {
+                        var currentVert = vertexOntology[i];
+                        if (currentVert["title"] == this.$.detailQueryCom.vertex["vertexType"]) {
+                            this.vProps = Object.keys(currentVert["properties"]);
+                            console.log(this.vProps);
+                            break;
+                        }
+                    }
                 }
             },
             nextVertexIdChanged : function() {

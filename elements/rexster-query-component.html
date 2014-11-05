@@ -1,7 +1,7 @@
 <meta charset="US-ASCII">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
-<polymer-element name="rexster-query-component" attributes="queryHost queryPort results">
+<polymer-element name="rexster-query-component" attributes="queryHost queryPort vertexType results">
     <template>
     	<core-ajax id="rexreq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/tp/gremlin" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{queryRexster}}"></core-ajax>
 		<input id="query" type="text" size="100" value="{{userInput}}" /> 
@@ -12,8 +12,9 @@
         Polymer('rexster-query-component', {
            queryHost : "localhost",
            queryPort : 8182,
-		   userInput : "script:g.V.has('discoveryDate',GREATER_THAN,'2009-11-08').has('discoveryDate',LESS_THAN,'2009-11-10')",
+		   userInput : "MA",//"script:g.V.has('discoveryDate',GREATER_THAN,'2009-11-08').has('discoveryDate',LESS_THAN,'2009-11-10')",
 		   results : [],
+		   vertexType : "software",
            ready : function() {
            },
            submitQuery : function() {
@@ -43,52 +44,68 @@
 			   if (inputPieces.length >= 1) {
 			   		switch (inputPieces[0]) {
 			   			case 'SO' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'software')");
+			   				this.vertexType = "software";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'MA' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'malware')");
+			   				this.vertexType = "malware";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'US' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'user')");
+			   				this.vertexType = "user";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'AC' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'account')");
+			   				this.vertexType = "account";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'HO' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'host')");
+			   				this.vertexType = "host";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'VU' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'vulnerability')");
+			   				this.vertexType = "vulnerability";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'AD' :
-			   				paramString = paramString.concat(vertexTypeParam + "'address')");
+			   				this.vertexType = "address";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'DN' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'DNSName')");
+			   				this.vertexType = "DNSName";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'IP' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'IP')");
+			   				this.vertexType = "IP";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'PO' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'port')");
+			   				this.vertexType = "port";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'AR' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'addressRange')");
+			   				this.vertexType = "addressRange";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'SE' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'service')");
+			   				this.vertexType = "service";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'FL' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'flow')");
+			   				this.vertexType = "flow";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'AT' :
-			   				paramString = paramString.concat(vertexTypeParam + "'attack')");
+			   				this.vertexType = "attack";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'AK' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'attacker')");
+			   				this.vertexType = "attacker";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'AA' : 
-			   				paramString = paramString.concat(vertexTypeParam + "'attackAsset')");
+			   				this.vertexType = "attackAsset";
+			   				paramString = paramString.concat(vertexTypeParam + "'" + this.vertexType + "')");
 			   				break;
 			   			case 'script' :
 			   				paramString = "{\"script\":\"";
@@ -100,12 +117,23 @@
 			   				paramString = "{\"script\":\"g.V";
 			   				break;
 			   		}
+			   		
 			   }
 			   if (inputPieces.length >= 2) {
 			   		
 			   		var filterPairs = inputPieces[1].split(",");
 			   		for (var i=0; i<filterPairs.length; i++) {
-			   			var keyValue = filterPairs[i].split("=");
+			   			var keyValue = filterPairs[i].split(">=");
+			   			if (keyValue.length == 2) {
+			   				paramString = paramString.concat(".has('");
+			   				paramString = paramString.concat(keyValue[0] + "',T.gte,'" + keyValue[1] + "')");
+			   			}
+			   			keyValue = filterPairs[i].split("<=");
+			   			if (keyValue.length == 2) {
+			   				paramString = paramString.concat(".has('");
+			   				paramString = paramString.concat(keyValue[0] + "',T.lte,'" + keyValue[1] + "')");
+			   			}
+			   			keyValue = filterPairs[i].split("=");
 			   			if (keyValue.length == 2) {
 			   				paramString = paramString.concat(".has('");
 			   				paramString = paramString.concat(keyValue[0] + "','" + keyValue[1] + "')");
@@ -113,12 +141,12 @@
 			   			keyValue = filterPairs[i].split(">");
 			   			if (keyValue.length == 2) {
 			   				paramString = paramString.concat(".has('");
-			   				paramString = paramString.concat(keyValue[0] + "',GREATER_THAN,'" + keyValue[1] + "')");
+			   				paramString = paramString.concat(keyValue[0] + "',T.gt,'" + keyValue[1] + "')");
 			   			}
 			   			keyValue = filterPairs[i].split("<");
 			   			if (keyValue.length == 2) {
 			   				paramString = paramString.concat(".has('");
-			   				paramString = paramString.concat(keyValue[0] + "',LESS_THAN,'" + keyValue[1] + "')");
+			   				paramString = paramString.concat(keyValue[0] + "',T.lt,'" + keyValue[1] + "')");
 			   			}
 
 			   		}

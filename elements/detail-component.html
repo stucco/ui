@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<polymer-element name="detail-component" attributes="vertexDetails edgeDetails nextVertexId">
+<polymer-element name="detail-component" attributes="vertexDetails edgeDetails nextVertexId vProps">
   	<style type="text/css">
         table, tr, td {
           vertical-align: top;
@@ -9,37 +9,19 @@
         <template if="{{vertexDetails['_id']}}">
     	   <b>ID: </b> {{vertexDetails["_id"]}}
         </template>
-        <template if="{{vertexDetails['vertexType']}}">
-            <p>
-                <b>Type: </b> {{vertexDetails["vertexType"]}}
-            </p>
-        </template>
-        <template if="{{vertexDetails['source']}}">
-            <p>
-                <b>Source: </b> {{vertexDetails["source"]}}
-            </p>
-        </template>
-        <template if="{{vertexDetails['malwareType']}}">
-            <p>
-                <b>Malware Type: </b> {{vertexDetails["malwareType"]}}
-            </p>
-        </template>
-        <template if="{{vertexDetails['discoveryDate']}}">
-            <p>
-                <b>Discovery Date: </b> {{vertexDetails["discoveryDate"]}}
-            </p>
-        </template>
-        <template if="{{vertexDetails['fullDescription']}}">
-            <p>
-                <b>Full Description: </b> {{vertexDetails["fullDescription"]}}
-            </p>
+        <template repeat="{{property in vProps}}">
+            <template if="{{vertexDetails[property]}}">
+                <p>
+                    <b>{{property}}: </b> {{vertexDetails[property]}}
+                </p>
+            </template>
         </template>
         <template if="{{edgeDetails}}">
             <table>
                 <template repeat="{{edge, index in edgeDetails}}">
                     <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
                         <td>
-                            <b>{{edge["_inV"]}} ---{{edge["_label"]}}---> {{edge["_outV"]}}</b>
+                            <b>{{edge["_outV"]}} ---{{edge["_label"]}}---> {{edge["_inV"]}}</b>
                         </td>
                     </tr>
                 </template>
@@ -50,8 +32,10 @@
         Polymer('detail-component', {
         	vertexDetails : {},
             edgeDetails : [],
+            vProps : [],
             nextVertexId : "",
-			ready : function() {
+            vPropsChanged : function() {
+                console.log("detail vProps changed!" + this.vProps);
             },
             vertexDetailsChanged : function() {
             	if (this.vertexDetails["_id"]) {

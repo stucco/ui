@@ -16,12 +16,13 @@
                 </p>
             </template>
         </template>
+        <b>Edges:</b>
         <template if="{{edgeDetails}}">
             <table>
                 <template repeat="{{edge, index in edgeDetails}}">
                     <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
                         <td>
-                            <b>{{edge["_outV"]}} ---{{edge["_label"]}}---> {{edge["_inV"]}}</b>
+                            &nbsp;&nbsp; <b>{{edge["_outV"]}} [{{edge["outVType"]}}] &nbsp;&nbsp; ----- {{edge["_label"]}} -----> &nbsp;&nbsp; {{edge["_inV"]}} [{{edge["inVType"]}}]</b> &nbsp;&nbsp; ({{edge["source"]}})
                         </td>
                     </tr>
                 </template>

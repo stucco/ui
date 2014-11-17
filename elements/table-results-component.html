@@ -23,16 +23,18 @@
       <table>
         <tr id="headerRow">
           <td>ID</td>
-          <template repeat="{{propName in vertexProperties}}">
-            <td>{{propName}}</td>
-          </template>
+          <td>Name</td>
+          <td>Type</td>
+          <td>Source</td>
+          <td>Description</td>
         </tr>
         <template repeat="{{vertex, index in rowData}}">
           <tr id="{{index}}" on-click="{{showDetails}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
             <td>{{vertex["_id"]}}</td>
-            <template repeat="{{propName in vertexProperties}}">
-              <td>{{vertex[propName]}}</td>
-            </template>
+            <td>{{vertex["name"]}}</td>
+            <td>{{vertex["vertexType"]}}</td>
+            <td>{{vertex["source"]}}</td>
+            <td>{{vertex["description"]}}</td>
           </tr>
         </template>
       </table>
@@ -41,14 +43,10 @@
     Polymer('table-results-component', {
       rowData : [],
       detailId : "",
-      headerRowCells : [],
       ready : function() {
         this.rowData = this.rowData || [];
       },
       rowDataChanged : function() {
-        // for (prop in this.vertexProperties) {
-        //   this.headerRowCells = this.headerRowCells.concat(prop);
-        // }
         this.rowData = this.rowData;
       },
       showDetails : function(event, detail, sender) {

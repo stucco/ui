@@ -7,7 +7,7 @@
 <link rel="import" href="elements/traversal-component.html">
 <polymer-element name="main-app" attributes="querySource resultsView historyView queryHost queryPort">
     <template>
-        <query-component id="queryCom" results="{{results}}" querySource="{{querySource}}" queryHost="{{queryHost}}" queryPort="{{queryPort}}" vertexType="{{vertexType}}" hidden?="{{!showQuery}}"></query-component>
+        <query-component id="queryCom" results="{{results}}" querySource="{{querySource}}" queryHost="{{queryHost}}" queryPort="{{queryPort}}" vertexType="{{vertexType}}" vertexTypeOptions="{{vertexTypeOptions}}" hidden?="{{!showQuery}}"></query-component>
         <results-component id="resultsCom" vertexProperties="{{vertexProperties}}" rowData="{{results}}" detailId="{{detailId}}" resultsView="{{resultsView}}" hidden?="{{!showResults}}"></results-component>
         <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertex="{{vertex}}" edges="{{edges}}"></detail-query-component>
         <traversal-component id="traverseCom" vertexDetails="{{vertex}}" edgeDetails="{{edges}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" vProps="{{vProps}}" hidden?="{{!showTraversal}}"></traversal-component>
@@ -17,6 +17,7 @@
     </template>
     <script>
         var vertexOntology = [];
+        var vTypes = [];
         Polymer("main-app", {
             querySource : "",
             resultsView : "",
@@ -26,6 +27,7 @@
             showTraversal : false,
             vertexProperties : [],
             vProps : [],
+            vertexTypeOptions : [],
             ready : function() {
                 this.querySource = this.querySource || "rexster";
                 this.resultsView = this.resultsView || "table";
@@ -33,7 +35,17 @@
                 jQuery.getJSON('ontology/stucco_schema.json', function(json) {
                     vertexOntology = json["properties"]["vertices"]["items"];
                     console.log(vertexOntology.length);
+                }).done( function() {
+                    for (var i=0; i<vertexOntology.length; i++) {
+                        vTypes.push(vertexOntology[i]["title"]);
+                    }   
+                    console.log("vertex options are: " + vTypes); 
                 });
+                this.vertexTypeOptions = vTypes;
+                console.log("vertex options outside jquery are: " + this.vertexTypeOptions); 
+            },
+            ontologyLoaded : function() {
+                console.log("ont changed!!!");
             },
             resultsChanged : function() {
                 if (this.$.queryCom.results.length > 0) {
@@ -53,7 +65,7 @@
             },
             vertexChanged : function() {
                 console.log("vertex changed " + JSON.stringify(this.$.detailQueryCom.vertex));
-                if (this.$.detailQueryCom.vertex != {}) {
+                if (this.$.detailQueryCom.vertex["vertexType"]) {
                     console.log("main-app looking for " + this.$.detailQueryCom.vertex["vertexType"] + "-type vertex properties");
                     for (var i=0; i<vertexOntology.length; i++) {
                         var currentVert = vertexOntology[i];

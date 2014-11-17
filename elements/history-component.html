@@ -17,11 +17,28 @@
           border: 1px solid black;
           vertical-align: top;
         }
+        #headerRow {
+          font-weight: bold;
+          background-color: white;
+          color: black;
+          text-align: center;
+        }
       </style>
       <table>
+      	<tr id="headerRow">
+          <td>ID</td>
+          <td>Name</td>
+          <td>Type</td>
+          <td>Source</td>
+          <td>Description</td>
+        </tr>
         <template repeat="{{element, index in historyStack}}">
-        	<tr id="{{index}}" on-click="{{showDetails}}" bgcolor="{{colorChart[element["vertex"]["vertexType"]]}}">
-            	<td>ID: {{element["vertex"]["_id"]}}</td>
+        	<tr id="{{index}}" on-click="{{showDetails}}" bgcolor="{{colorChart[{{element["vertex"]["vertexType"]}}]}}">
+            	<td>{{element["vertex"]["_id"]}}</td>
+              <td>{{element["vertex"]["name"]}}</td>
+            	<td>{{element["vertex"]["vertexType"]}}</td>
+            	<td>{{element["vertex"]["source"]}}</td>
+            	<td>{{element["vertex"]["description"]}}</td>
           	</tr>
         </template>
        </table>
@@ -33,15 +50,13 @@
             historyStack : [],
             currentVertex : {},
             currentEdges : [],
-            ready : function() {
-            },
             currentEdgesChanged : function() {
             	if (this.currentVertex["_id"]) {
             		var newHistoryElement = {};
             		newHistoryElement["vertex"] = this.currentVertex;
             		newHistoryElement["edges"] = this.currentEdges;
             		this.historyStack.push(newHistoryElement);
-            		if (this.historyStack.length > 5) {
+            		if (this.historyStack.length > 10) {
             			this.historyStack.shift();
             		}
             	}

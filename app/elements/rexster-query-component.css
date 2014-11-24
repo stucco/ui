@@ -1,0 +1,16 @@
+paper-input-decorator /deep/ .focused-underline {
+  background-color: #4285f4;
+}
+
+paper-button[raised].blue {
+  background-color: #4285f4;
+  color: #fff;
+}
+
+paper-radio-button.blue::shadow #ink[checked] {
+  color: #4285f4;
+}
+
+paper-radio-button.blue::shadow #onRadio {
+  background-color: #4285f4;
+}

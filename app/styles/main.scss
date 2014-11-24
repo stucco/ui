@@ -1,0 +1,30 @@
+$malware-color: #a6cee3;
+$vulnerability-color: #b2df8a;
+$software-color: #fdbf6f;
+
+body {
+  background: white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+.malware-bg {
+  background-color: $malware_color;
+}
+.malware { 
+  color: $malware_color;
+}
+
+.vulnerability-bg {
+  background-color: $vulnerability_color;
+}
+.vulnerability { 
+  color: $vulnerability_color;
+}
+
+.software-bg {
+  background-color: $software_color;
+}
+.software { 
+  color: $software_color;
+}

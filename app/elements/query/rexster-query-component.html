@@ -1,11 +1,11 @@
 <meta charset="US-ASCII">
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
-<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
-<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
-<link rel="stylesheet" href="rexster-query-component.css">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="stylesheet" type="text/css" href="rexster-query-component.css">
 
 <polymer-element name="rexster-query-component" attributes="queryHost queryPort vertexType vertexTypeOptions results">
 
@@ -47,11 +47,11 @@
       <section>
         <h5>Filter Query By Vertex Type:</h5>
         <div horizontal layout>
-          <paper-radio-group id="vTypeSelector" selected="script">
+          <paper-radio-group id="vTypeSelector" selected="Gremlin">
             <template repeat="{{vType in vertexTypeOptions}}">
               <paper-radio-button class="blue" name="{{vType}}" label="{{vType}}"></paper-radio-button>
             </template>
-            <br /><paper-radio-button class="blue" name="script" label="script"></paper-radio-button>
+            <br /><paper-radio-button class="blue" name="Gremlin" label="Gremlin"></paper-radio-button>
           </paper-radio-group>
         </div>
       </section>
@@ -63,7 +63,7 @@
            queryPort : 8182,
        userInput : "",
        results : [],
-       vertexType : "script",
+       vertexType : "Gremlin",
        vertexTypeOptionsChanged : function() {
           console.log("types " + this.vertexTypeOptions[0]);
           if ((this.vertexTypeOptions) && (this.vertexTypeOptions.length > 0)) {
@@ -93,7 +93,7 @@
        },
        getRexsterQuery : function() {
            var paramString = "{\"script\":\"g.V.has(";
-         if (this.vertexType != "script") {
+         if (this.vertexType != "Gremlin") {
             paramString = paramString.concat("'vertexType','" + this.vertexType + "')");
             var filterPairs = this.userInput.split(",");
             for (var i=0; i<filterPairs.length; i++) {

@@ -1,8 +1,8 @@
 <meta charset="US-ASCII">
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <polymer-element name="history-component" attributes="historyView currentVertex currentEdges">
     <template>
-    	<style type="text/css">
+      <style type="text/css">
         table {
           color: white;
           border-collapse: collapse;
@@ -11,6 +11,7 @@
           border: 1px solid black;
           width: 80%;
           height : 100%;
+          background-color: gray;
         }
         tr, td {
           padding: 8px;
@@ -33,9 +34,9 @@
           <td>Description</td>
         </tr>
         <template repeat="{{element, index in historyStack}}">
-        	<tr id="{{index}}" on-click="{{showDetails}}" class="{{element["vertex"]["vertexType"]}}">
+        	<tr id="{{index}}" on-click="{{showDetails}}" class="{{element['vertex']['vertexType']}}">
             	<td>{{element["vertex"]["_id"]}}</td>
-              <td>{{element["vertex"]["name"]}}</td>
+                <td>{{element["vertex"]["name"]}}</td>
             	<td>{{element["vertex"]["vertexType"]}}</td>
             	<td>{{element["vertex"]["source"]}}</td>
             	<td>{{element["vertex"]["description"]}}</td>
@@ -45,8 +46,6 @@
     </template>
     <script>
         Polymer("history-component", {
-        	// TODO: Add to this color chart for all vertex types
-        	colorChart : {"malware" : "red", "vulnerability" : "green", "software" : "blue"},
             historyStack : [],
             currentVertex : {},
             currentEdges : [],

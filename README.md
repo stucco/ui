@@ -2,7 +2,7 @@
 
 ## Prerequisites
 * [Bower](http://bower.io) installed for Polymer package management
-* [http-server](https://www.npmjs.org/package/http-server) installed to serve the ui locally
+* [Grunt](http://gruntjs.com/getting-started) installed to serve the ui locally
 * Titan-Rexster server started at http://localhost:8182
 
 ### Installing and Configuring Titan-Rexster Server
@@ -13,7 +13,7 @@
 
 	titan-server-0.4.4/bin/titan.sh start
 	
-5. Open a Chrome window and go to the URL:
+5. Open a Safari window and go to the URL:
 
 	http://localhost:8182/doghouse/main/graph/graph
 	
@@ -35,11 +35,11 @@
 3. If your Titan-Rexster Server is not running on 'localhost' at port 8182, then see the [configuration section](#Configuration)
 4. To start the ui server run:
 
-	http-server ./
+	grunt server
 	
-5. Open a Chrome window and go to the URL:
+5. A Safari window should automatically open to the URL:
 
-	http://0.0.0.0:8080
+	http://localhost:9000
 	
 ## Configuration
 ### Knowledge Graph Location

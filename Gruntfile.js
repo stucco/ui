@@ -239,6 +239,7 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: [
+            'ontology/stucco_schema.json',
             '*.{ico,txt}',
             '.htaccess',
             '*.html',
@@ -315,8 +316,8 @@ module.exports = function (grunt) {
     'imagemin',
     'concat',
     'autoprefixer',
-    'uglify',
-    'vulcanize',
+    // 'uglify',
+    // 'vulcanize',
     'usemin',
     'minifyHtml'
   ]);

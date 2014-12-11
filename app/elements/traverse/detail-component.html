@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <polymer-element name="detail-component" attributes="vertexDetails edgeDetails nextVertexId vProps">
   	<style type="text/css">
         table, tr, td {
@@ -9,6 +10,9 @@
         <template if="{{vertexDetails['_id']}}">
     	   <b>ID: </b> {{vertexDetails["_id"]}}
         </template>
+        <template if="{{vertexDetails['name']}}">
+           <b>Name: </b> {{vertexDetails["name"]}}
+        </template>
         <template repeat="{{property in vProps}}">
             <template if="{{vertexDetails[property]}}">
                 <p>
@@ -17,8 +21,9 @@
             </template>
         </template>
         <b>Edges:</b>
+        <paper-spinner id="spinner"></paper-spinner>
         <template if="{{edgeDetails}}">
-            <table>
+            <table id="edgeTable">
                 <template repeat="{{edge, index in edgeDetails}}">
                     <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
                         <td>
@@ -47,6 +52,14 @@
                 }
                 else {
                 	this.nextVertexId = selectedEdge["_inV"];
+                }
+                this.$.edgeTable.hidden = true;
+                this.$.spinner.active = true;
+            },
+            edgeDetailsChanged : function() {
+                if (this.edgeDetails.length > 0) {
+                    this.$.edgeTable.hidden = false;
+                    this.$.spinner.active = false;
                 }
             },
             highlightRow : function(event, detail, sender) {

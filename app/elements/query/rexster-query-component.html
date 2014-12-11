@@ -6,15 +6,13 @@
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="stylesheet" type="text/css" href="rexster-query-component.css">
 
 <polymer-element name="rexster-query-component" attributes="queryHost queryPort vertexType vertexTypeOptions results">
 
     <template>
       <style type="text/css">
-        #vTypeSelector {
-          width: 50%;
-        }
         paper-input-decorator /deep/ .focused-underline {
           background-color: #4285f4;
         }
@@ -31,7 +29,7 @@
         }
       </style>
       <section>
-        <core-ajax id="rexreq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/tp/gremlin" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{queryRexster}}"></core-ajax>
+        <core-ajax id="rexreq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/tp/gremlin" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{queryRexster}}" on-core-error="{{handleError}}" on-core-complete="{{handleCompletion}}"></core-ajax>
 
         <div horizontal layout>
           <div flex>
@@ -40,7 +38,8 @@
             </paper-input-decorator>
           </div>
           <div>
-            <paper-button raised class="blue" on-click="{{submitQuery}}">Submit Query</paper-button>
+            <paper-button id="queryButton" raised class="blue" on-click="{{submitQuery}}">Submit Query</paper-button>
+            <paper-spinner id="spinner"></paper-spinner>
           </div>
         </div>
       </section>
@@ -57,7 +56,9 @@
         </div>
       </section>
 
-      <paper-toast id="resultsMsg" text="Query returned 0 results"></paper-toast>
+      <paper-toast id="resultsMsg" text="Query returned 0 results."></paper-toast>
+      <paper-toast id="invalidMsg" text="Query is invalid."></paper-toast>
+      <paper-toast id="errorMsg" text="Server error."></paper-toast>
     </template>
 
     <script>
@@ -71,25 +72,26 @@
           if ((this.vertexTypeOptions) && (this.vertexTypeOptions.length > 0)) {
             this.$.vTypeSelector.selected = this.vertexTypeOptions[0];
           }
+        },
+        submitQuery : function() {
+            this.$.spinner.active = true;
+            this.$.queryButton.hidden = true;
+            this.userInput = this.userInput.trim();
+            this.vertexType = this.$.vTypeSelector.selected;
+            if (this.validateQuery()) {
+                this.getRexsterQuery();
+                this.$.rexreq.go();
+            }
+            this.$.spinner.active = false;
+            this.$.queryButton.hidden = false;
        },
-           submitQuery : function() {
-         this.userInput = this.userInput.trim();
-         this.vertexType = this.$.vTypeSelector.selected;
-               if (this.validateQuery()) {
-          this.getRexsterQuery();
-          this.$.rexreq.go();
-               }
-         else {
-          this.userInput = "";
-         }
-           },
        validateQuery : function() {
-         var queryPattern = /.*[><=]?.*/;
-         if ((this.userInput.length > 0) & (queryPattern.test(this.userInput))) {
+         var queryPattern = /.+[><=\.]+.+/;
+         if ((this.userInput.length > 0) && (queryPattern.test(this.userInput))) {
            return true;
          }
          else {
-            console.log(this.userInput + " is not valid!");
+            this.$.invalidMsg.show();
          }
          return false;
        },
@@ -156,7 +158,7 @@
          this.$.rexreq.params = paramString;
        },
        queryRexster : function() {
-          if (this.$.rexreq.response.results) {
+         if (this.$.rexreq.response.results) {
             if (this.$.rexreq.response.results.length > 0) {
               this.results = this.$.rexreq.response.results;
             }
@@ -167,7 +169,13 @@
           else {
           	this.$.resultsMsg.show();
           }
-
+       },
+       handleError : function() {
+            this.$.errorMsg.show();
+       },
+       handleCompletion : function() {
+            this.$.spinner.active = false;
+            this.$.queryButton.hidden = false;
        }
         });
     </script>

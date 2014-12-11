@@ -1,0 +1,72 @@
+<meta charset="US-ASCII"><link rel="import" href="bower_components/polymer/polymer.html"><script src="bower_components/jquery/dist/jquery.js"></script><link rel="import" href="elements/elements.html"><polymer-element name="main-app" attributes="querySource resultsView historyView queryHost queryPort"><template><query-component id="queryCom" results="{{results}}" querysource="{{querySource}}" queryhost="{{queryHost}}" queryport="{{queryPort}}" vertextype="{{vertexType}}" vertextypeoptions="{{vertexTypeOptions}}" hidden?="{{!showQuery}}"></query-component><results-component id="resultsCom" rowdata="{{results}}" detailid="{{detailId}}" resultsview="{{resultsView}}" hidden?="{{!showResults}}"></results-component><detail-query-component id="detailQueryCom" queryhost="{{queryHost}}" queryport="{{queryPort}}" queryparams="{{detailId}}" vertex="{{vertex}}" edges="{{edges}}"></detail-query-component><traversal-component id="traverseCom" vertexdetails="{{vertex}}" edgedetails="{{edges}}" historyview="{{historyView}}" nextvertexid="{{nextVertexId}}" vprops="{{vProps}}" hidden?="{{!showTraversal}}"></traversal-component><p><button on-click="{{goToQuery}}" hidden?="{{showQuery}}">Go To Query</button></p></template><script>
+    var vertexOntology = [];
+    var vTypes = [];
+    Polymer("main-app", {
+      querySource : "",
+      resultsView : "",
+      historyView : "",
+      showQuery : true,
+      showResults : false,
+      showTraversal : false,
+      // vertexProperties : [],
+      vProps : [],
+      vertexTypeOptions : [],
+      ready : function() {
+          this.querySource = this.querySource || "rexster";
+          this.resultsView = this.resultsView || "table";
+          this.historyView = this.historyView || "grid";
+          jQuery.getJSON('ontology/stucco_schema.json', function(json) {
+              vertexOntology = json["properties"]["vertices"]["items"];
+          }).done( function() {
+              for (var i=0; i<vertexOntology.length; i++) {
+                  vTypes.push(vertexOntology[i]["title"]);
+              }   
+          });
+          this.vertexTypeOptions = vTypes;
+      },
+      resultsChanged : function() {
+          if (this.$.queryCom.results.length > 0) {
+              // console.log("main-app looking for " + this.$.queryCom.vertexType + "-type vertex properties");
+              // console.log(vertexOntology.length);
+              // for (var i=0; i<vertexOntology.length; i++) {
+              //     var currentVert = vertexOntology[i];
+              //     if (currentVert["title"] == this.$.queryCom.vertexType) {
+              //         this.vertexProperties = Object.keys(currentVert["properties"]);
+              //         console.log(this.vertexProperties);
+              //         break;
+              //     }
+              // }
+              this.showQuery = !this.showQuery;
+              this.showResults = !this.showResults;
+          }
+      },
+      vertexChanged : function() {
+          if (this.$.detailQueryCom.vertex["vertexType"]) {
+              for (var i=0; i<vertexOntology.length; i++) {
+                  var currentVert = vertexOntology[i];
+                  if (currentVert["title"] == this.$.detailQueryCom.vertex["vertexType"]) {
+                      this.vProps = Object.keys(currentVert["properties"]);
+                      break;
+                  }
+              }
+          }
+      },
+      nextVertexIdChanged : function() {
+        var nextId = this.$.traverseCom.nextVertexId;
+        this.$.detailQueryCom.queryParams = nextId;
+          if (nextId != "") {
+              this.showResults = false;
+              this.showTraversal = true;
+          }
+      },
+      detailIdChanged : function() {
+          if ((this.$.detailQueryCom.queryParams != "") && (this.$.traverseCom.nextVertexId == "")) {
+              this.showResults = !this.showResults;
+              this.showTraversal = !this.showTraversal;
+          }
+      },
+      goToQuery : function() {
+          window.location.assign(window.location.origin);
+      }
+    });
+  </script></polymer-element>

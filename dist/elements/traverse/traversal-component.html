@@ -1,0 +1,44 @@
+<meta charset="US-ASCII">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="detail-component.html">
+<link rel="import" href="history-component.html">
+<polymer-element name="traversal-component" attributes="vertexDetails edgeDetails vProps nextVertexId historyView" noscript>
+    <template>
+        <style type="text/css">
+            table {
+              color: #333;
+              border-collapse: separate;
+              border-spacing: 2px;
+              font-size: 18px;
+              width: 100%;
+              height: 100%;
+            }
+            tr, td {
+              vertical-align: top;
+            }
+            #headerRow {
+              font-weight: bold;
+              font-size: 24px;
+              border-bottom: 2px solid black;
+            }
+            #historyPanel {
+                width: 30%;
+                padding-right: 10px;
+            }
+        </style>
+        <table>
+            <tr id="headerRow">
+                <td> History </td>
+                <td> Details </td>
+            </tr>
+            <tr>
+            	<td> &nbsp; </td>
+            	<td> &nbsp; </td>
+            </tr>
+            <tr>
+                <td id="historyPanel"> <history-component id="historyCom" historyView="{{historyView}}" currentVertex="{{vertexDetails}}" currentEdges="{{edgeDetails}}"></history-component> </td>
+                <td> <detail-component id="detailCom" vertexDetails="{{vertexDetails}}" edgeDetails="{{edgeDetails}}" vProps="{{vProps}}" nextVertexId="{{nextVertexId}}"></detail-component> </td>
+            </tr>   
+        </table>
+    </template>
+</polymer-element>

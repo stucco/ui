@@ -11,7 +11,9 @@
     	   <b>ID: </b> {{vertexDetails["_id"]}}
         </template>
         <template if="{{vertexDetails['name']}}">
-           <b>Name: </b> {{vertexDetails["name"]}}
+           <p>
+                <b>Name: </b> {{vertexDetails["name"]}}
+            </p>
         </template>
         <template repeat="{{property in vProps}}">
             <template if="{{vertexDetails[property]}}">

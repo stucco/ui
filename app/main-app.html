@@ -11,7 +11,7 @@
 
     <results-component id="resultsCom" rowData="{{results}}" detailId="{{detailId}}" resultsView="{{resultsView}}" hidden?="{{!showResults}}"></results-component>
 
-    <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertex="{{vertex}}" edges="{{edges}}"></detail-query-component>
+    <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertex="{{vertex}}" edges="{{edges}}" edgeTable="{{edgeTable}}" edgeTypeMap="{{edgeTypeMap}}"></detail-query-component>
 
     <traversal-component id="traverseCom" vertexDetails="{{vertex}}" edgeDetails="{{edges}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" vProps="{{vProps}}" hidden?="{{!showTraversal}}"></traversal-component>
 
@@ -22,7 +22,9 @@
 
   <script>
     var vertexOntology = [];
+    var edgeOntology = [];
     var vTypes = [];
+ 	var edgeMap = {};
     Polymer("main-app", {
       querySource : "",
       resultsView : "",
@@ -30,34 +32,33 @@
       showQuery : true,
       showResults : false,
       showTraversal : false,
-      // vertexProperties : [],
       vProps : [],
       vertexTypeOptions : [],
+      edgeTypeMap : {},
       ready : function() {
           this.querySource = this.querySource || "rexster";
           this.resultsView = this.resultsView || "table";
           this.historyView = this.historyView || "grid";
           jQuery.getJSON('ontology/stucco_schema.json', function(json) {
               vertexOntology = json["properties"]["vertices"]["items"];
+              edgeOntology = json["properties"]["edges"]["items"];
           }).done( function() {
               for (var i=0; i<vertexOntology.length; i++) {
                   vTypes.push(vertexOntology[i]["title"]);
-              }   
+              }
+              for (i=0; i<edgeOntology.length; i++) {
+              	if (edgeOntology[i]["properties"]["outVType"]["enum"]) {
+                  var key = edgeOntology[i]["properties"]["outVType"]["enum"][0].concat("_").concat(edgeOntology[i]["properties"]["inVType"]["enum"][0]);
+                  var edgeLabel = edgeOntology[i]["title"];
+                  edgeMap[key] = edgeLabel;
+              	}
+              }    
           });
           this.vertexTypeOptions = vTypes;
+          this.edgeTypeMap = edgeMap;
       },
       resultsChanged : function() {
           if (this.$.queryCom.results.length > 0) {
-              // console.log("main-app looking for " + this.$.queryCom.vertexType + "-type vertex properties");
-              // console.log(vertexOntology.length);
-              // for (var i=0; i<vertexOntology.length; i++) {
-              //     var currentVert = vertexOntology[i];
-              //     if (currentVert["title"] == this.$.queryCom.vertexType) {
-              //         this.vertexProperties = Object.keys(currentVert["properties"]);
-              //         console.log(this.vertexProperties);
-              //         break;
-              //     }
-              // }
               this.showQuery = !this.showQuery;
               this.showResults = !this.showResults;
           }

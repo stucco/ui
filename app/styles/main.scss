@@ -25,6 +25,17 @@ paper-radio-button.blue::shadow #onRadio {
   background-color: #4285f4;
 }
 
+.edgeTable {
+  vertical-align: top;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+.edgeTableRow, td.edgeTableRow {
+  padding: 4px;
+  border: 1px solid black;
+}
+
 .malware {
   background-color: $malware_color;
 }
@@ -38,19 +49,19 @@ paper-radio-button.blue::shadow #onRadio {
 }
 
 .user {
-  background-color: #fdff6f;
+  background-color: #a9a9f5;
 }
 
 .account {
-  background-color: #f0bf6f;
+  background-color: #bca9f5;
 }
 
 .host {
-  background-color: #fdbf66;
+  background-color: #a9f5f2;
 }
 
 .address {
-  background-color: #fdbf6f;
+  background-color: #81f7f3;
 }
 
 .DNSName {
@@ -58,29 +69,29 @@ paper-radio-button.blue::shadow #onRadio {
 }
 
 .IP {
-  background-color: #f9bf6f;
+  background-color: #bef781;
 }
 
 .port {
-  background-color: #fdbf6f;
+  background-color: #f78181;
 }
 
 .addressRange {
-  background-color: #fdbf6f;
+  background-color: #58acfa;
 }
 
 .service {
-  background-color: #fdbf6f;
+  background-color: #a9f5d0;
 }
 
 .flow {
-  background-color: #fdbf6f;
+  background-color: #31b404;
 }
 
 .attack {
-  background-color: #fdbf6f;
+  background-color: #f03000;
 }
 
 .attacker {
-  background-color: #fdbf6f;
+  background-color: #f2f5a9;
 }

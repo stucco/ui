@@ -22,7 +22,7 @@
       </style>
       <table>
         <tr id="headerRow">
-          <td>ID</td>
+          <!-- <td>ID</td> -->
           <td>Name</td>
           <td>Type</td>
           <td>Source</td>
@@ -30,7 +30,7 @@
         </tr>
         <template repeat="{{vertex, index in rowData}}">
           <tr id="{{index}}" on-click="{{showDetails}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
-            <td>{{vertex["_id"]}}</td>
+            <!-- <td>{{vertex["_id"]}}</td> -->
             <td>{{vertex["name"]}}</td>
             <td>{{vertex["vertexType"]}}</td>
             <td>{{vertex["source"]}}</td>

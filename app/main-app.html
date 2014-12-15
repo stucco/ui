@@ -11,9 +11,9 @@
 
     <results-component id="resultsCom" rowData="{{results}}" detailId="{{detailId}}" resultsView="{{resultsView}}" hidden?="{{!showResults}}"></results-component>
 
-    <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertex="{{vertex}}" edges="{{edges}}" edgeTable="{{edgeTable}}" edgeTypeMap="{{edgeTypeMap}}"></detail-query-component>
+    <detail-query-component id="detailQueryCom" queryHost="{{queryHost}}" queryPort="{{queryPort}}" queryParams="{{detailId}}" vertex="{{vertex}}" edgeTable="{{edgeTable}}" edgeTypeMap="{{edgeTypeMap}}"></detail-query-component>
 
-    <traversal-component id="traverseCom" vertexDetails="{{vertex}}" edgeDetails="{{edges}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" vProps="{{vProps}}" hidden?="{{!showTraversal}}"></traversal-component>
+    <traversal-component id="traverseCom" vertexDetails="{{vertex}}" edgeDetails="{{edgeTable}}" historyView="{{historyView}}" nextVertexId="{{nextVertexId}}" vProps="{{vProps}}" hidden?="{{!showTraversal}}"></traversal-component>
 
     <p>
         <button on-click="{{goToQuery}}" hidden?="{{showQuery}}">Go To Query</button>

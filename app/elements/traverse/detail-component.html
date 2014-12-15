@@ -1,15 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <polymer-element name="detail-component" attributes="vertexDetails edgeDetails nextVertexId vProps">
-  	<style type="text/css">
-        table, tr, td {
-          vertical-align: top;
-        }
-     </style>
      <template>
-        <template if="{{vertexDetails['_id']}}">
+        <!-- <template if="{{vertexDetails['_id']}}">
     	   <b>ID: </b> {{vertexDetails["_id"]}}
-        </template>
+        </template> -->
         <template if="{{vertexDetails['name']}}">
            <p>
                 <b>Name: </b> {{vertexDetails["name"]}}
@@ -25,12 +20,19 @@
         <b>Edges:</b>
         <paper-spinner id="spinner"></paper-spinner>
         <template if="{{edgeDetails}}">
-            <table id="edgeTable">
+            <table id="edgeTable" class="edgeTable">
+            	<tr class="edgeTableRow">
+            		<td> Relationship </td>
+            		<td> Name </td>
+            		<td> Type </td>
+            		<td> Source </td>
+            	</tr>
                 <template repeat="{{edge, index in edgeDetails}}">
-                    <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
-                        <td>
-                            &nbsp;&nbsp; <b>{{edge["_outV"]}} [{{edge["outVType"]}}] &nbsp;&nbsp; ----- {{edge["_label"]}} -----> &nbsp;&nbsp; {{edge["_inV"]}} [{{edge["inVType"]}}]</b> &nbsp;&nbsp; ({{edge["source"]}})
-                        </td>
+                    <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}" class="edgeTableRow">
+                        <td> {{edge["label"]}} </td>
+                        <td> {{edge["name"]}} </td>
+                        <td> {{edge["vertexType"]}} </td>
+                        <td> {{edge["source"]}} </td>
                     </tr>
                 </template>
             </table>
@@ -45,17 +47,13 @@
             vertexDetailsChanged : function() {
             	if (this.vertexDetails["_id"]) {
             		this.nextVertexId = "";
+            		this.$.spinner.active = true;
             	}
             },
             goToNextVertex : function (event, detail, sender) {
                 var selectedEdge = this.edgeDetails[sender.id];
-                if (this.vertexDetails["_id"] == selectedEdge["_inV"]) {
-                	this.nextVertexId = selectedEdge["_outV"];
-                }
-                else {
-                	this.nextVertexId = selectedEdge["_inV"];
-                }
-                this.$.edgeTable.hidden = true;
+                this.nextVertexId = selectedEdge["_id"];
+                this.$.edgeDetails.hidden = true;
                 this.$.spinner.active = true;
             },
             edgeDetailsChanged : function() {

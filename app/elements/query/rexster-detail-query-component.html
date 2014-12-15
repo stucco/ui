@@ -2,10 +2,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
-<polymer-element name="rexster-detail-query-component" attributes="queryHost queryPort queryParams vertex edges edgeTable edgeTypeMap">
+<polymer-element name="rexster-detail-query-component" attributes="queryHost queryPort queryParams vertex edgeTable edgeTypeMap">
     <template>
     	<core-ajax id="vertexReq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/vertices/{{queryParams}}" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{getVertices}}" on-core-error="{{handleError}}"></core-ajax>
-      <core-ajax id="adjacentReq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/vertices/{{queryParams}}/bothE" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{handleResponse}}" on-core-error="{{handleError}}"></core-ajax>
+      <core-ajax id="adjacentReq" url="http://{{queryHost}}:{{queryPort}}/graphs/graph/vertices/{{queryParams}}/both" handleAs="json" contentType="application/json" headers='{"Accept": "application/json"}' on-core-response="{{handleResponse}}" on-core-error="{{handleError}}"></core-ajax>
 
       <paper-toast id="errorMsg" text="Server error."></paper-toast>
     </template>
@@ -13,10 +13,9 @@
         Polymer('rexster-detail-query-component', {
           queryHost : "localhost",
           queryPort : 8182,
-		      queryParams : "",
+		  queryParams : "",
           vertex : [],
-          edges : [],
-		      edgeTable : {},
+		  edgeTable : [],	// this data structure will be an array of adjacent vertex objects with an added 'label' property to indicate the connection to the current vertex
           edgeTypeMap : {},
           queryParamsChanged : function() {
           	  if (this.queryParams != "") {
@@ -28,22 +27,27 @@
               this.$.adjacentReq.go();
           },
           handleResponse : function() {
-          		this.edges = this.$.adjacentReq.response.results;
-          		this.queryParams = "";
-              // var adjacents = this.$.adjacentReq.response.results;
-              // // console.log(adjacents);
-
-              // for (var i=0; i<adjacents.length; i++) {
-              //   var key = JSON.stringify(adjacents[i]["vertexType"]) + "_" + JSON.stringify(this.vertex["vertexType"]);
-              //   var altKey = JSON.stringify(this.vertex["vertexType"]) + "_" + JSON.stringify(adjacents[i]["vertexType"]);
-              //   if (this.edgeTypeMap[key]) {
-              //     console.log("key found = " + key + " --> " + this.edgeTypeMap[key]);
-              //   }
-              //   else if (this.edgeTypeMap[altKey]) {
-              //     console.log("alt key found = " + altKey + " --> " + this.edgeTypeMap[altKey]);
-              //   }
-              // }
-              // this.queryParams = "";
+          	console.log(this.edgeTypeMap)
+          	  this.edgeTable = [];
+	          var adjacents = this.$.adjacentReq.response.results;
+	          var label;
+	          for (var i=0; i<adjacents.length; i++) {
+	            var key = adjacents[i]["vertexType"].concat("_").concat(this.vertex["vertexType"]);
+	            var altKey = this.vertex["vertexType"].concat("_").concat(adjacents[i]["vertexType"]);
+	            console.log("key=" + key + "  altKey=" + altKey);
+	            if (this.edgeTypeMap[key]) {
+	              console.log("key found = " + key + " --> " + this.edgeTypeMap[key]);
+	              label = this.edgeTypeMap[key];
+	            }
+	            else if (this.edgeTypeMap[altKey]) {
+	              console.log("alt key found = " + altKey + " --> " + this.edgeTypeMap[altKey]);
+	              label = this.edgeTypeMap[altKey];
+	            }
+	            adjacents[i]["label"] = label;
+	          	this.edgeTable.push(adjacents[i]);
+	          }
+	          console.log(this.edgeTable);
+	          this.queryParams = "";
           },
           handleError : function() {
             this.$.errorMsg.show();

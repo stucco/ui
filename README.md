@@ -24,22 +24,28 @@
 	
 8. Click "Execute"
 
-## Build and Start Locally
+## Build
 1. Open a terminal and cd into the ui directory
-2. Run the command:
+2. Run the commands:
 
 	bower update
-	
-	Note: If there is a version incompatibility issue, choose the 0.3.x version of polymer, platform, and core-component-page. There seems to be a bug in version 0.4.x.
-	
-3. If your Titan-Rexster Server is not running on 'localhost' at port 8182, then see the [configuration section](#Configuration)
-4. To start the ui server run:
+	grunt build
+
+## Start Locally
+1. Open a terminal and cd into the ui directory
+2. If your Titan-Rexster Server is not running on 'localhost' at port 8182, then see the [configuration section](#Configuration)
+3. To start the ui server run:
 
 	grunt server
 	
-5. A Safari window should automatically open to the URL:
+4. A Safari window should automatically open to the URL:
 
 	http://localhost:9000
+	
+## VM Start
+1. Supervisord will start the ui with the command:
+
+	http-server /stucco/ui -p 8000
 	
 ## Configuration
 ### Knowledge Graph Location

@@ -1,0 +1,86 @@
+$malware-color: #a6cee3;
+$vulnerability-color: #b2df8a;
+$software-color: #fdbf6f;
+
+body {
+  background: white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+paper-input-decorator /deep/ .focused-underline {
+  background-color: #4285f4;
+}
+
+paper-button[raised].blue {
+  background-color: #4285f4;
+  color: #fff;
+}
+
+paper-radio-button.blue::shadow #ink[checked] {
+  color: #4285f4;
+}
+
+paper-radio-button.blue::shadow #onRadio {
+  background-color: #4285f4;
+}
+
+.malware {
+  background-color: $malware_color;
+}
+
+.vulnerability {
+  background-color: $vulnerability_color;
+}
+
+.software {
+  background-color: $software_color;
+}
+
+.user {
+  background-color: #fdff6f;
+}
+
+.account {
+  background-color: #f0bf6f;
+}
+
+.host {
+  background-color: #fdbf66;
+}
+
+.address {
+  background-color: #fdbf6f;
+}
+
+.DNSName {
+  background-color: #3dbf6f;
+}
+
+.IP {
+  background-color: #f9bf6f;
+}
+
+.port {
+  background-color: #fdbf6f;
+}
+
+.addressRange {
+  background-color: #fdbf6f;
+}
+
+.service {
+  background-color: #fdbf6f;
+}
+
+.flow {
+  background-color: #fdbf6f;
+}
+
+.attack {
+  background-color: #fdbf6f;
+}
+
+.attacker {
+  background-color: #fdbf6f;
+}

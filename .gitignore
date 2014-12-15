@@ -1,1 +1,7 @@
 *.DS_Store
+dist
+node_modules
+test/temp
+.sass-cache
+.tmp
+test/bower_components/

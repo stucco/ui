@@ -29,6 +29,7 @@
 2. Run the commands:
 
 	bower update
+	npm install
 	grunt build
 
 ## Start Locally

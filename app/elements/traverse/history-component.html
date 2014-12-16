@@ -62,8 +62,10 @@
             },
             showDetails : function(event, detail, sender) {
             	var stackIndex = sender.id;
+            	if (this.historyStack[stackIndex]["vertex"]["_id"] != this.currentVertex["_id"]) {
 		          this.currentVertex = this.historyStack[stackIndex]["vertex"];
 		          this.currentEdges = this.historyStack[stackIndex]["edges"];
+		        }
 		    }
 		});
     </script>

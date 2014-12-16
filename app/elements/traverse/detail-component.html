@@ -7,7 +7,7 @@
         </template> -->
         <template if="{{vertexDetails['name']}}">
            <p>
-                <b>Name: </b> {{vertexDetails["name"]}}
+                <b>name: </b> {{vertexDetails["name"]}}
             </p>
         </template>
         <template repeat="{{property in vProps}}">
@@ -20,19 +20,12 @@
         <b>Edges:</b>
         <paper-spinner id="spinner"></paper-spinner>
         <template if="{{edgeDetails}}">
-            <table id="edgeTable" class="edgeTable">
-            	<tr class="edgeTableRow">
-            		<td> Relationship </td>
-            		<td> Name </td>
-            		<td> Type </td>
-            		<td> Source </td>
-            	</tr>
+            <table id="edgeTable">
                 <template repeat="{{edge, index in edgeDetails}}">
-                    <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}" class="edgeTableRow">
-                        <td> {{edge["label"]}} </td>
-                        <td> {{edge["name"]}} </td>
-                        <td> {{edge["vertexType"]}} </td>
-                        <td> {{edge["source"]}} </td>
+                    <tr id="{{index}}" on-click="{{goToNextVertex}}" on-mouseover="{{highlightRow}}" on-mouseout="{{unHighlightRow}}">
+                        <td>
+                            &nbsp;&nbsp; <b> {{edge["edgeName"]}} </b> &nbsp;&nbsp; ({{edge["source"]}})
+                        </td>
                     </tr>
                 </template>
             </table>
@@ -52,9 +45,15 @@
             },
             goToNextVertex : function (event, detail, sender) {
                 var selectedEdge = this.edgeDetails[sender.id];
-                this.nextVertexId = selectedEdge["_id"];
-                this.$.edgeDetails.hidden = true;
+                this.$.edgeTable.hidden = true;
                 this.$.spinner.active = true;
+                console.log(selectedEdge);
+                if (selectedEdge["_inV"] == this.vertexDetails["_id"]) {
+                	this.nextVertexId = selectedEdge["_outV"];
+                }
+                else if (selectedEdge["_outV"] == this.vertexDetails["_id"]) {
+                	this.nextVertexId = selectedEdge["_inV"];
+                }
             },
             edgeDetailsChanged : function() {
                 if (this.edgeDetails.length > 0) {

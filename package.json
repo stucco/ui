@@ -1,33 +1,77 @@
 {
-  "name": "vis",
+  "name": "stucco-ui",
+  "description": "User interface for querying Stucco Cyber Security Knowledge Graph",
+  "homepage": "http://stucco.github.io/",
+  "repository": "https://github.com/stucco/ui.git",
+  "bugs": "https://github.com/stucco/ui/issues",
   "version": "0.0.0",
-  "dependencies": {},
+  "main": "server.js",
+  "dependencies": {
+    "amp-add-class": "~1",
+    "amp-remove-class": "~1",
+    "ampersand-checkbox-view": "~2.0",
+    "ampersand-dom": "~1.2",
+    "ampersand-form-view": "~2.2",
+    "ampersand-input-view": "~3.1",
+    "ampersand-model": "~4.0",
+    "ampersand-rest-collection": "~2.0",
+    "ampersand-router": "~1.0",
+    "ampersand-view": "~7.2",
+    "ampersand-view-switcher": "~1.1",
+    "andlog": "~1.0",
+    "async": "~0.9",
+    "body-parser": "~1.10",
+    "clientconfig": "~1.0",
+    "compression": "~1.3",
+    "cookie-parser": "~1.3",
+    "d3": "~3.5",
+    "domify": "~1.3",
+    "domready": "~1.0",
+    "elasticsearch": "~3.1",
+    "express": "~4.11",
+    "favicon-setter": "~0.1",
+    "getconfig": "~1.0",
+    "helmet": "~0.5",
+    "jade": "~1.9",
+    "moonboots-express": "~2.0",
+    "semi-static": "~0.0",
+    "serve-static": "~1.8",
+    "stylizer": "~2.0",
+    "templatizer": "~1.1",
+    "underscore": "~1.7",
+    "xhr": "~2.0"
+  },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-sass": "~0.7.3",
-    "grunt-contrib-copy": "~0.5.0",
-    "grunt-autoprefixer": "^1.0.0",
-    "grunt-minify-html": "^0.1.0",
-    "grunt-contrib-concat": "~0.5.0",
-    "grunt-contrib-uglify": "~0.5.0",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-cssmin": "~0.10.0",
-    "grunt-contrib-connect": "0.8.0",
-    "grunt-contrib-clean": "0.5.0",
-    "grunt-contrib-imagemin": "0.7.1",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-mocha": "~0.4.7",
-    "grunt-usemin": "~2.3.0",
-    "grunt-pagespeed": "~0.3.0",
-    "grunt-rev": "~0.1.0",
-    "grunt-open": "~0.2.3",
-    "grunt-vulcanize": "~0.3.0",
-    "connect-livereload": "~0.4.0",
-    "time-grunt": "~0.4.0",
-    "load-grunt-tasks": "~0.6.0",
-    "jshint-stylish": "~0.4.0"
+    "jshint": "*",
+    "precommit-hook": "*"
+  },
+  "jshintConfig": {
+    "asi": false,
+    "browser": true,
+    "curly": false,
+    "expr": true,
+    "indent": 2,
+    "loopfunc": true,
+    "node": true,
+    "trailing": true,
+    "undef": true,
+    "white": true,
+    "eqeqeq": true,
+    "maxparams": 5,
+    "maxstatements": 100
   },
   "engines": {
-    "node": ">=0.10.0"
-  }
+    "node": ">=0.10 <0.12"
+  },
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "John Goodall",
+      "email": "jgoodall@ornl.gov"
+    },
+    {
+      "name": "Kelly Huffer",
+      "email": "testakm@ornl.gov"
+    }
+  ]
 }

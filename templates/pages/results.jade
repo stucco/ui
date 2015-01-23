@@ -1,0 +1,21 @@
+section.page
+  
+  .results
+    .panel.panel-primary
+      .panel-heading
+        div.pull-right
+          button.close(type="button", aria-label="Close", data-hook="close")
+            span(aria-hidden="true")&times;
+        h3.panel-title Query:
+          small(data-hook="query-string")
+
+      .panel-body
+        ul(data-hook="results-list")
+      
+      .panel-footer
+        nav
+          ul.pager
+            li.previous(data-hook="prevBtnContainer").disabled
+              a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
+            li.next(data-hook="nextBtnContainer")
+              a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>

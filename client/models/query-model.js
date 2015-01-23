@@ -1,7 +1,7 @@
 var AmpersandModel = require('ampersand-model');
 
 module.exports = AmpersandModel.extend({
-  props: {
+  session: {
     query: ['string', true, '']
   }
 });

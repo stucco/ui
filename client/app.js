@@ -8,7 +8,6 @@ var tracking = require('./helpers/metrics');
 var MainView = require('./partials/main');
 var Me = require('./models/me');
 var Nodes = require('./models/node-collection');
-var SearchModel = require('./models/search-model');
 var domReady = require('domready');
 
 
@@ -20,7 +19,6 @@ module.exports = {
   // create our global 'me' object and an empty collection for our models.
   window.me = new Me();
   this.nodes = new Nodes();
-  this.searchState = new SearchModel();
 
   // init our URL handlers and the history tracker
   this.router = new Router();
@@ -37,8 +35,8 @@ module.exports = {
   domReady(function () {
     // init our main view
     var mainView = self.view = new MainView({
-    model: me,
-    el: document.body
+      model: me,
+      el: document.body
     });
 
     // ...and render it

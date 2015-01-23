@@ -12,7 +12,7 @@ module.exports = AmpersandModel.extend({
     edgesOut: ['string', true, '']
   },
   session: {
-    selected: ['boolean', true, false]
+    query: ['string', true, false]
   },
   derived: {
     nodeUrl: {

@@ -1,30 +1,27 @@
-var addClass = require('amp-add-class');
-var removeClass = require('amp-remove-class');
-
+/*global app*/
 var PageView = require('./base');
 var templates = require('../templates');
-var SearchForm = require('../forms/query-form');
+var QueryForm = require('../forms/query-form');
 var ResultsView = require('../partials/search-results');
 
 module.exports = PageView.extend({
   pageTitle: 'Stucco Search',
   template: templates.pages.search,
-  events: {
-    'click [data-hook~=search]': 'search',
-    'click [data-hook~=close]': 'close'
-  },
-  initialize: function () {
-
-  },
   render: function () {
+    var self = this;
     this.renderWithTemplate();
+    this.form = new QueryForm({
+      model: this.searchModel,
+      el: this.queryByHook('query-form'),
+      submitCallback: function (data) {
+        self.search(data); 
+      }
+    });
+    this.registerSubview(this.form);
+    this.queryByHook('query-input').focus();
   },
-  search: function () {
-    // set the query!
-    this.collection.fetch();
-    removeClass(this.queryByHook('results-panel'), 'hidden');
-    this.renderCollection(this.collection, ResultsView, this.queryByHook('results-list'));
-    return false;
+  search: function (query) {
+    app.navigate('search/' + query.search);
   },
   close: function () {
     this.collection.reset();

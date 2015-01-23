@@ -1,19 +1,19 @@
 var FormView = require('ampersand-form-view');
 var InputView = require('ampersand-input-view');
 var templates = require('../templates');
-var ExtendedInput = InputView.extend({
-    template: templates.includes.formInput()
-});
+// var ExtendedInput = InputView.extend({
+//     template: templates.includes.queryForm()
+// });
 
 module.exports = FormView.extend({
   fields: function () {
     return [
-      new ExtendedInput({
-          label: 'Query',
-          name: 'search',
-          value: this.model && this.model.query,
-          placeholder: 'Search',
-          parent: this
+      new InputView({
+        template: templates.includes.queryForm,
+        label: 'Search query',
+        name: 'search',
+        required: true,
+        placeholder: 'Search...'
       }),
     ];
   }

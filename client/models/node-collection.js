@@ -1,9 +1,9 @@
 var Collection = require('ampersand-rest-collection');
-var Alert = require('./node-model');
+var NodeModel = require('./node-model');
 
 
 module.exports = Collection.extend({
-  model: Alert,
-  url: '/api/nodes',
+  model: NodeModel,
+  url: '/api/search',
   mainIndex: 'gid'
 });

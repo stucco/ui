@@ -1,27 +1,5 @@
 section.page
   
-  .center-block
-    form(data-hook="query-form")
-      fieldset(data-hook="field-container")
-      .buttons
-        button.btn.btn-lg.btn-primary(data-hook="search", type="submit") Search
-
-  .results.hidden(data-hook="results-panel")
-    .panel.panel-primary
-      .panel-heading
-        div.pull-right
-          button.close(type="button", aria-label="Close", data-hook="close")
-            span(aria-hidden="true")&times;
-        h3.panel-title Results
-          small(data-hook="query")
-
-      .panel-body
-        ul(data-hook="results-list")
-      
-      .panel-footer
-        nav
-          ul.pager
-            li.previous(data-hook="prevBtnContainer").disabled
-              a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
-            li.next(data-hook="nextBtnContainer")
-              a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>
+  .row
+    .col-md-6.col-md-offset-3
+      form(data-hook="query-form")

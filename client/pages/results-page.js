@@ -6,7 +6,7 @@ module.exports = PageView.extend({
   template: templates.pages.results,
   initialize: function (spec) {
     console.log('Query: "' + spec.query + '"');
-  }
+  },
   render: function() {
     this.renderWithTemplate();
   }

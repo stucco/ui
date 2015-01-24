@@ -6,7 +6,6 @@ var Router = require('./router');
 var tracking = require('./helpers/metrics');
 var MainView = require('./partials/main');
 var Me = require('./models/me');
-var SearchResults = require('./models/results-collection');
 var domReady = require('domready');
 
 
@@ -17,7 +16,6 @@ module.exports = {
 
   // create our global 'me' object and an empty collection for our models.
   window.me = new Me();
-  this.results = new SearchResults();
 
   // init our URL handlers and the history tracker
   this.router = new Router();

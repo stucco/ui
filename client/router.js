@@ -9,31 +9,34 @@ module.exports = Router.extend({
   routes: {
     '': 'search',
     'search/:query': 'results',
-    // 'node/:id': 'nodeDetails',
+    // ':type/:id': 'details',
     'info': 'info',
     '(*path)': 'catchAll'
   },
 
   // ------- ROUTE HANDLERS ---------
-  search: function () {
-    this.trigger('page', new SearchPage({
 
-    }));
+  // default search page
+  search: function () {
+    this.trigger('page', new SearchPage());
   },
 
+  // list of search results
   results: function (query) {
     this.trigger('page', new ResultsPage({
       query: query,
-      collection: app.results
     }));
   },
 
-  // nodeDetails: function (id) {
+  // details of selected search result
+  // details: function (nodeType, id) {
   //   this.trigger('page', new DetailsPage({
+  //     type: nodeType,
   //     id: id
   //   }));
   // },
 
+  // info/help page
   info: function () {
     this.trigger('page', new InfoPage());
   },

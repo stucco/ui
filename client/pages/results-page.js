@@ -1,4 +1,5 @@
 var PageView = require('./base');
+var SearchResults = require('../models/results-collection');
 var CurrentQueryView = require('../partials/current-query.js');
 var CurrentQuery = require('../models/query-model');
 var ResultView = require('../partials/search-result');
@@ -8,6 +9,8 @@ module.exports = PageView.extend({
   pageTitle: 'Stucco Search Results',
   template: templates.pages.results,
   initialize: function (spec) {
+    this.collection = new SearchResults();
+
     this.queryModel = new CurrentQuery();
     // used to update the query in the subview
     this.queryModel.query = spec.query;

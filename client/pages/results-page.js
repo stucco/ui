@@ -12,7 +12,7 @@ module.exports = PageView.extend({
     this.queryModel.query = spec.query;
   },
   render: function() {
-    this.collection.url = '/api/search?name=' + this.queryModel.query;
+    this.collection.url = this.collection.urlRoot + '?name=' + this.queryModel.query;
     console.log('URL: ' + this.collection.url);
 
     this.renderWithTemplate();

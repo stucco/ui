@@ -24,7 +24,7 @@ module.exports = Router.extend({
   results: function (query) {
     this.trigger('page', new ResultsPage({
       query: query,
-      collection: app.nodes
+      collection: app.results
     }));
   },
 

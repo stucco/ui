@@ -5,7 +5,6 @@
 // This view also handles all the 'document' level events such as keyboard shortcuts.
 var View = require('ampersand-view');
 var ViewSwitcher = require('ampersand-view-switcher');
-var _ = require('underscore');
 var domify = require('domify');
 var dom = require('ampersand-dom');
 var templates = require('../templates');
@@ -33,7 +32,7 @@ module.exports = View.extend({
     this.pageSwitcher = new ViewSwitcher(this.queryByHook('page-container'), {
       show: function (newView, oldView) {
         // it's inserted and rendered for me
-        document.title = _.result(newView, 'pageTitle') || 'vis experiment';
+        document.title = newView.pageTitle ? newView.pageTitle : 'Stucco';
         document.scrollTop = 0;
 
         // add a class specifying it's active

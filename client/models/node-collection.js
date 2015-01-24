@@ -4,6 +4,5 @@ var NodeModel = require('./node-model');
 
 module.exports = Collection.extend({
   model: NodeModel,
-  url: '/api/search',
-  mainIndex: 'gid'
+  url: '/api/nodes',
 });

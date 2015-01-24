@@ -2,7 +2,6 @@
 var PageView = require('./base');
 var templates = require('../templates');
 var QueryForm = require('../forms/query-form');
-var ResultsView = require('../partials/search-results');
 
 module.exports = PageView.extend({
   pageTitle: 'Stucco Search',

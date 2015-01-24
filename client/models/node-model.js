@@ -1,10 +1,10 @@
 var AmpersandModel = require('ampersand-model');
 
-
 module.exports = AmpersandModel.extend({
   idAttribute: 'gid',
   props: {
     gid: ['string', true, ''],
+    nodeType: ['string', true, ''],
     desc: ['string', true, ''],
     name: ['string', true, ''],
     // SHOULD REFERENCE ANOTHER NODE BY ID
@@ -18,7 +18,7 @@ module.exports = AmpersandModel.extend({
     nodeUrl: {
       deps: ['gid'],
       fn: function () {
-        return '/node/' + this.gid;
+        return '/nodes/' + this.gid;
       }
     }
   }

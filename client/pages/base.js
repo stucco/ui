@@ -1,8 +1,8 @@
 /*global $*/
 // base view for pages
 var View = require('ampersand-view');
-var _ = require('underscore');
-//var key = require('keymaster');
+// var each = require('amp-each');
+// var key = require('keymaster');
 
 
 module.exports = View.extend({
@@ -10,7 +10,7 @@ module.exports = View.extend({
   registerKeyboardShortcuts: function () {
     /*
     var self = this;
-    _.each(this.keyboardShortcuts, function (value, k) {
+    each(this.keyboardShortcuts, function (value, k) {
       // register key handler scoped to this page
       key(k, self.cid, _.bind(self[value], self));
     });

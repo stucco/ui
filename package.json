@@ -8,6 +8,7 @@
   "main": "server.js",
   "dependencies": {
     "amp-add-class": "~1",
+    "amp-each": "~1.0",
     "amp-remove-class": "~1",
     "ampersand-checkbox-view": "~2.0",
     "ampersand-dom": "~1.2",
@@ -38,7 +39,6 @@
     "serve-static": "~1.8",
     "stylizer": "~2.0",
     "templatizer": "~1.1",
-    "underscore": "~1.7",
     "xhr": "~2.0"
   },
   "devDependencies": {

@@ -48,9 +48,11 @@ app.set('view engine', 'jade');
 // -----------------
 // Set up our little demo API
 // -----------------
-var api = require('./stuccoApi');
+var api = require('./fakeApi');
+// var api = require('./stuccoApi');
+app.get('/api/search', api.search);
 app.get('/api/nodes/:id', api.getNode);
-app.put('/api/search', api.search);
+app.put('/api/nodes/:id', api.updateNode);
 
 
 // -----------------

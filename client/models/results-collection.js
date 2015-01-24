@@ -1,8 +1,11 @@
 var Collection = require('ampersand-rest-collection');
-var NodeModel = require('./results-model');
+var ResultsModel = require('./results-model');
 
 
 module.exports = Collection.extend({
-  model: NodeModel,
+  model: ResultsModel,
   urlRoot: '/api/search',
+  url: function() {
+    return (this.queryModel ? this.urlRoot + '?name=' + this.queryModel.query : this.urlRoot);
+  }
 });

@@ -9,11 +9,13 @@ module.exports = PageView.extend({
   template: templates.pages.results,
   initialize: function (spec) {
     this.queryModel = new CurrentQuery();
+    // used to update the query in the subview
     this.queryModel.query = spec.query;
+    // used to update the url in the collection
+    this.collection.queryModel = this.queryModel;
   },
   render: function() {
-    this.collection.url = this.collection.urlRoot + '?name=' + this.queryModel.query;
-    console.log('URL: ' + this.collection.url);
+    console.log('URL: ' + this.collection.url());
 
     this.renderWithTemplate();
 

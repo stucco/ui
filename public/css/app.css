@@ -1,3 +1,39 @@
 body {
   background: #fff;
 }
+.vulnerabilityCol {
+  fill: #a6cee3;
+}
+.malwareCol {
+  fill: #1f78b4;
+}
+.serviceCol {
+  fill: #b2df8a;
+}
+.softwareCol {
+  fill: #33a02c;
+}
+.flowCol {
+  fill: #fb9a99;
+}
+.attackCol {
+  fill: #e31a1c;
+}
+.hostCol {
+  fill: #fdbf6f;
+}
+.portCol {
+  fill: #ff7f00;
+}
+.addressCol {
+  fill: #cab2d6;
+}
+.attackerCol {
+  fill: #6a3d9a;
+}
+.userCol {
+  fill: #ff9;
+}
+.accountCol {
+  fill: #b15928;
+}

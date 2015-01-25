@@ -42,7 +42,7 @@ var nodes = [
 var gid = '7';
 
 function get(id) {
-  return _.findWhere(nodes, {gid: parseInt(id + '', 10)});
+  return _.findWhere(nodes, {gid: id});
 }
 
 // Search query should be in format of q=text or key1=val1&key2=val2 like this:
@@ -51,7 +51,7 @@ exports.search = function (req, res) {
   var q = req.query;
 
   // this needs much better checking of query
-  console.log('search keys: ' + _.keys(q));
+  // console.log('search keys: ' + _.keys(q));
   var searchResults = _.where(nodes, q);
 
   res.send(searchResults);
@@ -59,6 +59,7 @@ exports.search = function (req, res) {
 
 exports.getNode = function (req, res) {
   var found = get(req.params.id);
+  // console.log(found)
   res.status(found ? 200 : 404);
   res.send(found);
 };

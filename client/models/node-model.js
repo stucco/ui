@@ -2,6 +2,7 @@ var AmpersandModel = require('ampersand-model');
 
 module.exports = AmpersandModel.extend({
   idAttribute: 'gid',
+  urlRoot: '/api/nodes',
   props: {
     gid: ['string', true, ''],
     nodeType: ['string', true, ''],
@@ -10,9 +11,6 @@ module.exports = AmpersandModel.extend({
     // SHOULD REFERENCE ANOTHER NODE BY ID
     edgesIn: ['string', true, ''],
     edgesOut: ['string', true, '']
-  },
-  session: {
-    query: ['string', true, false]
   },
   derived: {
     nodeUrl: {

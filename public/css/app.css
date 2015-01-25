@@ -1,39 +1,39 @@
 body {
   background: #fff;
 }
-.vulnerabilityCol {
+.vulnerability {
   fill: #a6cee3;
 }
-.malwareCol {
+.malware {
   fill: #1f78b4;
 }
-.serviceCol {
+.service {
   fill: #b2df8a;
 }
-.softwareCol {
+.software {
   fill: #33a02c;
 }
-.flowCol {
+.flow {
   fill: #fb9a99;
 }
-.attackCol {
+.attack {
   fill: #e31a1c;
 }
-.hostCol {
+.host {
   fill: #fdbf6f;
 }
-.portCol {
+.port {
   fill: #ff7f00;
 }
-.addressCol {
+.address {
   fill: #cab2d6;
 }
-.attackerCol {
+.attacker {
   fill: #6a3d9a;
 }
-.userCol {
+.user {
   fill: #ff9;
 }
-.accountCol {
+.account {
   fill: #b15928;
 }

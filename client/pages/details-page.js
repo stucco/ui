@@ -1,5 +1,6 @@
 /*global app, alert*/
 var PageView = require('./base');
+var NodeModel = require('../models/node-model');
 var templates = require('../templates');
 
 module.exports = PageView.extend({
@@ -8,8 +9,9 @@ module.exports = PageView.extend({
   bindings: {
     'model.gid': '[data-hook~=gid]',
     'model.name': '[data-hook~=name]',
-    'model.descr': '[data-hook~=descr]',
-    'model.detailsUrl': {
+    'model.nodeType': '[data-hook~=nodeType]',
+    'model.desc': '[data-hook~=desc]',
+    'model.nodeUrl': {
       type: 'attribute',
       hook: 'details',
       name: 'href'
@@ -19,10 +21,10 @@ module.exports = PageView.extend({
     'click [data-hook~=delete]': 'handleDeleteClick'
   },
   initialize: function (spec) {
-    var self = this;
-    app.alerts.getOrFetch(spec.id, {all: true}, function (err, model) {
-      if (err) alert('couldnt find a model with id: ' + spec.id);
-      self.model = model;
-    });
-  }
+    this.model = new NodeModel({gid: spec.id});
+  },
+  render: function() {
+    this.model.fetch();
+    this.renderWithTemplate();
+  },
 });

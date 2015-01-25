@@ -43,5 +43,5 @@ module.exports = PageView.extend({
   },
   resetCollection: function () {
     this.collection.reset();
-  },
+  }
 });

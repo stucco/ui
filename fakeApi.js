@@ -54,9 +54,11 @@ exports.search = function (req, res) {
   // console.log('search keys: ' + _.keys(q));
   var searchResults = _.where(nodes, q);
 
+  res.status(searchResults.length ? 200 : 404);
   res.send(searchResults);
 };
 
+// Return requested node or 404 error
 exports.getNode = function (req, res) {
   var found = get(req.params.id);
   // console.log(found)
@@ -64,6 +66,7 @@ exports.getNode = function (req, res) {
   res.send(found);
 };
 
+// Update requested node or 404 error
 exports.updateNode = function (req, res) {
   var found = get(req.params.id);
   if (found) _.extend(found, req.body);

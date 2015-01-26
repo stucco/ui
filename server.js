@@ -46,12 +46,94 @@ app.set('view engine', 'jade');
 
 
 // -----------------
-// Set up our little demo API
+// Stucco REST/HTTP API
 // -----------------
 var api = require('./fakeApi');
 // var api = require('./stuccoApi');
+
+/*************************************************************************
+ * @api {get} /search Search the Stucco knowledge graph.
+ * @apiName Search
+ * @apiGroup Search
+ *
+ * @apiParam (Query String) {String} Key/values to search for as query parameters.
+ * @apiParamExample {String} Request-Example: type=vulnerability&name=cve-2014
+ *
+ * @apiSuccess {Object[]} nodes   Graph nodes matching search parameters, or an
+ * empty array if no nodes are found.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *       {
+ *         "gid": "1",
+ *         "name": "CVE-2014-3127",
+ *         "nodeType": "vulnerability",
+ *         "desc": "this is a long description of an ssl vulnerability."
+ *       }
+ *     ]
+ * @apiError (404) NodeNotFound The id of the Node was not found. The result
+ * will have no body, check the status for a 404.
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ */
 app.get('/api/search', api.search);
+
+
+/*************************************************************************
+ * @api {get} /nodes/:id Request a graph node.
+ * @apiName GetNode
+ * @apiGroup Node
+ *
+ * @apiParam {Number} id Graph node's unique ID.
+ *
+ * @apiSuccess {Object} node The requested graph node.
+ * @apiSuccess {String} node.gid Global unique id of node.
+ * @apiSuccess {String} node.name The node's name.
+ * @apiSuccess {String} node.nodeType The node's type.
+ * @apiSuccess {String} node.desc The description of the node.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "gid": "1",
+ *       "name": "CVE-2014-3127",
+ *       "nodeType": "vulnerability",
+ *       "desc": "this is a long description of an ssl vulnerability."
+ *     }
+ *
+ * @apiError (404) NodeNotFound The id of the Node was not found. The result
+ * will have no body, check the status for a 404.
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ */
 app.get('/api/nodes/:id', api.getNode);
+
+/*************************************************************************
+ * @api {put} /nodes/:id Update a graph node.
+ * @apiName PutNode
+ * @apiGroup Node
+ *
+ * @apiParam {Number} id Graph node's unique ID, or an empty object if no node
+ * is found.
+ *
+ * @apiSuccess {Boolean} node The graph node with updated values.
+ * @apiSuccess {String} node.gid Global unique id of node.
+ * @apiSuccess {String} node.name The node's name.
+ * @apiSuccess {String} node.nodeType The node's type.
+ * @apiSuccess {String} node.desc The description of the node.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "gid": "1",
+ *       "name": "CVE-2014-3127",
+ *       "nodeType": "vulnerability",
+ *       "desc": "this is a better, updated description of an ssl vulnerability."
+ *     }
+ *
+ * @apiError (404) NodeNotFound The id of the Node was not found. The result
+ * will have no body, check the status for a 404.
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ */
 app.put('/api/nodes/:id', api.updateNode);
 
 

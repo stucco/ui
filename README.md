@@ -1,11 +1,10 @@
-NCDOC: alert-vis
+STUCCO UI
 ================
 
-Web app for visualizing IDS alerts.
+Web app for visualizing knowledge graph.
 
 ## Usage
 
-1. Install [elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/). On a Mac, use [homebrew](http://brew.sh/): `brew install elasticsearch`. On Ubuntu or other distributions, see [package manager instructions](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-repositories.html).
 1. Download [node.js](http://nodejs.org/). On a Mac, use [homebrew](http://brew.sh/): `brew install node`. On Ubuntu or other distributions, see [package manager instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions).
 1. Install dependencies and load data: `npm install`
 1. Start the web server: `npm start`

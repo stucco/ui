@@ -1,24 +1,22 @@
 var AmpersandModel = require('ampersand-model');
 
 module.exports = AmpersandModel.extend({
-  idAttribute: 'gid',
+  idAttribute: '_id',
   props: {
-    gid: ['string', true, ''],
-    nodeType: ['string', true, ''],
-    desc: ['string', true, ''],
-    name: ['string', true, ''],
-    // SHOULD REFERENCE ANOTHER NODE BY ID
-    edgesIn: ['string', true, ''],
-    edgesOut: ['string', true, '']
+    _id: ['number', true, ''],
+    vertexType: ['string', true, ''],
+    details: ['string', true, ''],  //remove details when ontology is normalized to include description on every vertexType
+    description: ['string', true, ''],
+    name: ['string', true, '']
   },
   session: {
     query: ['string', true, false]
   },
   derived: {
     nodeUrl: {
-      deps: ['gid', 'nodeType'],
+      deps: ['_id', 'vertexType'],
       fn: function () {
-        return '/' + this.nodeType + '/' + this.gid;
+        return '/' + this.vertexType + '/' + this._id;
       }
     }
   }

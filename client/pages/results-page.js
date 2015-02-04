@@ -18,6 +18,11 @@ module.exports = PageView.extend({
     this.collection.queryModel = this.queryModel;
   },
   render: function() {
+    if (!this.collection.length) {
+      this.fetchCollection();
+    }
+
+    //TODO: if the collection has 0 results, go back to search page
     console.log('URL: ' + this.collection.url());
 
     this.renderWithTemplate();
@@ -29,15 +34,13 @@ module.exports = PageView.extend({
     }), this.el.querySelector('.q'));
 
     // render the collection of results
+    // results.jade contains ul.resList => <ul class="resList"> to list out the result.jade (i.e. each result object)
     var list = this.el.querySelector('.resList');
     // This does not work!! var list = this.queryByHook('results-list');
     this.renderCollection(this.collection, ResultView, list);
-
-    if (!this.collection.length) {
-      this.fetchCollection();
-    }
   },
   fetchCollection: function () {
+    //TODO: The results don't render if Rexster takes too long to return the results
     this.collection.fetch();
     return false;
   },

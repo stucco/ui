@@ -1,22 +1,25 @@
 var AmpersandModel = require('ampersand-model');
 
 module.exports = AmpersandModel.extend({
-  idAttribute: 'gid',
+  idAttribute: '_id',
   urlRoot: '/api/nodes',
   props: {
-    gid: ['string', true, ''],
-    nodeType: ['string', true, ''],
-    desc: ['string', true, ''],
+    _id: ['number', true, ''],
+    vertexType: ['string', true, ''],
+    description: ['string', true, ''],
     name: ['string', true, ''],
+    //other: ['object', false, '{}'],
+    // TODO: Add a way to include all other properties of a vertex
     // SHOULD REFERENCE ANOTHER NODE BY ID
     edgesIn: ['string', true, ''],
     edgesOut: ['string', true, '']
   },
+  extraProperties: 'allow',
   derived: {
     nodeUrl: {
-      deps: ['gid', 'nodeType'],
+      deps: ['_id', 'vertexType'],
       fn: function () {
-        return '/' + this.nodeType + '/' + this.gid;
+        return this.urlRoot + '/' + this._id;
       }
     }
   }

@@ -29,9 +29,9 @@ module.exports = Router.extend({
   },
 
   // details of selected search result
-  details: function (nodeType, id) {
+  details: function (vertexType, id) {
     this.trigger('page', new DetailsPage({
-      type: nodeType,
+      type: vertexType,
       id: id
     }));
   },

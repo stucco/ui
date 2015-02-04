@@ -48,8 +48,8 @@ app.set('view engine', 'jade');
 // -----------------
 // Stucco REST/HTTP API
 // -----------------
-var api = require('./fakeApi');
-// var api = require('./stuccoApi');
+// var api = require('./fakeApi');
+var api = require('./stuccoApi');
 
 /*************************************************************************
  * @api {get} /search Search the Stucco knowledge graph.
@@ -65,10 +65,10 @@ var api = require('./fakeApi');
  *     HTTP/1.1 200 OK
  *     [
  *       {
- *         "gid": "1",
+ *         "_id": "1",
  *         "name": "CVE-2014-3127",
- *         "nodeType": "vulnerability",
- *         "desc": "this is a long description of an ssl vulnerability."
+ *         "vertexType": "vulnerability",
+ *         "description": "this is a long description of an ssl vulnerability."
  *       }
  *     ]
  * @apiError (404) NodeNotFound The id of the Node was not found. The result
@@ -87,17 +87,17 @@ app.get('/api/search', api.search);
  * @apiParam {Number} id Graph node's unique ID.
  *
  * @apiSuccess {Object} node The requested graph node.
- * @apiSuccess {String} node.gid Global unique id of node.
+ * @apiSuccess {String} node._id Global unique id of node.
  * @apiSuccess {String} node.name The node's name.
- * @apiSuccess {String} node.nodeType The node's type.
- * @apiSuccess {String} node.desc The description of the node.
+ * @apiSuccess {String} node.vertexType The node's type.
+ * @apiSuccess {String} node.description The description of the node.
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
- *       "gid": "1",
+ *       "_id": "1",
  *       "name": "CVE-2014-3127",
- *       "nodeType": "vulnerability",
- *       "desc": "this is a long description of an ssl vulnerability."
+ *       "vertexType": "vulnerability",
+ *       "description": "this is a long description of an ssl vulnerability."
  *     }
  *
  * @apiError (404) NodeNotFound The id of the Node was not found. The result
@@ -116,17 +116,17 @@ app.get('/api/nodes/:id', api.getNode);
  * is found.
  *
  * @apiSuccess {Boolean} node The graph node with updated values.
- * @apiSuccess {String} node.gid Global unique id of node.
+ * @apiSuccess {String} node._id Global unique id of node.
  * @apiSuccess {String} node.name The node's name.
- * @apiSuccess {String} node.nodeType The node's type.
- * @apiSuccess {String} node.desc The description of the node.
+ * @apiSuccess {String} node.vertexType The node's type.
+ * @apiSuccess {String} node.description The description of the node.
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
- *       "gid": "1",
+ *       "_id": "1",
  *       "name": "CVE-2014-3127",
- *       "nodeType": "vulnerability",
- *       "desc": "this is a better, updated description of an ssl vulnerability."
+ *       "vertexType": "vulnerability",
+ *       "description": "this is a long description of an ssl vulnerability."
  *     }
  *
  * @apiError (404) NodeNotFound The id of the Node was not found. The result

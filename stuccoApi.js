@@ -14,9 +14,9 @@ function getInEdges(id) {
       if (error) {
         console.log(error);
       }
-      status = response.statusCode;
+      var status = response.statusCode;
       //TODO: status code other than 200 - redirect page to results
-      results = (JSON.parse(body)).results;
+      var results = (JSON.parse(body)).results;
       //TODO: empty result - display pop up and return to results
 
       console.log("getInEdges() response:\n" + JSON.stringify(results));
@@ -31,9 +31,9 @@ function getOutEdges(id) {
       if (error) {
         console.log(error);
       }
-      status = response.statusCode;
+      var status = response.statusCode;
       //TODO: status code other than 200 - redirect page to results
-      results = (JSON.parse(body)).results;
+      var results = (JSON.parse(body)).results;
       //TODO: empty result - display pop up and return to results
 
       console.log("getOutEdges() response:\n" + JSON.stringify(results));

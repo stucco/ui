@@ -1,5 +1,16 @@
 body {
   background: #fff;
+  font-family: 'Lato', Helvetica, sans-serif;
+}
+.search-query-title {
+  margin-top: 50px;
+  text-align: center;
+}
+.search-query-title h1 {
+  letter-spacing: 0.2em;
+}
+.search-query-form {
+  margin-top: 30px;
 }
 .vulnerability {
   fill: #a6cee3;

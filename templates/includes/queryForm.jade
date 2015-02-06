@@ -1,10 +1,11 @@
-div
-  br
-  div(data-hook="message-container")
-    .alert.alert-danger(data-hook="message-text")
-  label.sr-only(data-hook="label")
-  .input-group.input-group-lg
-    input.input-lg.form-control(data-hook="query-input")
-    span.input-group-btn
-      button.btn.btn-primary(type="submit") 
-        span(class="glyphicon glyphicon-search", aria-hidden="true")  Search
+
+.search-query-form
+  .col-xs-6.col-xs-offset-2
+    .form-group
+      div(data-hook="message-container")
+        .alert.alert-danger(data-hook="message-text")
+      label.sr-only(data-hook="label")
+      input.input-lg.form-control(data-hook="query-input")
+  .col-xs-2
+    button.btn.btn-lg.btn-primary(type="submit") 
+      span(class="glyphicon glyphicon-search", aria-hidden="true")  Search

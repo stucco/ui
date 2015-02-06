@@ -3,13 +3,17 @@ var config = require('getconfig');
 
 var rexsterHost = config.server.rexsterHost;
 var rexsterPort = config.server.rexsterPort;
+var rexsterGraph = config.server.rexsterGraph;
+
+var rex = 'http://' + rexsterHost + ':' + rexsterPort;
+var graphUri = rex + '/graphs/' + rexsterGraph;
 
 // maybe use [request](https://github.com/request/request) for pulling
 // data from rexster.
 var xhr = require('request');
 
 function getInEdges(id) {
-  xhr('http://10.10.10.100:8182/graphs/graph/vertices/' + id + '/inE', 
+  xhr(graphUri + '/vertices/' + id + '/inE', 
     function (error, response, body) {
       if (error) {
         console.log(error);
@@ -26,7 +30,7 @@ function getInEdges(id) {
 }
 
 function getOutEdges(id) {
-  xhr('http://10.10.10.100:8182/graphs/graph/vertices/' + id + '/outE', 
+  xhr(graphUri + '/vertices/' + id + '/outE', 
     function (error, response, body) {
       if (error) {
         console.log(error);
@@ -54,7 +58,7 @@ exports.getNode = function (req, res) {
   var status = 404;
   var results = {};
 
-  xhr('http://10.10.10.100:8182/graphs/graph/vertices/' + id, 
+  xhr(graphUri + '/vertices/' + id, 
     function (error, response, body) {
       if (error) {
         console.log(error);
@@ -88,7 +92,7 @@ exports.search = function (req, res) {
   var status = 404;
   var results = [];
   
-  xhr('http://10.10.10.100:8182/graphs/graph/tp/gremlin' + gremlinQ, 
+  xhr(graphUri + '/tp/gremlin' + gremlinQ, 
     function (error, response, body) {
       if (error) {
         console.log(error);

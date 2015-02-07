@@ -18,7 +18,7 @@
   },
   "server": {
     "rexsterHost": "localhost",
-    "rexsterPort": 8122,
+    "rexsterPort": 8182,
     "rexsterGraph": "graph"
   }
 }

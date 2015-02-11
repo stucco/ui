@@ -1,7 +1,7 @@
 STUCCO UI
 ================
 
-Web app for visualizing knowledge graph.
+Web app for visualizing the STUCCO knowledge graph.
 
 ## Usage
 
@@ -10,4 +10,4 @@ Web app for visualizing knowledge graph.
 1. Start the web server: `npm start`
 1. Open http://localhost:3000 in a browser.
 
-Use `NODE_ENV` environment variable to set appropriate config (`dev` by default), which will determine the configuraiton file to be used (`environment_config.json`).
+Use `NODE_ENV` environment variable to set appropriate config (`dev` by default), which will determine the configuraiton file to be used (`dev_config.json`).

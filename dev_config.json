@@ -17,7 +17,7 @@
     "debugMode": true
   },
   "server": {
-    "rexsterHost": "localhost",
-    "rexsterPort": 8122
+    "rexsterHost": "10.10.10.100",
+    "rexsterPort": 8182
   }
 }

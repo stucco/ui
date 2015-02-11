@@ -16,3 +16,14 @@ section.page.alert-details
         dd(data-hook='name')
         dt Description
         dd(data-hook='description')
+        dt Edges
+        dd
+          ul.edgeList(data-hook='edge-list')
+
+    .panel-footer
+        nav
+          ul.pager
+            li.previous(data-hook="prevBtnContainer").disabled
+              a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
+            li.next(data-hook="nextBtnContainer")
+              a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>

@@ -5,7 +5,6 @@ module.exports = AmpersandModel.extend({
   props: {
     _id: ['number', true, ''],
     vertexType: ['string', true, ''],
-    details: ['string', true, ''],  //remove details when ontology is normalized to include description on every vertexType
     description: ['string', true, ''],
     name: ['string', true, '']
   },

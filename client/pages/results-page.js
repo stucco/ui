@@ -40,7 +40,6 @@ module.exports = PageView.extend({
     this.renderCollection(this.collection, ResultView, list);
   },
   fetchCollection: function () {
-    //TODO: The results don't render if Rexster takes too long to return the results
     this.collection.fetch();
     return false;
   },

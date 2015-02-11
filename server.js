@@ -108,6 +108,36 @@ app.get('/api/search', api.search);
 app.get('/api/nodes/:id', api.getNode);
 
 /*************************************************************************
+ * @api {get} /nodes/:id/edges Request a graph node's incoming and outgoing edges.
+ * @apiName GetEdges
+ * @apiGroup Edge
+ *
+ * @apiParam {Number} id Graph node's unique ID.
+ *
+ * @apiSuccess {Object[]} edges The requested graph node's edges
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *       {
+ *         "_id": "abcd-1234",
+ *         "edgeName": "cpe:/o:linux:linux_kernel:2.6.10_to_CVE-2006-1066",
+ *         "_label": "hasVulnerability",
+ *         "_inV": "12",
+ *         "inVType": "vulnerability",
+ *         "_outV": "34",
+ *         "outVType": "software",
+ *         "source": "NVD"
+ *       }
+ *     ]
+ *
+ * @apiError (404) NodeNotFound The id of the Node was not found. The result
+ * will have no body, check the status for a 404.
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ */
+app.get('/api/nodes/:id/edges', api.getEdges);
+
+/*************************************************************************
  * @api {put} /nodes/:id Update a graph node.
  * @apiName PutNode
  * @apiGroup Node

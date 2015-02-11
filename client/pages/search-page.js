@@ -20,7 +20,7 @@ module.exports = PageView.extend({
     this.queryByHook('query-input').focus();
   },
   search: function (query) {
-    app.navigate('search/' + query.search);
+    app.navigate('search/' + 'name=' + encodeURIComponent(query.search));
   },
   close: function () {
     this.collection.reset();

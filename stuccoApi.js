@@ -3,9 +3,10 @@ var config = require('getconfig');
 
 var rexsterHost = config.server.rexsterHost;
 var rexsterPort = config.server.rexsterPort;
-var rexsterURL = 'http://' + rexsterHost + ':' + rexsterPort + '/graphs/graph';
+var rexsterGraph = config.server.rexsterGraph;
 
-var keys = require('amp-keys');
+var rex = 'http://' + rexsterHost + ':' + rexsterPort;
+var graphUri = rex + '/graphs/' + rexsterGraph;
 
 // maybe use [request](https://github.com/request/request) for pulling
 // data from rexster.
@@ -16,18 +17,15 @@ var xhr = require('request');
 // Returns: JSON array of objects associated with the requested ID, or an error object
 exports.getEdges = function (req, res) {
   var id = req.params.id;
-
-  var status = 404;
-  var results = [];
-
-  xhr('http://' + rexsterHost + ':' + rexsterPort + '/graphs/graph/vertices/' + id + '/bothE', 
+  xhr(graphUri + '/vertices/' + id + '/outE',
     function (error, response, body) {
       if (error) {
         console.log(error);
       }
-      status = response.statusCode;
+      var status = response.statusCode;
       //TODO: status code other than 200 - redirect page to results
-      results = (JSON.parse(body)).results;
+      var results = (JSON.parse(body)).results;
+      //TODO: empty result - display pop up and return to results
 
       console.log(">>> getEdges() response:\n\t" + JSON.stringify(results));
 
@@ -44,7 +42,7 @@ exports.getNode = function (req, res) {
   var status = 404;
   var results = {};
 
-  xhr('http://' + rexsterHost + ':' + rexsterPort + '/graphs/graph/vertices/' + id, 
+  xhr(graphUri + '/vertices/' + id, 
     function (error, response, body) {
       if (error) {
         console.log(error);
@@ -76,7 +74,7 @@ exports.search = function (req, res) {
   var status = 404;
   var results = [];
   
-  xhr(rexsterURL + '/tp/gremlin' + gremlinQ, 
+  xhr(graphUri + '/tp/gremlin' + gremlinQ,
     function (error, response, body) {
       if (error) {
         console.error(error);

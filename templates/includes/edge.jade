@@ -1,7 +1,7 @@
 
 li.list-group-item
 	a(href="#{model.nextNodeUrl}")
-		if ("#{model.isInEdge}" == "true")
+		if (model.isInEdge)
 			span &nbsp; &#10229; &nbsp;
 			span(data-hook="_label")
 		else

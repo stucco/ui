@@ -22,8 +22,5 @@ module.exports = View.extend({
     'model.adjacentNode.name': '[data-hook~=adjacentNodeName]',
     'model.adjacentNode.description': '[data-hook~=adjacentNodeDesc]',
     'model.adjacentNode.vertexType': '[data-hook~=adjacentNodeVType]'
-  },
-  initialize: function(spec) {
-    // console.log("edge-details spec = " + JSON.stringify(spec));
   }
 });

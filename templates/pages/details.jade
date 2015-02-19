@@ -16,9 +16,21 @@ section.page.alert-details
         dd(data-hook='name')
         dt Description
         dd(data-hook='description')
-        dt Edges
+        dt Incoming Edges
         dd
           ul.inEdgeList(data-hook='in-edge-list')
-        dt
+          nav
+            ul.pager
+              li.previous(data-hook="prevBtnContainer").disabled
+                a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
+              li.next(data-hook="nextBtnContainer").disabled
+                a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>
+        dt Outgoing Edges
         dd
           ul.outEdgeList(data-hook='out-edge-list')
+          nav
+            ul.pager
+              li.previous(data-hook="prevBtnContainer").disabled
+                a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
+              li.next(data-hook="nextBtnContainer").disabled
+                a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>

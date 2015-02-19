@@ -17,22 +17,22 @@ var xhr = require('request');
 // Returns: JSON array of triples of objects associated with the requested ID, or an error object
 exports.getEdges = function (req, res) {
   var id = req.params.id;
-  console.log("Edge request " + JSON.stringify(req.query));
-  console.log("inEdges =" + req.query.inEdges);
-  console.log("outEdges =" + req.query.outEdges);
+  console.info("Edge request " + JSON.stringify(req.query));
+  console.info("inEdges =" + req.query.inEdges);
+  console.info("outEdges =" + req.query.outEdges);
 
   if (req.query.inEdges) {
     xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').inE.outV.path',
       function (error, response, body) {
         if (error) {
-          console.log(error);
+          console.error(error);
         }
         var status = response.statusCode;
         //TODO: status code other than 200 - redirect page to results
         var results = (JSON.parse(body)).results;
         //TODO: empty result - display pop up and return to results
         
-        console.log(">>> getInEdges() response:\n\t" + JSON.stringify(results));
+        console.info(">>> getInEdges() response:\n\t" + JSON.stringify(results));
 
         res.status(status).send(results);
     });
@@ -41,14 +41,14 @@ exports.getEdges = function (req, res) {
     xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').outE.inV.path',
       function (error, response, body) {
         if (error) {
-          console.log(error);
+          console.error(error);
         }
         var status = response.statusCode;
         //TODO: status code other than 200 - redirect page to results
         var results = (JSON.parse(body)).results;
         //TODO: empty result - display pop up and return to results
 
-        console.log(">>> getOutEdges() response:\n\t" + JSON.stringify(results));
+        console.info(">>> getOutEdges() response:\n\t" + JSON.stringify(results));
 
         res.status(status).send(results);
     });
@@ -70,14 +70,14 @@ exports.getNode = function (req, res) {
   xhr(graphUri + '/vertices/' + id, 
     function (error, response, body) {
       if (error) {
-        console.log(error);
+        console.error(error);
       }
       status = response.statusCode;
       //TODO: status code other than 200 - redirect page to results
       results = (JSON.parse(body)).results;
       //TODO: empty result - display pop up and return to results
 
-      console.log(">>> getNode() response:\n\t" + JSON.stringify(results));
+      console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
 
       res.status(status).send(results);
   });
@@ -93,8 +93,8 @@ exports.search = function (req, res) {
   // TODO: NEED TO HAVE A WELL-DEFINED FORMAT FOR SEARCH QUERIES
 
   var q = req.query;
-  console.log("stuccoAPI query: " + JSON.stringify(q));
-  console.log("stuccoAPI name: " + q.name);
+  console.info("stuccoAPI query: " + JSON.stringify(q));
+  console.info("stuccoAPI name: " + q.name);
   var gremlinQ = '?script=g.V.has("name","' + q.name + '")';
   var status = 404;
   var results = [];
@@ -113,7 +113,7 @@ exports.search = function (req, res) {
       }
       //TODO: empty result - display pop up and return to query
 
-      console.log(">>> search() results:\n\t" + JSON.stringify(results));
+      console.info(">>> search() results:\n\t" + JSON.stringify(results));
 
       res.status(status).send(results);
   });

@@ -13,24 +13,49 @@ var graphUri = rex + '/graphs/' + rexsterGraph;
 var xhr = require('request');
 
 // Query a node based on an ID.
-// Usage: curl -XGET :3000/api/nodes/<id>/edges
-// Returns: JSON array of objects associated with the requested ID, or an error object
+// Usage: curl -XGET :3000/api/nodes/<id>/inEdges
+// Returns: JSON array of triples of objects associated with the requested ID, or an error object
 exports.getEdges = function (req, res) {
   var id = req.params.id;
-  xhr(graphUri + '/vertices/' + id + '/outE',
-    function (error, response, body) {
-      if (error) {
-        console.log(error);
-      }
-      var status = response.statusCode;
-      //TODO: status code other than 200 - redirect page to results
-      var results = (JSON.parse(body)).results;
-      //TODO: empty result - display pop up and return to results
+  console.log("Edge request " + JSON.stringify(req.query));
+  console.log("inEdges =" + req.query.inEdges);
+  console.log("outEdges =" + req.query.outEdges);
 
-      console.log(">>> getEdges() response:\n\t" + JSON.stringify(results));
+  if (req.query.inEdges) {
+    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').inE.outV.path',
+      function (error, response, body) {
+        if (error) {
+          console.log(error);
+        }
+        var status = response.statusCode;
+        //TODO: status code other than 200 - redirect page to results
+        var results = (JSON.parse(body)).results;
+        //TODO: empty result - display pop up and return to results
+        
+        console.log(">>> getInEdges() response:\n\t" + JSON.stringify(results));
 
-      res.status(status).send(results);
-  });
+        res.status(status).send(results);
+    });
+  }
+  else if (req.query.outEdges) {
+    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').outE.inV.path',
+      function (error, response, body) {
+        if (error) {
+          console.log(error);
+        }
+        var status = response.statusCode;
+        //TODO: status code other than 200 - redirect page to results
+        var results = (JSON.parse(body)).results;
+        //TODO: empty result - display pop up and return to results
+
+        console.log(">>> getOutEdges() response:\n\t" + JSON.stringify(results));
+
+        res.status(status).send(results);
+    });
+  }
+  else {
+    console.error("Unknown edge type in request '" + JSON.stringify(req.query) + "'!");
+  }
 };
 
 // Query a node based on an ID.

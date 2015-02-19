@@ -1,3 +1,15 @@
 
 li.list-group-item
-	a(data-hook="edgeName")
+	a(href="#{model.nextNodeUrl}")
+		if ("#{model.isInEdge}" == "true")
+			span &nbsp; &#10229; &nbsp;
+			span(data-hook="_label")
+		else
+			span(data-hook="_label")
+			span &nbsp; &#10230; &nbsp;
+		span &nbsp; &nbsp;
+		span(data-hook="adjacentNodeName")
+		span &nbsp; &nbsp;
+		span(data-hook="adjacentNodeDesc")
+		span &nbsp; &nbsp;
+		span.pull-right.text-uppercase.initialism(data-hook="adjacentNodeVType")

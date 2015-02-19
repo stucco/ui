@@ -1,4 +1,5 @@
 var AmpersandModel = require('ampersand-model');
+var NodeModel = require('./results-model');
 
 module.exports = AmpersandModel.extend({
   idAttribute: '_id',
@@ -10,23 +11,36 @@ module.exports = AmpersandModel.extend({
     inVType: ['string', true, ''],
     outVType: ['string', true, ''],
     description: ['string', false, ''],
-    edgeName: ['string', true, '']
+    edgeName: ['string', true, ''],
+    adjacentNode: [NodeModel, true, '{}']
   },
   extraProperties: 'allow',
   session: {
-    currentNodeId: ['number', true, '']
+    isInEdge: ['boolean', true, true]
   },
   derived: {
     nextNodeUrl: {
-      deps: ['_inV', '_outV'],
+      deps: ['isInEdge'],
       fn: function () {
-        if (this.currentNodeId === this._inV) {
+        if (this.isInEdge) {
           return '/' + this.outVType + '/' + this._outV;
         }
         else {
           return '/' + this.inVType + '/' + this._inV;
         }
       }
+    }
+  },
+  parse: function(data) {
+    for (var key in data[1]) {
+      this[key] = data[1][key];
+    }
+    this.adjacentNode = data[2];
+    if (this._outV === this.adjacentNode._id) {
+      this.isInEdge = true;
+    }
+    else {
+      this.isInEdge = false;
     }
   }
 });

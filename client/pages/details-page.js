@@ -12,17 +12,16 @@ module.exports = PageView.extend({
     'model._id': '[data-hook~=_id]',
     'model.name': '[data-hook~=name]',
     'model.vertexType': '[data-hook~=vertexType]',
-    'model.description': '[data-hook~=description]',
-    'model.accessComplexity': '[data-hook~=accessComplexity]'
+    'model.description': '[data-hook~=description]'
   },
   events: {
     'click [data-hook~=delete]': 'handleDeleteClick'
   },
   initialize: function (spec) {
     var numId = Number(spec.id);
-    this.model = new NodeModel({_id: numId, collections: {edges: new EdgeCollection()}});
-    this.edges = this.model.collections.edges;
-    this.edges.parent = this.model;
+    this.model = new NodeModel({_id: numId});
+    this.model.inEdges.parentNodeId = numId;
+    this.model.outEdges.parentNodeId = numId;
   },
   render: function() {
     this.model.fetch();
@@ -30,10 +29,15 @@ module.exports = PageView.extend({
 
     // render the collection of inEdges
     // details.jade contains ul.edgeList => <ul class="edgeList"> to list out the edge.jade (i.e. each edge)
-    var list = this.queryByHook('edge-list');
-    if (!this.edges.length) {
-      this.edges.fetch();
+    var inList = this.queryByHook('in-edge-list');
+    if (!this.model.inEdges.length) {
+      this.model.inEdges.fetch({data: {inEdges: true}});
     }
-    this.renderCollection(this.edges, EdgeView, list, {viewOptions: {currentNodeId: this.model._id}});
+    this.renderCollection(this.model.inEdges, EdgeView, inList);
+    var outList = this.queryByHook('out-edge-list');
+    if (!this.model.outEdges.length) {
+      this.model.outEdges.fetch({data: {outEdges: true}});
+    }
+    this.renderCollection(this.model.outEdges, EdgeView, outList);
   }
 });

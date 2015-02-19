@@ -8,7 +8,21 @@ module.exports = AmpersandModel.extend({
     _id: ['number', true, ''],
     vertexType: ['string', true, ''],
     description: ['string', true, ''],
-    name: ['string', true, '']
+    name: ['string', true, ''],
+    inEdges: {
+      type: EdgeCollection,
+      required: true,
+      default: function() {
+        return new EdgeCollection();
+      }
+    },
+    outEdges: {
+      type: EdgeCollection,
+      required: true,
+      default: function() {
+        return new EdgeCollection();
+      }
+    }
   },
   extraProperties: 'allow',
   derived: {
@@ -18,9 +32,5 @@ module.exports = AmpersandModel.extend({
         return this.urlRoot + '/' + this._id;
       }
     }
-  },
-  collections: {
-    inEdges: EdgeCollection,
-    outEdges: EdgeCollection
   }
 });

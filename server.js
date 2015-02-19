@@ -108,16 +108,25 @@ app.get('/api/search', api.search);
 app.get('/api/nodes/:id', api.getNode);
 
 /*************************************************************************
- * @api {get} /nodes/:id/edges Request a graph node's incoming and outgoing edges.
- * @apiName GetEdges
+ * @api {get} /nodes/:id/edges Request a graph node's incoming or outgoing edges.
+ * @apiName GetInEdges
  * @apiGroup Edge
  *
  * @apiParam {Number} id Graph node's unique ID.
+ * @apiParam {Boolean} [inEdges] Retrieve the incoming edges for this node
+ * @apiParam {Boolean} [outEdges] Retrieve the outgoing edges for this node 
  *
- * @apiSuccess {Object[]} edges The requested graph node's edges
+ * @apiSuccess {Object[[3]]} node, edge, node triples The requested graph node's edges and adjacent nodes
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     [
+ *      [
+ *       {
+ *         "_id": "12",
+ *         "name": "CVE-2006-1066",
+ *         "vertexType": "vulnerability",
+ *         "description": "this is a long description of an ssl vulnerability."
+ *       },
  *       {
  *         "_id": "abcd-1234",
  *         "edgeName": "cpe:/o:linux:linux_kernel:2.6.10_to_CVE-2006-1066",
@@ -127,7 +136,14 @@ app.get('/api/nodes/:id', api.getNode);
  *         "_outV": "34",
  *         "outVType": "software",
  *         "source": "NVD"
+ *       },
+ *       {
+ *         "_id": "34",
+ *         "name": "cpe:/o:linux:linux_kernel:2.6.10",
+ *         "vertexType": "software",
+ *         "description": "this is a piece of software."
  *       }
+ *      ]
  *     ]
  *
  * @apiError (404) NodeNotFound The id of the Node was not found. The result
@@ -136,6 +152,7 @@ app.get('/api/nodes/:id', api.getNode);
  *     HTTP/1.1 404 Not Found
  */
 app.get('/api/nodes/:id/edges', api.getEdges);
+
 
 /*************************************************************************
  * @api {put} /nodes/:id Update a graph node.

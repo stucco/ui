@@ -251,4 +251,4 @@ new Moonboots({
 
 // listen for incoming http requests on the port as specified in our config
 app.listen(config.http.port);
-console.log('vis experiment is running at: http://localhost:' + config.http.port);
+console.log('Listening and serving on :' + config.http.port);

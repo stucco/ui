@@ -100,7 +100,7 @@ app.get('/api/search', api.search);
  *     HTTP/1.1 404 Not Found
  */
 app.get('/api/nodes/count', api.countNodes);
-// app.get('/api/edges/count', api.countEdges);
+app.get('/api/edges/count', api.countEdges);
 
 /*************************************************************************
  * @api {get} /nodes/:id Request a graph node.

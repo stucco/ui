@@ -8,12 +8,37 @@ var templates = require('../templates');
 module.exports = PageView.extend({
   pageTitle: 'Stucco Search Results',
   template: templates.pages.results,
+  events: {
+    'click [data-hook~=prevBtn]': 'previousPage',
+    'click [data-hook~=nextBtn]': 'nextPage'
+  },
   initialize: function (spec) {
+    this.currentPage = 0;
+    this.pageSize = 10;
+
     this.collection = new SearchResults();
 
     this.queryModel = new CurrentQuery();
     // used to update the query in the subview
-    this.queryModel.query = spec.query;
+
+    // check if this query specifies the property, if not use 'name'
+    var rawQuery = spec.query;
+    var query = rawQuery;
+    var res = rawQuery.indexOf('=');
+    if ( res > 0 ) {
+      // change 'type' to 'vertexType'
+      var k = rawQuery.slice(0, res);
+      if ( k && k === 'type' ) {
+        var v = rawQuery.slice(res+1);
+        query = 'vertexType=' + v;
+      }
+    }
+    else {
+      query = 'name=' + rawQuery;
+    }
+    console.log('api search query: ' + query);
+
+    this.queryModel.query = query;
     // used to update the url in the collection
     this.collection.queryModel = this.queryModel;
   },

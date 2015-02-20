@@ -14,8 +14,10 @@ module.exports = {
   blastoff: function () {
   var self = window.app = this;
 
-  // create our global 'me' object and an empty collection for our models.
+  // create our global 'me' object
   window.me = new Me();
+
+  window.apiUrl = config.apiUrl;
 
   // init our URL handlers and the history tracker
   this.router = new Router();

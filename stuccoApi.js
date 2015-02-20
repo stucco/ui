@@ -89,35 +89,101 @@ exports.getNode = function (req, res) {
 //  * q: search query (string)
 // Returns: JSON array of objects matching the query, or an error object
 exports.search = function (req, res) {
-
-  // TODO: NEED TO HAVE A WELL-DEFINED FORMAT FOR SEARCH QUERIES
-
+  var status = 200;
   var q = req.query;
-  console.info("stuccoAPI query: " + JSON.stringify(q));
-  console.info("stuccoAPI name: " + q.name);
-  var gremlinQ = '?script=g.V.has("name","' + q.name + '")';
-  var status = 404;
-  var results = [];
+  var err;
+
+  // Get the first key - other key/values are ignored
+  var keys = Object.keys(q);
+  if (! keys ) {
+    err = "Malformed search query: no query defined.";
+    console.warn(err);
+    return res.status(500).send({error: err});
+  }
+  var key = keys[0];
+  var val = q[key];
+  if ( !val ) {
+    err = "Malformed search query: no value defined. Query: " + JSON.stringify(q);
+    console.warn(err);
+    return res.status(500).send({error: err});
+  }
+
+  // Set the gremlin query.
+  var gremlinQ = '?script=g.V("' + key + '","' + val + '")[0..9]';
   
   xhr(graphUri + '/tp/gremlin' + gremlinQ,
     function (error, response, body) {
       if (error) {
+        err = "Error executing search query: " + error;
         console.error(error);
+        return res.status(500).send({error: err, gremlinQuery: gremlinQ});
       }
       status = response.statusCode;
-      //TODO: status code other than 200 - redirect page back to query
-      results = (JSON.parse(body)).results;
-      if (results.length === 0) {
-        status = 404;
-        console.error("Search returned 0 results!");
-      }
-      //TODO: empty result - display pop up and return to query
-
-      console.info(">>> search() results:\n\t" + JSON.stringify(results));
-
-      res.status(status).send(results);
+      var results = (JSON.parse(body)).results;
+      if (results.length === 0) { status = 404; }
+      return res.status(status).send(results);
   });
 };
+
+// Get the count of nodes or edges in the graph
+// Usage: curl -XGET :3000/api/count
+// Required parameters:
+//  * q: search query (string)
+// Optional parameters:
+//  * t: type: vertex (default) or edge
+// Returns: JSON object of {"count": <count>}
+exports.countNodes = function (req, res) {
+  count(req, res, 'node');
+};
+
+exports.countEdges = function (req, res) {
+  count(req, res, 'edge');
+};
+
+// Count nodes or edges.
+function count (req, res, type) {
+  var status = 200;
+  var q = req.query;
+  var gremlinQ;
+  var err;
+
+  // Either query based on a key/value or get all nodes/edges.
+  var keys = Object.keys(q);
+  if ( keys.length > 0 ) {
+    var key = keys[0];
+    var val = q[key];
+    if ( !val ) {
+      err = "Malformed search query: no value defined. Query: " + JSON.stringify(q);
+      console.warn(err);
+      return res.status(500).send({error: err});
+    }
+    gremlinQ = '?script=g.V("' + key + '","' + val + '").count()';
+    if ( type === 'edge' || type === 'edges' ) {
+      gremlinQ = '?script=g.E("' + key + '","' + val + '").count()';
+    }
+  }
+  else {
+    gremlinQ = '?script=g.V().count()';
+    if ( type === 'edge' || type === 'edges' ) {
+      gremlinQ = '?script=g.E().count()';
+    }
+  }
+
+  // Query rexster using gremlin to get the count.
+  xhr(graphUri + '/tp/gremlin' + gremlinQ,
+    function (error, response, body) {
+      if (error) {
+        err = "Error getting " + type + " count: " + error;
+        console.error(error);
+        return res.status(500).send({error: err});
+      }
+      status = response.statusCode;
+      var result = {count: (JSON.parse(body)).results[0]};
+      if (result.count === 0) { status = 404; }
+      return res.status(status).send(result);
+  });
+}
+
 
 //TODO: Implement this if possible with rexster
 exports.updateNode = function (req, res) {

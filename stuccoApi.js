@@ -93,6 +93,17 @@ exports.search = function (req, res) {
   var q = req.query;
   var err;
 
+  var pageSize = 25;
+  if(req.query.pageSize){
+    pageSize = req.query.pageSize;
+  }
+  var page = 0;
+  if(req.query.page){
+    page = req.query.page;
+  }
+  var start = pageSize * page;
+  var end = start + (+pageSize) - 1;
+
   // Get the first key - other key/values are ignored
   var keys = Object.keys(q);
   if (! keys ) {
@@ -109,7 +120,7 @@ exports.search = function (req, res) {
   }
 
   // Set the gremlin query.
-  var gremlinQ = '?script=g.V("' + key + '","' + val + '")[0..9]';
+  var gremlinQ = '?script=g.V("' + key + '","' + val + '")[' + start + '..' + end + ']';
   
   xhr(graphUri + '/tp/gremlin' + gremlinQ,
     function (error, response, body) {

@@ -1,3 +1,7 @@
+var xhr = require('xhr');
+var addClass = require('amp-add-class');
+var removeClass = require('amp-remove-class');
+
 var PageView = require('./base');
 var SearchResults = require('../models/results-collection');
 var CurrentQueryView = require('../partials/current-query.js');
@@ -14,7 +18,8 @@ module.exports = PageView.extend({
   },
   initialize: function (spec) {
     this.currentPage = 0;
-    this.pageSize = 10;
+    this.pageSize = 20;
+    this.totalCount = 0;
 
     this.collection = new SearchResults();
 
@@ -48,7 +53,6 @@ module.exports = PageView.extend({
     }
 
     //TODO: if the collection has 0 results, go back to search page
-    console.log('URL: ' + this.collection.url());
 
     this.renderWithTemplate();
 
@@ -64,8 +68,50 @@ module.exports = PageView.extend({
     // This does not work!! var list = this.queryByHook('results-list');
     this.renderCollection(this.collection, ResultView, list);
   },
+  updateButtonState: function(){
+    var maxIndex = Math.max(0, (this.totalCount -1));
+    if ( this.currentPage >= maxIndex){
+      this.currentPage = maxIndex;
+      addClass(this.queryByHook('nextBtnContainer'), 'disabled');
+    }
+    if ( this.currentPage <= 0 ) {
+      this.currentPage = 0;
+      addClass(this.queryByHook('prevBtnContainer'), 'disabled');
+    }
+    if(this.currentPage >0 && this.currentPage < maxIndex){
+      removeClass(this.queryByHook('prevBtnContainer'), 'disabled');
+      removeClass(this.queryByHook('nextBtnContainer'), 'disabled');
+    }
+  },
+  previousPage: function () {
+    this.currentPage--;
+    this.updateButtonState();
+    this.collection.fetch({data: {page: this.currentPage, pageSize: this.pageSize}});
+  },
+  nextPage: function () {
+    this.currentPage++;
+    this.updateButtonState();
+    this.collection.fetch({data: {page: this.currentPage, pageSize: this.pageSize}});
+  },
   fetchCollection: function () {
-    this.collection.fetch();
+    var self = this;
+    this.collection.fetch({
+      data: {page: this.currentPage, pageSize: this.pageSize},
+      // this is totally hacky...
+      success: function(col) {
+        xhr({
+          uri: self.collection.countUrlRoot + '?' + self.queryModel.query
+        }, function (err, resp) {
+          if (err) {
+            console.error(err);
+          }
+          else {
+            var r = JSON.parse(resp.body);
+            self.totalCount = r.count;
+          }
+        });
+      }
+    });
     return false;
   },
   resetCollection: function () {

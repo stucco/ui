@@ -75,9 +75,32 @@ var api = require('./stuccoApi');
  * will have no body, check the status for a 404.
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 404 Not Found
+ * @apiError (500) InternalServerError The query was malformed. The result
+ * will have no body, check the status for a 500.
  */
 app.get('/api/search', api.search);
 
+/*************************************************************************
+ * @api {get} /nodes/count Get node or edge (/edges/count) count for a query from the Stucco knowledge graph.
+ * @apiName Count
+ * @apiGroup Search
+ *
+ * @apiParam (Query String) {String} Key/values to count as query parameters.
+ * @apiParamExample {String} Request-Example: vertexType=vulnerability
+ *
+ * @apiSuccess {Object} count   Count of nodes or edges matching the query.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *         "count": 42,
+ *     }
+ * @apiError (404) NotFound The query was not found. The result will have no 
+ * body, check the status for a 404.
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ */
+app.get('/api/nodes/count', api.countNodes);
+app.get('/api/edges/count', api.countEdges);
 
 /*************************************************************************
  * @api {get} /nodes/:id Request a graph node.
@@ -251,4 +274,4 @@ new Moonboots({
 
 // listen for incoming http requests on the port as specified in our config
 app.listen(config.http.port);
-console.log('vis experiment is running at: http://localhost:' + config.http.port);
+console.log('Listening and serving on :' + config.http.port);

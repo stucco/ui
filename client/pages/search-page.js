@@ -19,8 +19,8 @@ module.exports = PageView.extend({
     this.registerSubview(this.form);
     this.queryByHook('query-input').focus();
   },
-  search: function (query) {
-    app.navigate('search/' + 'name=' + encodeURIComponent(query.search));
+  search: function (q) {
+    app.navigate('search/' + encodeURIComponent(q.search));
   },
   close: function () {
     this.collection.reset();

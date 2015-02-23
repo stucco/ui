@@ -2,6 +2,8 @@
 var PageView = require('./base');
 var NodeModel = require('../models/node-model');
 var templates = require('../templates');
+var SoftwareSubView = require('../partials/software-details');
+var MalwareSubView = require('../partials/malware-details');
 var EdgeView = require('../partials/edge-details');
 var EdgeCollection = require('../models/edge-collection');
 
@@ -26,6 +28,18 @@ module.exports = PageView.extend({
   render: function() {
     this.model.fetch();
     this.renderWithTemplate();
+
+    console.log("vertexType = " + this.model.vertexType);
+    if (this.model.vertexType === "software") {
+      this.renderSubview(new SoftwareSubView({
+        model: this.model
+      }), this.el.querySelector('.extraNodeDetails'));
+    }
+    else if (this.model.vertexType === "malware") {
+      this.renderSubview(new MalwareSubView({
+        model: this.model
+      }), this.el.querySelector('.extraNodeDetails'));
+    }
 
     // render the collection of inEdges
     // details.jade contains ul.edgeList => <ul class="edgeList"> to list out the edge.jade (i.e. each edge)

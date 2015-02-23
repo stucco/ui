@@ -13,12 +13,13 @@ section.page.alert-details
     .panel-body
       dl.dl-horizontal
         dt Name
-        dd(data-hook='name')
+        dd(data-hook="name")
         dt Description
-        dd(data-hook='description')
+        dd(data-hook="description")
+        span.extraNodeDetails
         dt Incoming Edges
         dd
-          ul.inEdgeList(data-hook='in-edge-list')
+          ul.inEdgeList(data-hook="in-edge-list")
           nav
             ul.pager
               li.previous(data-hook="prevBtnContainer").disabled
@@ -27,7 +28,7 @@ section.page.alert-details
                 a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>
         dt Outgoing Edges
         dd
-          ul.outEdgeList(data-hook='out-edge-list')
+          ul.outEdgeList(data-hook="out-edge-list")
           nav
             ul.pager
               li.previous(data-hook="prevBtnContainer").disabled

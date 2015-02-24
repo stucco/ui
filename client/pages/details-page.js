@@ -19,27 +19,38 @@ module.exports = PageView.extend({
   events: {
     'click [data-hook~=delete]': 'handleDeleteClick'
   },
+  //Note: Listing subviews here do no get rendered for some reason. The subview instances have their render() function called.
+  // subviews: {
+  //   software: {
+  //     container: '[data-hook~=software-details]',
+  //     prepareView: function(el) {
+  //       console.log("in sw");
+  //       return new SoftwareSubView({
+  //         model: this.model
+  //       });
+  //     }
+  //   }
+  // },
   initialize: function (spec) {
     var numId = Number(spec.id);
     this.model = new NodeModel({_id: numId});
     this.model.inEdges.parentNodeId = numId;
     this.model.outEdges.parentNodeId = numId;
+    console.log("done init");
   },
   render: function() {
     this.model.fetch();
     this.renderWithTemplate();
 
-    console.log("vertexType = " + this.model.vertexType);
-    if (this.model.vertexType === "software") {
-      this.renderSubview(new SoftwareSubView({
-        model: this.model
-      }), this.el.querySelector('.extraNodeDetails'));
-    }
-    else if (this.model.vertexType === "malware") {
-      this.renderSubview(new MalwareSubView({
-        model: this.model
-      }), this.el.querySelector('.extraNodeDetails'));
-    }
+    this.renderSubview(new SoftwareSubView({
+      model: this.model
+    }), this.el.querySelector('software-details'));
+
+    this.renderSubview(new MalwareSubView({
+      model: this.model
+    }), this.el.querySelector('malware-details'));
+
+    //TODO: add other vertex type subviews
 
     // render the collection of inEdges
     // details.jade contains ul.edgeList => <ul class="edgeList"> to list out the edge.jade (i.e. each edge)
@@ -53,5 +64,9 @@ module.exports = PageView.extend({
       this.model.outEdges.fetch({data: {outEdges: true}});
     }
     this.renderCollection(this.model.outEdges, EdgeView, outList);
+  },
+  resetCollection: function () {
+    this.model.inEdges.reset();
+    this.model.outEdges.reset();
   }
 });

@@ -18,11 +18,9 @@ var xhr = require('request');
 exports.getEdges = function (req, res) {
   var id = req.params.id;
   console.info("Edge request " + JSON.stringify(req.query));
-  console.info("inEdges =" + req.query.inEdges);
-  console.info("outEdges =" + req.query.outEdges);
 
   if (req.query.inEdges) {
-    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').inE.outV.path',
+    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').inE.outV.path&rexster.offset.end=3',
       function (error, response, body) {
         if (error) {
           console.error(error);
@@ -38,7 +36,7 @@ exports.getEdges = function (req, res) {
     });
   }
   else if (req.query.outEdges) {
-    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').outE.inV.path',
+    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').outE.inV.path&rexster.offset.end=3',
       function (error, response, body) {
         if (error) {
           console.error(error);
@@ -120,6 +118,7 @@ exports.search = function (req, res) {
   }
 
   // Set the gremlin query.
+  //Check if this paging is faster than using rexster.offset.start & rexster.offset.end
   var gremlinQ = '?script=g.V("' + key + '","' + val + '")[' + start + '..' + end + ']';
   
   xhr(graphUri + '/tp/gremlin' + gremlinQ,

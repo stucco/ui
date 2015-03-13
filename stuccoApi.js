@@ -17,40 +17,67 @@ var xhr = require('request');
 // Returns: JSON array of triples of objects associated with the requested ID, or an error object
 exports.getEdges = function (req, res) {
   var id = req.params.id;
-  console.info("Edge request " + JSON.stringify(req.query));
-  console.info("inEdges =" + req.query.inEdges);
-  console.info("outEdges =" + req.query.outEdges);
+  var err;
+  var pageSize = 10;
+  if(req.query.pageSize){
+    pageSize = req.query.pageSize;
+  }
+  var page = 0;
+  if(req.query.page){
+    page = req.query.page;
+  }
+  var start = pageSize * page;
+  var end = start + (pageSize - 1);
+  var gremlinQ = 'g.v(' + id + ')';
+  var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
+  var gremlinFiltering = '[' + start + '..' + end + ']';
 
   if (req.query.inEdges) {
-    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').inE.outV.path',
+    gremlinQ = gremlinQ + '.inE.outV.path';
+    if (start > 0) {
+      gremlinQ = 'g.v(' + id + ').inE' + gremlinFiltering + '.outV.path';
+    }
+    else {
+      gremlinQ = gremlinQ + rexsterPaging;
+    }
+    // console.log("rexster edge query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
+    xhr(graphUri + '/tp/gremlin?script=' + gremlinQ,
       function (error, response, body) {
         if (error) {
+          err = "Error executing search for incoming edges: " + error;
           console.error(error);
+          return res.status(500).send({error: err, gremlinQuery: gremlinQ});
         }
         var status = response.statusCode;
-        //TODO: status code other than 200 - redirect page to results
         var results = (JSON.parse(body)).results;
-        //TODO: empty result - display pop up and return to results
         
-        console.info(">>> getInEdges() response:\n\t" + JSON.stringify(results));
+        // console.info(">>> getInEdges() response:\n\t" + results.length);
 
-        res.status(status).send(results);
+        res.status(status).send(body);
     });
   }
   else if (req.query.outEdges) {
-    xhr(graphUri + '/tp/gremlin?script=g.v(' + id + ').outE.inV.path',
+    gremlinQ = gremlinQ + '.outE.inV.path';
+    if (start > 0) {
+      gremlinQ = 'g.v(' + id + ').outE' + gremlinFiltering + '.inV.path';
+    }
+    else {
+      gremlinQ = gremlinQ + rexsterPaging;
+    }
+    // console.log("rexster edge query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
+    xhr(graphUri + '/tp/gremlin?script=' + gremlinQ,
       function (error, response, body) {
         if (error) {
+          err = "Error executing search for outgoing edges: " + error;
           console.error(error);
+          return res.status(500).send({error: err, gremlinQuery: gremlinQ});
         }
         var status = response.statusCode;
-        //TODO: status code other than 200 - redirect page to results
         var results = (JSON.parse(body)).results;
-        //TODO: empty result - display pop up and return to results
 
-        console.info(">>> getOutEdges() response:\n\t" + JSON.stringify(results));
+        // console.info(">>> getOutEdges() response:\n\t" + results.length);
 
-        res.status(status).send(results);
+        res.status(status).send(body);
     });
   }
   else {
@@ -63,6 +90,7 @@ exports.getEdges = function (req, res) {
 // Returns: JSON object of the requested ID, or an error object
 exports.getNode = function (req, res) {
   var id = req.params.id;
+  var err;
 
   var status = 404;
   var results = {};
@@ -70,14 +98,16 @@ exports.getNode = function (req, res) {
   xhr(graphUri + '/vertices/' + id, 
     function (error, response, body) {
       if (error) {
+        err = "Error obtaining node: " + error;
         console.error(error);
+        return res.status(500).send({error: err, node: id});
       }
       status = response.statusCode;
       //TODO: status code other than 200 - redirect page to results
       results = (JSON.parse(body)).results;
       //TODO: empty result - display pop up and return to results
 
-      console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
+      // console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
 
       res.status(status).send(results);
   });
@@ -93,7 +123,7 @@ exports.search = function (req, res) {
   var q = req.query;
   var err;
 
-  var pageSize = 25;
+  var pageSize = 20;
   if(req.query.pageSize){
     pageSize = req.query.pageSize;
   }
@@ -102,7 +132,7 @@ exports.search = function (req, res) {
     page = req.query.page;
   }
   var start = pageSize * page;
-  var end = start + (+pageSize) - 1;
+  var end = start + (pageSize - 1);
 
   // Get the first key - other key/values are ignored
   var keys = Object.keys(q);
@@ -120,9 +150,11 @@ exports.search = function (req, res) {
   }
 
   // Set the gremlin query.
-  var gremlinQ = '?script=g.V("' + key + '","' + val + '")[' + start + '..' + end + ']';
-  
-  xhr(graphUri + '/tp/gremlin' + gremlinQ,
+  //Check if this paging is faster than using rexster.offset.start & rexster.offset.end
+  var gremlinQ = '?script=g.V(\"' + key + '\",\"' + val + '\")';
+  var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
+  // console.log("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
+  xhr(graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging,
     function (error, response, body) {
       if (error) {
         err = "Error executing search query: " + error;
@@ -130,9 +162,8 @@ exports.search = function (req, res) {
         return res.status(500).send({error: err, gremlinQuery: gremlinQ});
       }
       status = response.statusCode;
-      var results = (JSON.parse(body)).results;
-      if (results.length === 0) { status = 404; }
-      return res.status(status).send(results);
+      if ((JSON.parse(body)).count === 0) { status = 404; }
+      return res.status(status).send(body);
   });
 };
 

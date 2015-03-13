@@ -1,6 +1,7 @@
 var xhr = require('xhr');
 var addClass = require('amp-add-class');
 var removeClass = require('amp-remove-class');
+var hasClass = require('amp-has-class');
 
 var PageView = require('./base');
 var SearchResults = require('../models/results-collection');
@@ -19,7 +20,6 @@ module.exports = PageView.extend({
   initialize: function (spec) {
     this.currentPage = 0;
     this.pageSize = 20;
-    this.totalCount = 0;
 
     this.collection = new SearchResults();
 
@@ -53,7 +53,6 @@ module.exports = PageView.extend({
     }
 
     //TODO: if the collection has 0 results, go back to search page
-
     this.renderWithTemplate();
 
     // render subview, which only handles storing/showing the current query
@@ -69,50 +68,48 @@ module.exports = PageView.extend({
     this.renderCollection(this.collection, ResultView, list);
   },
   updateButtonState: function(){
-    var maxIndex = Math.max(0, (this.totalCount -1));
-    if ( this.currentPage >= maxIndex){
-      this.currentPage = maxIndex;
+    var numPages = Math.ceil((this.collection.totalCount - 1) / this.pageSize);
+    var maxPageIndex = 0;
+    if (numPages) {
+      maxPageIndex = Math.max(0, numPages);
+    } 
+    if (this.currentPage >= maxPageIndex){
+      this.currentPage = maxPageIndex;
       addClass(this.queryByHook('nextBtnContainer'), 'disabled');
     }
-    if ( this.currentPage <= 0 ) {
+    if (this.currentPage <= 0 ) {
       this.currentPage = 0;
       addClass(this.queryByHook('prevBtnContainer'), 'disabled');
     }
-    if(this.currentPage >0 && this.currentPage < maxIndex){
+    if(this.currentPage > 0 && this.currentPage < maxPageIndex){
       removeClass(this.queryByHook('prevBtnContainer'), 'disabled');
       removeClass(this.queryByHook('nextBtnContainer'), 'disabled');
     }
   },
   previousPage: function () {
-    this.currentPage--;
-    this.updateButtonState();
-    this.collection.fetch({data: {page: this.currentPage, pageSize: this.pageSize}});
+    if (!hasClass(this.queryByHook('prevBtnContainer'), 'disabled')) {
+      this.currentPage--;
+      this.updateButtonState();
+      this.resetCollection();
+      this.fetchCollection();
+    }
+    else {
+      this.updateButtonState();
+    }
   },
   nextPage: function () {
-    this.currentPage++;
-    this.updateButtonState();
-    this.collection.fetch({data: {page: this.currentPage, pageSize: this.pageSize}});
+    if (!hasClass(this.queryByHook('nextBtnContainer'), 'disabled') && (this.collection.totalCount > this.pageSize)) {
+      this.currentPage++;
+      this.updateButtonState();
+      this.resetCollection();
+      this.fetchCollection();
+    }
+    else {
+      this.updateButtonState();
+    }
   },
   fetchCollection: function () {
-    var self = this;
-    this.collection.fetch({
-      data: {page: this.currentPage, pageSize: this.pageSize},
-      // this is totally hacky...
-      success: function(col) {
-        xhr({
-          uri: self.collection.countUrlRoot + '?' + self.queryModel.query
-        }, function (err, resp) {
-          if (err) {
-            console.error(err);
-          }
-          else {
-            var r = JSON.parse(resp.body);
-            self.totalCount = r.count;
-          }
-        });
-      }
-    });
-    return false;
+    this.collection.fetch({data: {page: this.currentPage, pageSize: this.pageSize}});
   },
   resetCollection: function () {
     this.collection.reset();

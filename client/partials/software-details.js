@@ -19,5 +19,10 @@ module.exports = View.extend({
     'model.processPid': '[data-hook~=processPid]',
     'model.processPpid': '[data-hook~=processPpid]',
     'model.processArgs': '[data-hook~=processArgs]'
+  },
+  render: function(el) {
+    if (this.model.vertexType === "software") {
+        this.renderWithTemplate();
+    }
   }
 });

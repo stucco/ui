@@ -6,9 +6,9 @@ section.page.alert-details
         button.close(type="button", aria-label="Close", data-hook="close")
           span(aria-hidden="true") &times;
       h3.panel-title
-        span(data-hook='vertexType')
+        span(data-hook="vertexType")
         span &nbsp; &#10230; &nbsp;
-        span(data-hook='_id')
+        span(data-hook="_id")
 
     .panel-body
       dl.dl-horizontal
@@ -16,22 +16,38 @@ section.page.alert-details
         dd(data-hook="name")
         dt Description
         dd(data-hook="description")
-        span.extraNodeDetails
+        span(data-hook="account-details")
+        span(data-hook="address-details")
+        span(data-hook="addressRange-details")
+        span(data-hook="attack-details")
+        span(data-hook="attacker-details")
+        span(data-hook="dnsName-details")
+        span(data-hook="flow-details")
+        span(data-hook="ip-details")
+        span(data-hook="host-details")
+        span(data-hook="port-details")
+        span(data-hook="service-details")
+        span(data-hook="user-details")
+        span(data-hook="vulnerability-details")
+        span(data-hook="software-details")
+        span(data-hook="malware-details")
+        dt &nbsp;
+        dd &nbsp;
         dt Incoming Edges
         dd
           ul.inEdgeList(data-hook="in-edge-list")
           nav
             ul.pager
-              li.previous(data-hook="prevBtnContainer").disabled
-                a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
-              li.next(data-hook="nextBtnContainer").disabled
-                a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>
+              li.previous(data-hook="prev-InE-BtnContainer").disabled
+                a(href="#", data-hook="prev-InE-Btn") <span aria-hidden="true">&larr;</span> Previous
+              li.next(data-hook="next-InE-BtnContainer")
+                a(href="#", data-hook="next-InE-Btn") Next <span aria-hidden="true">&rarr;</span>
         dt Outgoing Edges
         dd
           ul.outEdgeList(data-hook="out-edge-list")
           nav
             ul.pager
-              li.previous(data-hook="prevBtnContainer").disabled
-                a(href="#", data-hook="prevBtn") <span aria-hidden="true">&larr;</span> Previous
-              li.next(data-hook="nextBtnContainer").disabled
-                a(href="#", data-hook="nextBtn") Next <span aria-hidden="true">&rarr;</span>
+              li.previous(data-hook="prev-OutE-BtnContainer").disabled
+                a(href="#", data-hook="prev-OutE-Btn") <span aria-hidden="true">&larr;</span> Previous
+              li.next(data-hook="next-OutE-BtnContainer")
+                a(href="#", data-hook="next-OutE-Btn") Next <span aria-hidden="true">&rarr;</span>

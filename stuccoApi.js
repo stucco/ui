@@ -150,7 +150,6 @@ exports.search = function (req, res) {
   }
 
   // Set the gremlin query.
-  //Check if this paging is faster than using rexster.offset.start & rexster.offset.end
   var gremlinQ = '?script=g.V(\"' + key + '\",\"' + val + '\")';
   var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
   // console.log("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);

@@ -9,7 +9,7 @@
   "dependencies": {
     "amp-add-class": "~1",
     "amp-each": "~1.0",
-    "amp-has-class": "~1",
+    "amp-has-class": "~1.0.3",
     "amp-remove-class": "~1",
     "ampersand-checkbox-view": "~2.0",
     "ampersand-dom": "~1.2",
@@ -42,8 +42,7 @@
     "templatizer": "~1.1",
     "xhr": "~2.0",
     "request": "~2.51",
-    "amp-keys": "~1.0",
-    "amp-has-class": "~1.0.3"
+    "amp-keys": "~1.0"
   },
   "devDependencies": {
     "jshint": "*",

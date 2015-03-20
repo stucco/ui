@@ -1,0 +1,6 @@
+
+span
+	each key,index in Object.keys(model._values)
+		if ((key !== "_id") && (key !== "description") && (key !== "vertexType") && (key !== "_type") && (key !== "inEdges") && (key !== "outEdges") && (key !== "name"))
+			dt #{key}
+			dd #{model[key]}

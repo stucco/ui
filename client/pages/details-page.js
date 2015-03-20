@@ -6,6 +6,7 @@ var hasClass = require('amp-has-class');
 var PageView = require('./base');
 var NodeModel = require('../models/node-model');
 var templates = require('../templates');
+var ExtraDetailsSubView = require('../partials/extra-details');
 var AccountSubView = require('../partials/account-details');
 var AddressSubView = require('../partials/address-details');
 var AddressRangeSubView = require('../partials/addressRange-details');
@@ -189,6 +190,16 @@ module.exports = PageView.extend({
           model: this.model
         });
       }
+    },
+    extras: {
+      container: '[data-hook~=extra-properties]',
+      waitFor: 'model.vertexType',
+      prepareView: function(el) {
+        return new ExtraDetailsSubView({
+          el: el,
+          model: this.model
+        });
+      }
     }
   },
   initialize: function (spec) {
@@ -204,7 +215,7 @@ module.exports = PageView.extend({
     this.pageSize = 10;
   },
   render: function() {
-    this.model.fetch();
+    this.fetchNodeModel();
     this.renderWithTemplate();
 
     // render the collection of inEdges and outEdges
@@ -220,7 +231,9 @@ module.exports = PageView.extend({
       this.fetchOutEdgeCollection();
     }
     this.renderCollection(this.model.outEdges, EdgeView, outList);
-
+  },
+  fetchNodeModel: function() {
+    this.model.fetch();
   },
   fetchInEdgeCollection: function() {
     this.model.inEdges.fetch({data: {inEdges: true, page: this.currentInEPage, pageSize: this.pageSize}});

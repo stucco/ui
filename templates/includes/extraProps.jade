@@ -1,6 +1,7 @@
 
 span
-	each key,index in Object.keys(model._values)
-		if ((key !== "_id") && (key !== "description") && (key !== "vertexType") && (key !== "_type") && (key !== "inEdges") && (key !== "outEdges") && (key !== "name"))
-			dt #{key}
-			dd #{model[key]}
+  each key,index in Object.keys(model._values)
+    if ((key !== "_id") && (key !== "description") && (key !== "vertexType") && (key !== "_type") && (key !== "inEdges") && (key !== "outEdges") && (key !== "name"))
+      dt #{key}
+      - var val = key.indexOf("Date") !== -1 ? new Date(model[key]).toUTCString() : model[key];
+      dd #{val}

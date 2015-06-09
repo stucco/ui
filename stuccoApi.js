@@ -156,7 +156,7 @@ exports.search = function (req, res) {
     gremlinQ = '?script=g.query().has(\"' + key + '\",CONTAINS,\"' + val + '\").vertices()';
   }
   var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
-  console.warn("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
+  console.log("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
   xhr(graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging,
     function (error, response, body) {
       if (error) {

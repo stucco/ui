@@ -1,5 +1,6 @@
 // Read configuration from dev_config.json (or production_config.json)
 var config = require('getconfig');
+var _ = require('underscore');
 
 var rexsterHost = config.server.rexsterHost;
 var rexsterPort = config.server.rexsterPort;
@@ -151,8 +152,11 @@ exports.search = function (req, res) {
 
   // Set the gremlin query.
   var gremlinQ = '?script=g.V(\"' + key + '\",\"' + val + '\")';
+  if (_.contains(config.indices.fulltext, key)) {
+    gremlinQ = '?script=g.query().has(\"' + key + '\",CONTAINS,\"' + val + '\").vertices()';
+  }
   var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
-  // console.log("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
+  console.warn("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
   xhr(graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging,
     function (error, response, body) {
       if (error) {

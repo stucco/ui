@@ -13,8 +13,11 @@
     "debugMode": true
   },
   "server": {
-    "rexsterHost": "10.10.10.100",
+    "rexsterHost": "localhost",
     "rexsterPort": 8182,
     "rexsterGraph": "graph"
+  },
+  "indices": {
+    "fulltext": ["description", "comments", "details", "shortDescription", "solution", "removal", "behavior"]
   }
 }

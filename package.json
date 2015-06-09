@@ -10,6 +10,7 @@
     "amp-add-class": "~1",
     "amp-each": "~1.0",
     "amp-has-class": "~1.0.3",
+    "amp-keys": "~1.0",
     "amp-remove-class": "~1",
     "ampersand-checkbox-view": "~2.0",
     "ampersand-dom": "~1.2",
@@ -36,13 +37,13 @@
     "helmet": "~0.5",
     "jade": "~1.9",
     "moonboots-express": "~2.0",
+    "request": "~2.51",
     "semi-static": "~0.0",
     "serve-static": "~1.8",
     "stylizer": "~2.0",
     "templatizer": "~1.1",
-    "xhr": "~2.0",
-    "request": "~2.51",
-    "amp-keys": "~1.0"
+    "underscore": "^1.8.3",
+    "xhr": "~2.0"
   },
   "devDependencies": {
     "jshint": "*",
@@ -74,7 +75,7 @@
     },
     {
       "name": "Kelly Huffer",
-      "email": "testakm@ornl.gov"
+      "email": "hufferkm@ornl.gov"
     }
   ]
 }

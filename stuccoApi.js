@@ -170,6 +170,36 @@ exports.search = function (req, res) {
   });
 };
 
+// Query a flow node based on an ID.
+// Usage: curl -XGET :3000/api/flows/<id>
+// Returns: JSON object of the requested ID, or an error object
+exports.getFlow = function (req, res) {
+  var id = req.params.id;
+  var err;
+
+  var status = 404;
+  var results = {};
+
+  var gremlinQ = 'g.v(' + id + ').outE.inV.out("hasIP").out("inAddressRange").path';
+  console.log("query gremlin for flow " + gremlinQ);
+  xhr(graphUri + '/tp/gremlin?script=' + gremlinQ, 
+    function (error, response, body) {
+      if (error) {
+        err = "Error obtaining node: " + error;
+        console.error(error);
+        return res.status(500).send({error: err, node: id});
+      }
+      status = response.statusCode;
+      //TODO: status code other than 200 - redirect page to results
+      results = (JSON.parse(body)).results;
+      //TODO: empty result - display pop up and return to results
+
+      // console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
+
+      res.status(status).send(results);
+  });
+};
+
 // Get the count of nodes or edges in the graph
 // Usage: curl -XGET :3000/api/count
 // Required parameters:

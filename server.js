@@ -176,6 +176,59 @@ app.get('/api/nodes/:id', api.getNode);
  */
 app.get('/api/nodes/:id/edges', api.getEdges);
 
+/************************************************************************
+ * @api {get} /flows/:id Request a graph node of type flow.
+ * @apiName GetNode
+ * @apiGroup Node
+ *
+ * @apiParam {Number} id Graph node's unique ID.
+ *
+ * @apiSuccess {Object} node The requested flow node.
+ * @apiSuccess {String} node._id Global unique id of node.
+ * @apiSuccess {String} node.name The node's name.
+ * @apiSuccess {String} node.vertexType The node's type.
+ * @apiSuccess {String} node.description The description of the node.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *      [
+ *        {
+ *          "vertexType": "flow",
+ *          "description": "10.32.92.230, port 57580 to 70.0.0.1, port 53",
+ *          "name": "10.32.92.230:57580::70.0.0.1:53",
+ *          "_id": 2097664
+ *        },
+ *        {
+ *          "outVType": "flow",
+ *          "_label": "dstAddress",
+ *          "inVType": "address",
+ *          ...
+ *        },
+ *        {
+ *          "vertexType": "address",
+ *          ...
+ *        },
+ *        {
+ *          "vertexType": "IP",
+ *          ...
+ *        },
+ *        {
+ *          "vertexType": "addressRange",
+ *          "countryName": "United States",
+ *          "description": "70.0.0.0 through 70.0.1.1",
+ *          "name": "70.0.0.0_through_70.0.1.1",
+ *          "countryCode": "US",
+ *          "_id": 51200768
+ *        }
+ *      ], ...
+ *    ]
+ *
+ * @apiError (404) NodeNotFound The id of the Node was not found. The result
+ * will have no body, check the status for a 404.
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found*/
+ 
+app.get('/api/flows/:id', api.getFlow);
 
 /*************************************************************************
  * @api {put} /nodes/:id Update a graph node.

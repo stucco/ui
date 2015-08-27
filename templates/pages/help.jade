@@ -2,7 +2,7 @@ section.page
 
   h2 User interface help
 
-  p Queries default to search the <code>name</code> field when using the search box, but you can also search on <code>type</code>. Here are some example queries (click to run the query).
+  p Queries default to search the <code>name</code> field when using the search box, but you can also search on <code>type</code> and <code>description</code>. Here are some example queries (click to run the query).
 
   h4 Search by name
   p Get information on a vulnerability, <strong>CVE-2014-9423</strong>: <a href='/search/CVE-2014-9423'>/search/CVE-2014-9423</a>
@@ -23,6 +23,10 @@ section.page
     li <a href='/search/type=address'>Address</a>: Any address (IP:Port), either inside or outside of the network.
     li <a href='/search/type=flow'>Flow</a>: A flow of traffic between two addresses.
     li <a href='/search/type=addressRange'>Address Range</a>: A range of IP addresses.
+
+  h4 Search by description
+  p Get information on any node that involves <strong>cross-site scripting</strong>: <a href='/search/description=cross-site scripting'>/search/description=cross-site scripting</a>
+  p The description field can handle full-text searches.
 
   h2 API help
 

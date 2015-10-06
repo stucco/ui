@@ -5,7 +5,7 @@ module.exports = AmpersandModel.extend({
   idAttribute: '_id',
   urlRoot: '/api/nodes',
   props: {
-    _id: ['number', true, ''],
+    _id: ['string', true, ''],
     vertexType: ['string', true, ''],
     description: ['string', true, ''],
     name: ['string', true, ''],

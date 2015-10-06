@@ -3,7 +3,7 @@ var AmpersandModel = require('ampersand-model');
 module.exports = AmpersandModel.extend({
   idAttribute: '_id',
   props: {
-    _id: ['number', true, ''],
+    _id: ['string', true, ''],
     vertexType: ['string', true, ''],
     description: ['string', true, ''],
     name: ['string', true, '']

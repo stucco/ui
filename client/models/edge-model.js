@@ -6,8 +6,8 @@ module.exports = AmpersandModel.extend({
   props: {
     _id: ['string', true, ''],
     _label: ['string', true, ''],
-    _inV: ['number', true, ''],
-    _outV: ['number', true, ''],
+    _inV: ['string', true, ''],
+    _outV: ['string', true, ''],
     inVType: ['string', true, ''],
     outVType: ['string', true, ''],
     description: ['string', false, ''],

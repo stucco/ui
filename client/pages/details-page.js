@@ -203,12 +203,12 @@ module.exports = PageView.extend({
     }
   },
   initialize: function (spec) {
-    var numId = Number(spec.id);
-    this.model = new NodeModel({_id: numId});
-    this.model.inEdges.parentNodeId = numId;
-    this.model.outEdges.parentNodeId = numId;
+    var strID = spec.id;
+    this.model = new NodeModel({_id: strID});
+    this.model.inEdges.parentNodeId = strID;
+    this.model.outEdges.parentNodeId = strID;
 
-    console.log("api get details and edges for node with id=" + numId);
+    console.log("api get details and edges for node with id=" + strID);
 
     this.currentInEPage = 0;
     this.currentOutEPage = 0;

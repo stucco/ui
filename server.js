@@ -135,7 +135,7 @@ app.get('/api/nodes/:id', api.getNode);
  * @apiName GetInEdges
  * @apiGroup Edge
  *
- * @apiParam {Number} id Graph node's unique ID.
+ * @apiParam {String} id Graph node's unique ID.
  * @apiParam {Boolean} [inEdges] Retrieve the incoming edges for this node
  * @apiParam {Boolean} [outEdges] Retrieve the outgoing edges for this node 
  *
@@ -182,7 +182,7 @@ app.get('/api/nodes/:id/edges', api.getEdges);
  * @apiName PutNode
  * @apiGroup Node
  *
- * @apiParam {Number} id Graph node's unique ID, or an empty object if no node
+ * @apiParam {String} id Graph node's unique ID, or an empty object if no node
  * is found.
  *
  * @apiSuccess {Boolean} node The graph node with updated values.

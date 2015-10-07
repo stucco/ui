@@ -29,7 +29,7 @@ module.exports = AmpersandModel.extend({
     nodeUrl: {
       deps: ['_id'],
       fn: function () {
-        return this.urlRoot + '/' + this._id;
+        return this.urlRoot + '/' + encodeURIComponent(this._id);
       }
     }
   }

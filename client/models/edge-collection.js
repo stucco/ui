@@ -7,7 +7,7 @@ module.exports = Collection.extend({
   totalCount: ['number', true, 0],
   urlRoot: '/api/nodes',
   url: function() {
-  	return (this.urlRoot + '/' + this.parentNodeId + '/edges');
+  	return (this.urlRoot + '/' + encodeURIComponent(this.parentNodeId) + '/edges');
   },
   parse: function(data) {
     if (data.count) {

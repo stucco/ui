@@ -23,10 +23,10 @@ module.exports = AmpersandModel.extend({
       deps: ['isInEdge'],
       fn: function () {
         if (this.isInEdge) {
-          return '/' + this.outVType + '/' + this._outV;
+          return '/' + this.outVType + '/' + encodeURIComponent(this._outV);
         }
         else {
-          return '/' + this.inVType + '/' + this._inV;
+          return '/' + this.inVType + '/' + encodeURIComponent(this._inV);
         }
       }
     }

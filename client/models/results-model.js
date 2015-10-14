@@ -15,7 +15,7 @@ module.exports = AmpersandModel.extend({
     nodeUrl: {
       deps: ['_id', 'vertexType'],
       fn: function () {
-        return '/' + this.vertexType + '/' + this._id;
+        return '/' + this.vertexType + '/' + encodeURIComponent(this._id);
       }
     }
   }

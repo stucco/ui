@@ -17,31 +17,31 @@ var xhr = require('request');
 // Usage: curl -XGET :3000/api/nodes/<id>/inEdges
 // Returns: JSON array of triples of objects associated with the requested ID, or an error object
 exports.getEdges = function (req, res) {
-  var id = req.params.id;
+  var id = encodeURIComponent(req.params.id);
   var err;
   var pageSize = 10;
   if(req.query.pageSize){
-    pageSize = req.query.pageSize;
+    pageSize = Number(req.query.pageSize);
   }
   var page = 0;
   if(req.query.page){
-    page = req.query.page;
+    page = Number(req.query.page);
   }
-  var start = pageSize * page;
-  var end = start + (pageSize - 1);
-  var gremlinQ = 'g.v(' + id + ')';
+  var start = Number(pageSize * page);
+  var end = Number(start + pageSize);
+  var gremlinQ = 'g.v(\"' + id + '\")';
   var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
   var gremlinFiltering = '[' + start + '..' + end + ']';
 
   if (req.query.inEdges) {
     gremlinQ = gremlinQ + '.inE.outV.path';
     if (start > 0) {
-      gremlinQ = 'g.v(' + id + ').inE' + gremlinFiltering + '.outV.path';
+      gremlinQ = 'g.v(\"' + id + '\").inE' + gremlinFiltering + '.outV.path';
     }
     else {
       gremlinQ = gremlinQ + rexsterPaging;
     }
-    // console.log("rexster edge query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
+    // console.log("getEdges() query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
     xhr(graphUri + '/tp/gremlin?script=' + gremlinQ,
       function (error, response, body) {
         if (error) {
@@ -60,12 +60,12 @@ exports.getEdges = function (req, res) {
   else if (req.query.outEdges) {
     gremlinQ = gremlinQ + '.outE.inV.path';
     if (start > 0) {
-      gremlinQ = 'g.v(' + id + ').outE' + gremlinFiltering + '.inV.path';
+      gremlinQ = 'g.v(\"' + id + '\").outE' + gremlinFiltering + '.inV.path';
     }
     else {
       gremlinQ = gremlinQ + rexsterPaging;
     }
-    // console.log("rexster edge query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
+    // console.log("getEdges() query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
     xhr(graphUri + '/tp/gremlin?script=' + gremlinQ,
       function (error, response, body) {
         if (error) {
@@ -90,11 +90,13 @@ exports.getEdges = function (req, res) {
 // Usage: curl -XGET :3000/api/nodes/<id>
 // Returns: JSON object of the requested ID, or an error object
 exports.getNode = function (req, res) {
-  var id = req.params.id;
+  var id = encodeURIComponent(req.params.id);
   var err;
 
   var status = 404;
   var results = {};
+
+  // console.log("getNode() query = " + graphUri + '/vertices/' + id);
 
   xhr(graphUri + '/vertices/' + id, 
     function (error, response, body) {
@@ -126,14 +128,14 @@ exports.search = function (req, res) {
 
   var pageSize = 20;
   if(req.query.pageSize){
-    pageSize = req.query.pageSize;
+    pageSize = Number(req.query.pageSize);
   }
   var page = 0;
   if(req.query.page){
-    page = req.query.page;
+    page = Number(req.query.page);
   }
-  var start = pageSize * page;
-  var end = start + (pageSize - 1);
+  var start = Number(pageSize * page);
+  var end = Number(start + pageSize);
 
   // Get the first key - other key/values are ignored
   var keys = Object.keys(q);
@@ -156,7 +158,7 @@ exports.search = function (req, res) {
     gremlinQ = '?script=g.query().has(\"' + key + '\",CONTAINS,\"' + val + '\").vertices()';
   }
   var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
-  console.log("rexster query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
+  // console.log("search() query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
   xhr(graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging,
     function (error, response, body) {
       if (error) {

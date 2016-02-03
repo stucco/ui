@@ -32,13 +32,15 @@ module.exports = PageView.extend({
     'model._id': '[data-hook~=_id]',
     'model.name': '[data-hook~=name]',
     'model.vertexType': '[data-hook~=vertexType]',
-    'model.description': '[data-hook~=description]'
+    'model.description': '[data-hook~=description]',
+    'model.sourceDocument': '[data-hook~=sourceDocument]'
   },
   events: {
     'click [data-hook~=prev-InE-Btn]': 'previousInEPage',
     'click [data-hook~=next-InE-Btn]': 'nextInEPage',
     'click [data-hook~=prev-OutE-Btn]': 'previousOutEPage',
-    'click [data-hook~=next-OutE-Btn]': 'nextOutEPage'
+    'click [data-hook~=next-OutE-Btn]': 'nextOutEPage',
+    'click [data-hook~=show-stix]': 'showStix'
   },
   subviews: {
     account: {
@@ -315,6 +317,15 @@ module.exports = PageView.extend({
     }
     else {
       this.updateOutEButtonState();
+    }
+  },
+  showStix: function() {
+    var checked = this.queryByHook('show-stix').checked;
+    if (checked) {
+      this.queryByHook('sourceDocument').setAttribute("style", "display: block");
+    }
+    else {
+      this.queryByHook('sourceDocument').setAttribute("style", "display: none");
     }
   }
 });

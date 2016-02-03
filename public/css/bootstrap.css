@@ -13,6 +13,12 @@ html {
 body {
   margin: 0;
 }
+
+.xml {
+  white-space: pre-wrap;
+  display: none;
+}
+
 article,
 aside,
 details,

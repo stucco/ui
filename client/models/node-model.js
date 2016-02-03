@@ -1,5 +1,6 @@
 var AmpersandModel = require('ampersand-model');
 var EdgeCollection = require('./edge-collection');
+var prettyData  = require('pretty-data');
 
 module.exports = AmpersandModel.extend({
   idAttribute: '_id',
@@ -9,6 +10,7 @@ module.exports = AmpersandModel.extend({
     vertexType: ['string', true, ''],
     description: ['string', true, ''],
     name: ['string', true, ''],
+    sourceDocument: ['string' , false, ''],
     inEdges: {
       type: EdgeCollection,
       required: true,

@@ -2,6 +2,8 @@
 var addClass = require('amp-add-class');
 var removeClass = require('amp-remove-class');
 var hasClass = require('amp-has-class');
+var Blob = require('blob');
+var FileSaver = require('../helpers/FileSaver');
 
 var PageView = require('./base');
 var NodeModel = require('../models/node-model');
@@ -40,7 +42,8 @@ module.exports = PageView.extend({
     'click [data-hook~=next-InE-Btn]': 'nextInEPage',
     'click [data-hook~=prev-OutE-Btn]': 'previousOutEPage',
     'click [data-hook~=next-OutE-Btn]': 'nextOutEPage',
-    'click [data-hook~=show-stix]': 'showStix'
+    'click [data-hook~=show-stix]': 'showStix',
+    'click [data-hook~=download]': 'download'
   },
   subviews: {
     account: {
@@ -327,5 +330,9 @@ module.exports = PageView.extend({
     else {
       this.queryByHook('sourceDocument').setAttribute("style", "display: none");
     }
+  },
+  download: function() {
+    var blob = new Blob([this.model.sourceDocument], {type: 'text/xml;charset=utf-8'});
+    FileSaver.saveAs(blob, 'stix.xml');
   }
 });

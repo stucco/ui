@@ -19,6 +19,10 @@ body {
   display: none;
 }
 
+.download {
+  text-decoration: underline;
+}
+
 article,
 aside,
 details,

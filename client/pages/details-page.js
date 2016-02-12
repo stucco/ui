@@ -43,7 +43,11 @@ module.exports = PageView.extend({
     'click [data-hook~=prev-OutE-Btn]': 'previousOutEPage',
     'click [data-hook~=next-OutE-Btn]': 'nextOutEPage',
     'click [data-hook~=show-stix]': 'showStix',
-    'click [data-hook~=download]': 'download'
+    'click [data-hook~=download]': 'download',
+    'click [data-hook~=add-to-report]': 'addToReport',
+    'click [data-hook~=download-report]': 'downloadReport',
+    'click [data-hook~=clear-report]': 'clearReport',
+    'click [data-hook~=show-report]': 'showReport'
   },
   subviews: {
     account: {
@@ -334,5 +338,35 @@ module.exports = PageView.extend({
   download: function() {
     var blob = new Blob([this.model.sourceDocument], {type: 'text/xml;charset=utf-8'});
     FileSaver.saveAs(blob, 'stix.xml');
+  },
+  addToReport: function() {
+      try {
+        window.localStorage.setItem(this.model.name, this.model.sourceDocument);
+      } catch (e) {
+        alert("Required local storage is unavailable!");
+      }
+  },
+  downloadReport: function() {
+    var body = '';
+    for (var i = 0; i < window.localStorage.length; i++) {
+      if (i === 0) {
+        body = window.localStorage.getItem(window.localStorage.key(i));
+      } else {
+        body = body + '\n' + window.localStorage.getItem(window.localStorage.key(i));
+      }
+    }
+    if (!(body === '')) {
+      var blob = new Blob([body], {type: 'text/xml;charset=utf-8'});
+      FileSaver.saveAs(blob, 'stix_report.xml');
+    } else {
+      alert("There are no items in a report!");
+    }
+  },
+  clearReport: function() {
+    window.localStorage.clear();
+  },
+  showReport: function() {
+    // TODO: make it open report
+     window.open("http://localhost:8000/stix-to-html/stix.html");
   }
 });

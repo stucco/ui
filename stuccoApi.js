@@ -1,6 +1,7 @@
 // Read configuration from dev_config.json (or production_config.json)
 var config = require('getconfig');
 var _ = require('underscore');
+var pretty_data  = require('pretty-data');
 
 var rexsterHost = config.server.rexsterHost;
 var rexsterPort = config.server.rexsterPort;
@@ -109,6 +110,10 @@ exports.getNode = function (req, res) {
       //TODO: status code other than 200 - redirect page to results
       results = (JSON.parse(body)).results;
       //TODO: empty result - display pop up and return to results
+
+      //TODO: remove after testing
+      var xml = '<stixCommon:Exploit_Target xmlns:stixCommon=\"http://stix.mitre.org/common-1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" id=\"stucco:vulnerability-95a58902-594d-4c46-8bb8-dca5834f6682\" xsi:type=\"et:ExploitTargetType\"><et:Title xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\">Vulnerability<\/et:Title><et:Vulnerability xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\"><et:Description>WebGate eDVR Manager ActiveX Controls CVE-2015-2098 Multiple Buffer Overflow Vulnerabilities WebGate eDVR Manager is prone to multiple buffer-overflow vulnerabilities because it fails to perform boundary checks before copying user-supplied data to insufficiently sized memory buffer. The controls are identified.<\/et:Description><et:Short_Description>WebGate eDVR Manager ActiveX Controls CVE-2015-2098 Multiple Buffer Overflow Vulnerabilities<\/et:Short_Description><et:CVE_ID>CVE-nnnn-nnnn<\/et:CVE_ID><et:OSVDB_ID>72838453<\/et:OSVDB_ID><et:Source>NVD<\/et:Source><et:Published_DateTime>2015-03-28T00:30:00.000-04:00<\/et:Published_DateTime><et:References><stixCommon:Reference>http://support.microsoft.com/kb/240797<\/stixCommon:Reference><stixCommon:Reference>Second<\/stixCommon:Reference><stixCommon:Reference>Third<\/stixCommon:Reference><\/et:References><\/et:Vulnerability><et:Potential_COAs xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\"><et:Potential_COA><stixCommon:Course_Of_Action idref=\"stucco:vulnerability-9d31d334-93f5-4819-ac1e-8ea8ce957cdf\" xsi:type=\"coa:CourseOfActionType\"/><\/et:Potential_COA><\/et:Potential_COAs><\/stixCommon:Exploit_Target>';
+      results["sourceDocument"] = pretty_data.pd.xml(xml);
 
       // console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
 

@@ -13,6 +13,7 @@
     "amp-keys": "~1.0",
     "amp-remove-class": "~1",
     "ampersand-checkbox-view": "~2.0",
+    "ampersand-collection": "^1.6.1",
     "ampersand-dom": "~1.2",
     "ampersand-form-view": "~2.2",
     "ampersand-input-view": "~3.1",

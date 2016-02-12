@@ -34,13 +34,24 @@ section.page.alert-details
         span(data-hook="extra-properties")
         dt Source Document
         dd 
-          div
-            form
-              input(data-hook="show-stix" type="checkbox")
-              |    Show STIX
-          div.xml(data-hook="sourceDocument")
-          div
-            a.download(data-hook="download" href="" download) Download STIX
+          table(style="width: 450px; height: 70px; text-align=left;")
+            tr
+              td
+                form
+                  input(data-hook="show-stix" type="checkbox" style="margin-right: 5px;") 
+                  |Show STIX
+              td  
+                a.download(data-hook="download" href="" download) Download STIX
+            tr
+              td
+                button(data-hook="add-to-report" type="button") Add To Report
+              td   
+                button(data-hook="clear-report" type="button") Clear Report
+              td
+                a.download(data-hook="download-report" href="" download) Download Report
+              td   
+                button(data-hook="show-report" type="button") Show Report
+          div.xml(data-hook="sourceDocument")      
         dt &nbsp;
         dd &nbsp;
         dt Incoming Edges

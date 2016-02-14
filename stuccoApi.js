@@ -3,12 +3,19 @@ var config = require('getconfig');
 var _ = require('underscore');
 var pretty_data  = require('pretty-data');
 
-var rexsterHost = config.server.rexsterHost;
-var rexsterPort = config.server.rexsterPort;
-var rexsterGraph = config.server.rexsterGraph;
+var graphHost = config.graphServer.graphHost;
+var graphPort = config.graphServer.graphPort;
+var isRexster = config.graphServer.isRexster; //leaving both for testing, but planning to remove rexster support.
 
-var rex = 'http://' + rexsterHost + ':' + rexsterPort;
-var graphUri = rex + '/graphs/' + rexsterGraph;
+var graphUri;
+if(isRexster){
+  var graphName = config.graphServer.graphName;
+  var rex = 'http://' + graphHost + ':' + graphPort;
+  graphUri = rex + '/graphs/' + graphName;
+}else{
+  var graphRootPath = config.graphServer.graphRootPath;
+  graphUri = 'http://' + graphHost + ':' + graphPort + '/' + graphRootPath;
+}
 
 // maybe use [request](https://github.com/request/request) for pulling
 // data from rexster.
@@ -30,20 +37,31 @@ exports.getEdges = function (req, res) {
   }
   var start = Number(pageSize * page);
   var end = Number(start + pageSize);
-  var gremlinQ = 'g.v(\"' + id + '\")';
-  var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
-  var gremlinFiltering = '[' + start + '..' + end + ']';
 
   if (req.query.inEdges) {
-    gremlinQ = gremlinQ + '.inE.outV.path';
-    if (start > 0) {
-      gremlinQ = 'g.v(\"' + id + '\").inE' + gremlinFiltering + '.outV.path';
+    var queryURL;
+    if(isRexster){
+      var gremlinQ = 'g.v(\"' + id + '\")';
+      var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
+      var gremlinFiltering = '[' + start + '..' + end + ']';
+    
+      gremlinQ = gremlinQ + '.inE.outV.path';
+      if (start > 0) {
+        gremlinQ = 'g.v(\"' + id + '\").inE' + gremlinFiltering + '.outV.path';
+      }
+      else {
+        gremlinQ = gremlinQ + rexsterPaging;
+      }
+      queryURL = graphUri + "/tp/gremlin?script=" + gremlinQ;
     }
-    else {
-      gremlinQ = gremlinQ + rexsterPaging;
+    else{
+      //TODO: paging
+      var queryString = JSON.stringify({"page":page,"pageSize":pageSize})
+      queryURL = graphUri + "/inEdges/" + id + '?q=' + queryString;
     }
-    // console.log("getEdges() query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
-    xhr(graphUri + '/tp/gremlin?script=' + gremlinQ,
+    console.log("getEdges() query = " + queryURL);
+    
+    xhr(queryURL,
       function (error, response, body) {
         if (error) {
           err = "Error executing search for incoming edges: " + error;
@@ -53,21 +71,36 @@ exports.getEdges = function (req, res) {
         var status = response.statusCode;
         var results = (JSON.parse(body)).results;
         
-        // console.info(">>> getInEdges() response:\n\t" + results.length);
+        //console.info(">>> getInEdges() response:\n\t" + results.length);
 
         res.status(status).send(body);
     });
   }
   else if (req.query.outEdges) {
-    gremlinQ = gremlinQ + '.outE.inV.path';
-    if (start > 0) {
-      gremlinQ = 'g.v(\"' + id + '\").outE' + gremlinFiltering + '.inV.path';
+    var queryURL;
+    if(isRexster){
+      var gremlinQ = 'g.v(\"' + id + '\")';
+      var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
+      var gremlinFiltering = '[' + start + '..' + end + ']';
+
+      gremlinQ = gremlinQ + '.outE.inV.path';
+      if (start > 0) {
+        gremlinQ = 'g.v(\"' + id + '\").outE' + gremlinFiltering + '.inV.path';
+      }
+      else {
+        gremlinQ = gremlinQ + rexsterPaging;
+      }
+
+      queryURL = graphUri + "/tp/gremlin?script=" + gremlinQ;
     }
-    else {
-      gremlinQ = gremlinQ + rexsterPaging;
+    else{
+      //TODO: paging
+      var queryString = JSON.stringify({"page":page,"pageSize":pageSize})
+      queryURL = graphUri + "/outEdges/" + id + '?q=' + queryString;
     }
-    // console.log("getEdges() query = " + graphUri + "/tp/gremlin?script=" + gremlinQ);
-    xhr(graphUri + '/tp/gremlin?script=' + gremlinQ,
+    console.log("getEdges() query = " + queryURL);
+
+    xhr(queryURL,
       function (error, response, body) {
         if (error) {
           err = "Error executing search for outgoing edges: " + error;
@@ -77,7 +110,7 @@ exports.getEdges = function (req, res) {
         var status = response.statusCode;
         var results = (JSON.parse(body)).results;
 
-        // console.info(">>> getOutEdges() response:\n\t" + results.length);
+        //console.info(">>> getOutEdges() response:\n\t" + results.length);
 
         res.status(status).send(body);
     });
@@ -97,9 +130,16 @@ exports.getNode = function (req, res) {
   var status = 404;
   var results = {};
 
-  // console.log("getNode() query = " + graphUri + '/vertices/' + id);
-
-  xhr(graphUri + '/vertices/' + id, 
+  var queryURL;
+  if(isRexster){
+    queryURL = graphUri + '/vertices/' + id
+  }
+  else{
+    queryURL = graphUri + "/vertex/" + id;
+  }
+  console.log("getNode() query = " + queryURL);
+  
+  xhr(queryURL, 
     function (error, response, body) {
       if (error) {
         err = "Error obtaining node: " + error;
@@ -112,10 +152,14 @@ exports.getNode = function (req, res) {
       //TODO: empty result - display pop up and return to results
 
       //TODO: remove after testing
-      var xml = '<stixCommon:Exploit_Target xmlns:stixCommon=\"http://stix.mitre.org/common-1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" id=\"stucco:vulnerability-95a58902-594d-4c46-8bb8-dca5834f6682\" xsi:type=\"et:ExploitTargetType\"><et:Title xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\">Vulnerability<\/et:Title><et:Vulnerability xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\"><et:Description>WebGate eDVR Manager ActiveX Controls CVE-2015-2098 Multiple Buffer Overflow Vulnerabilities WebGate eDVR Manager is prone to multiple buffer-overflow vulnerabilities because it fails to perform boundary checks before copying user-supplied data to insufficiently sized memory buffer. The controls are identified.<\/et:Description><et:Short_Description>WebGate eDVR Manager ActiveX Controls CVE-2015-2098 Multiple Buffer Overflow Vulnerabilities<\/et:Short_Description><et:CVE_ID>CVE-nnnn-nnnn<\/et:CVE_ID><et:OSVDB_ID>72838453<\/et:OSVDB_ID><et:Source>NVD<\/et:Source><et:Published_DateTime>2015-03-28T00:30:00.000-04:00<\/et:Published_DateTime><et:References><stixCommon:Reference>http://support.microsoft.com/kb/240797<\/stixCommon:Reference><stixCommon:Reference>Second<\/stixCommon:Reference><stixCommon:Reference>Third<\/stixCommon:Reference><\/et:References><\/et:Vulnerability><et:Potential_COAs xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\"><et:Potential_COA><stixCommon:Course_Of_Action idref=\"stucco:vulnerability-9d31d334-93f5-4819-ac1e-8ea8ce957cdf\" xsi:type=\"coa:CourseOfActionType\"/><\/et:Potential_COA><\/et:Potential_COAs><\/stixCommon:Exploit_Target>';
-      results["sourceDocument"] = pretty_data.pd.xml(xml);
+      //var xml = '<stixCommon:Exploit_Target xmlns:stixCommon=\"http://stix.mitre.org/common-1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" id=\"stucco:vulnerability-95a58902-594d-4c46-8bb8-dca5834f6682\" xsi:type=\"et:ExploitTargetType\"><et:Title xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\">Vulnerability<\/et:Title><et:Vulnerability xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\"><et:Description>WebGate eDVR Manager ActiveX Controls CVE-2015-2098 Multiple Buffer Overflow Vulnerabilities WebGate eDVR Manager is prone to multiple buffer-overflow vulnerabilities because it fails to perform boundary checks before copying user-supplied data to insufficiently sized memory buffer. The controls are identified.<\/et:Description><et:Short_Description>WebGate eDVR Manager ActiveX Controls CVE-2015-2098 Multiple Buffer Overflow Vulnerabilities<\/et:Short_Description><et:CVE_ID>CVE-nnnn-nnnn<\/et:CVE_ID><et:OSVDB_ID>72838453<\/et:OSVDB_ID><et:Source>NVD<\/et:Source><et:Published_DateTime>2015-03-28T00:30:00.000-04:00<\/et:Published_DateTime><et:References><stixCommon:Reference>http://support.microsoft.com/kb/240797<\/stixCommon:Reference><stixCommon:Reference>Second<\/stixCommon:Reference><stixCommon:Reference>Third<\/stixCommon:Reference><\/et:References><\/et:Vulnerability><et:Potential_COAs xmlns:et=\"http://stix.mitre.org/ExploitTarget-1\"><et:Potential_COA><stixCommon:Course_Of_Action idref=\"stucco:vulnerability-9d31d334-93f5-4819-ac1e-8ea8ce957cdf\" xsi:type=\"coa:CourseOfActionType\"/><\/et:Potential_COA><\/et:Potential_COAs><\/stixCommon:Exploit_Target>';
+      //results["sourceDocument"] = pretty_data.pd.xml(xml);
 
-      // console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
+      if (results["sourceDocument"]){
+        results["sourceDocument"] = pretty_data.pd.xml(results["sourceDocument"]);
+      }
+
+      //console.info(">>> getNode() response:\n\t" + JSON.stringify(results));
 
       res.status(status).send(results);
   });
@@ -157,14 +201,24 @@ exports.search = function (req, res) {
     return res.status(500).send({error: err});
   }
 
-  // Set the gremlin query.
-  var gremlinQ = '?script=g.V(\"' + key + '\",\"' + val + '\")';
-  if (_.contains(config.indices.fulltext, key)) {
-    gremlinQ = '?script=g.query().has(\"' + key + '\",CONTAINS,\"' + val + '\").vertices()';
+  var queryURL;
+  if(isRexster){
+    // Set the gremlin query.
+    var gremlinQ = '?script=g.V(\"' + key + '\",\"' + val + '\")';
+    if (_.contains(config.indices.fulltext, key)) {
+      gremlinQ = '?script=g.query().has(\"' + key + '\",CONTAINS,\"' + val + '\").vertices()';
+    }
+    var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
+    queryURL = graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging;
   }
-  var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true';
-  // console.log("search() query = " + graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging);
-  xhr(graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging,
+  else{
+    //TODO: paging
+    var queryString = JSON.stringify(q)
+    queryURL = graphUri + "/search?q=" + queryString;
+  }
+  console.log("search() query = " + queryURL);
+  
+  xhr(queryURL, 
     function (error, response, body) {
       if (error) {
         err = "Error executing search query: " + error;
@@ -172,6 +226,8 @@ exports.search = function (req, res) {
         return res.status(500).send({error: err, gremlinQuery: gremlinQ});
       }
       status = response.statusCode;
+      results = (JSON.parse(body)).results;
+      //console.info(">>> search() response:\n\t" + JSON.stringify(results));
       if ((JSON.parse(body)).count === 0) { status = 404; }
       return res.status(status).send(body);
   });
@@ -185,14 +241,53 @@ exports.search = function (req, res) {
 //  * t: type: vertex (default) or edge
 // Returns: JSON object of {"count": <count>}
 exports.countNodes = function (req, res) {
-  count(req, res, 'node');
+  if(isRexster){
+    count(req, res, 'node');
+  }
+  else{
+    //TODO: support query & count
+    var queryURL = graphUri + "/count/vertices";
+    console.log("countNodes() query = " + queryURL);
+    xhr(queryURL,
+      function (error, response, body) {
+        if (error) {
+          err = "Error getting " + type + " count: " + error;
+          console.error(error);
+          return res.status(500).send({error: err});
+        }
+        status = response.statusCode;
+        //console.info(">>> countNodes() response:\n\t" + JSON.stringify(body));
+        var result = {count: (JSON.parse(body)).count};
+        return res.status(status).send(result);
+    });
+  }
 };
 
 exports.countEdges = function (req, res) {
-  count(req, res, 'edge');
+  if(isRexster){
+    count(req, res, 'edge');
+  }
+  else{
+    //TODO: support query & count
+    var queryURL = graphUri + "/count/edges";
+    console.log("countEdges() query = " + queryURL);
+    xhr(queryURL,
+      function (error, response, body) {
+        if (error) {
+          err = "Error getting " + type + " count: " + error;
+          console.error(error);
+          return res.status(500).send({error: err});
+        }
+        status = response.statusCode;
+        //console.info(">>> countEdges() response:\n\t" + JSON.stringify(body));
+        var result = {count: (JSON.parse(body)).count};
+        return res.status(status).send(result);
+    });
+  }
 };
 
 // Count nodes or edges.
+//NOTE: only invoked by rexster
 function count (req, res, type) {
   var status = 200;
   var q = req.query;
@@ -222,6 +317,7 @@ function count (req, res, type) {
   }
 
   // Query rexster using gremlin to get the count.
+  console.log("count() query = " + graphUri + '/tp/gremlin' + gremlinQ);
   xhr(graphUri + '/tp/gremlin' + gremlinQ,
     function (error, response, body) {
       if (error) {
@@ -230,6 +326,8 @@ function count (req, res, type) {
         return res.status(500).send({error: err});
       }
       status = response.statusCode;
+      results = (JSON.parse(body)).results;
+      console.info(">>> count() response:\n\t" + JSON.stringify(results));
       var result = {count: (JSON.parse(body)).results[0]};
       if (result.count === 0) { status = 404; }
       return res.status(status).send(result);
@@ -237,7 +335,7 @@ function count (req, res, type) {
 }
 
 
-//TODO: Implement this if possible with rexster
+//TODO: Implement this if needed
 exports.updateNode = function (req, res) {
   var status = 200; // all good
   var body = req.body;

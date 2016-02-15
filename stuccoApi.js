@@ -60,7 +60,6 @@ exports.getEdges = function (req, res) {
       queryURL = graphUri + "/tp/gremlin?script=" + gremlinQ;
     }
     else {
-      //TODO: paging
       queryString = JSON.stringify({"page": page, "pageSize": pageSize});
       queryURL = graphUri + "/inEdges/" + id + '?q=' + queryString;
     }
@@ -99,7 +98,6 @@ exports.getEdges = function (req, res) {
       queryURL = graphUri + "/tp/gremlin?script=" + gremlinQ;
     }
     else {
-      //TODO: paging
       queryString = JSON.stringify({"page": page, "pageSize": pageSize});
       queryURL = graphUri + "/outEdges/" + id + '?q=' + queryString;
     }
@@ -219,7 +217,6 @@ exports.search = function (req, res) {
     queryURL = graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging;
   }
   else {
-    //TODO: paging
     var queryString = JSON.stringify(q);
     queryURL = graphUri + "/search?q=" + queryString;
   }

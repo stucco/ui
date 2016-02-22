@@ -1,3 +1,6 @@
+//Note that this is being parsed with [ALCE](https://github.com/walmartlabs/ALCE), 
+// which means that comments are ok.
+
 {
   "isDev": true,
   "isSecure": false,
@@ -9,13 +12,15 @@
     "port": 8000
   },
   "client": {
-    "apiUrl": "http://10.10.10.100:8000",
+    "apiUrl": "http://localhost:8000",
     "debugMode": true
   },
-  "server": {
-    "rexsterHost": "10.10.10.100",
-    "rexsterPort": 8182,
-    "rexsterGraph": "graph"
+  "graphServer": {
+    "graphHost": "localhost",
+    "graphPort": 8080,
+    "graphRootPath": "DBConnectionService/rest/api", //only used by our db service.
+    "graphName": "", //only used by rexster
+    "isRexster": false
   },
   "indices": {
     "fulltext": ["description", "comments", "details", "shortDescription", "solution", "removal", "behavior"]

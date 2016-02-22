@@ -4,6 +4,9 @@ var removeClass = require('amp-remove-class');
 var hasClass = require('amp-has-class');
 var Blob = require('blob');
 var FileSaver = require('../helpers/FileSaver');
+var xmldom = require('xmldom').DOMParser;
+var pretty_data  = require('pretty-data');
+var reportBuilder = require("../helpers/report_builder");
 
 var PageView = require('./base');
 var NodeModel = require('../models/node-model');
@@ -26,6 +29,7 @@ var UserSubView = require('../partials/user-details');
 var VulnerabilitySubView = require('../partials/vulnerability-details');
 var EdgeView = require('../partials/edge-details');
 var EdgeCollection = require('../models/edge-collection');
+
 
 module.exports = PageView.extend({
   pageTitle: 'Node Details',
@@ -329,6 +333,7 @@ module.exports = PageView.extend({
   showStix: function() {
     var checked = this.queryByHook('show-stix').checked;
     if (checked) {
+      this.model.sourceDocument = pretty_data.pd.xml(this.model.sourceDocument);
       this.queryByHook('sourceDocument').setAttribute("style", "display: block");
     }
     else {
@@ -336,37 +341,48 @@ module.exports = PageView.extend({
     }
   },
   download: function() {
-    var blob = new Blob([this.model.sourceDocument], {type: 'text/xml;charset=utf-8'});
+    var blob = new Blob([pretty_data.pd.xml(this.model.sourceDocument)], {type: 'text/xml;charset=utf-8'});
     FileSaver.saveAs(blob, 'stix.xml');
   },
   addToReport: function() {
       try {
-        window.localStorage.setItem(this.model.name, this.model.sourceDocument);
+        if (window.localStorage.getItem(this.model.name) === null) {
+          window.localStorage.setItem(this.model.name, this.model.sourceDocument);
+          if (window.localStorage.getItem("stucco_report_names") === null) {
+            window.localStorage.setItem("stucco_report_names", this.model.name);
+          } else {
+            var stucco_report_names = window.localStorage.getItem("stucco_report_names");
+            stucco_report_names = stucco_report_names + "##stucco##" + this.model.name;
+            window.localStorage.setItem("stucco_report_names", stucco_report_names);
+          }
+        }
       } catch (e) {
         alert("Required local storage is unavailable!");
       }
   },
   downloadReport: function() {
-    var body = '';
-    for (var i = 0; i < window.localStorage.length; i++) {
-      if (i === 0) {
-        body = window.localStorage.getItem(window.localStorage.key(i));
-      } else {
-        body = body + '\n' + window.localStorage.getItem(window.localStorage.key(i));
-      }
-    }
-    if (!(body === '')) {
-      var blob = new Blob([body], {type: 'text/xml;charset=utf-8'});
+    var report = reportBuilder.report();
+    if (report !== null && report !== undefined) {
+      window.localStorage.setItem("report", report);
+      var blob = new Blob([pretty_data.pd.xml(report.toString())], {type: 'text/xml;charset=utf-8'});
       FileSaver.saveAs(blob, 'stix_report.xml');
     } else {
-      alert("There are no items in a report!");
+      alert("There are no items in this report!");
     }
   },
   clearReport: function() {
-    window.localStorage.clear();
+    window.localStorage.removeItem("report");
+    if (window.localStorage.getItem("stucco_report_names") !== null) {
+      var stucco_report_names = window.localStorage.getItem("stucco_report_names").split("##stucco##");
+      for (var i = 0; i < stucco_report_names.split("##stucco##").length; i++) {
+        window.localStorage.removeItem(stucco_report_names[i]); 
+      }
+      window.localStorage.removeItem("stucco_report_names");
+    }
   },
   showReport: function() {
-    // TODO: make it open report
-     window.open("http://localhost:8000/stix-to-html/stix.html");
+    var report = reportBuilder.report(); 
+    window.localStorage.setItem("report", report);
+    window.open("http://localhost:8000/stix-to-html/stix.html");
   }
 });

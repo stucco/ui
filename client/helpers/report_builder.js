@@ -140,7 +140,7 @@ exports.report = function() {
        removing it, and addint to the root ... not sure why, but stix will not render other wise, 
        even if element is totally valid */
     var nodeIterator = doc.createNodeIterator(newElement, NodeFilter.SHOW_ELEMENT);
-    while (var currNode = nodeIterator.nextNode()) {
+    while (currNode = nodeIterator.nextNode()) {
       var attrs = currNode.attributes;
       for (var j = 0; j < attrs.length; j++) {
         var attr = attrs[j];

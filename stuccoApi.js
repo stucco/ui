@@ -250,8 +250,17 @@ exports.countNodes = function (req, res) {
     count(req, res, 'node');
   }
   else {
-    //TODO: support query & count
-    var queryURL = graphUri + "/count/vertices";
+    var q = req.query;
+    var keys = Object.keys(q);
+    var queryURL;
+    if (keys) {
+      var queryString = JSON.stringify(q);
+      queryURL = graphUri + "/count/vertices?q=" + queryString;
+    }
+    else {
+      queryURL = graphUri + "/count/vertices";
+    }
+
     console.log("countNodes() query = " + queryURL);
     xhr(queryURL,
       function (error, response, body) {
@@ -274,7 +283,7 @@ exports.countEdges = function (req, res) {
     count(req, res, 'edge');
   }
   else {
-    //TODO: support query & count
+    //TODO: support query & count, like countNodes, if/when needed.
     var queryURL = graphUri + "/count/edges";
     console.log("countEdges() query = " + queryURL);
     xhr(queryURL,

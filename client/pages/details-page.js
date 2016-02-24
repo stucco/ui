@@ -383,6 +383,6 @@ module.exports = PageView.extend({
   showReport: function() {
     var report = reportBuilder.report(); 
     window.localStorage.setItem("report", report);
-    window.open("http://localhost:8000/stix-to-html/stix.html");
+    window.open("/stix-to-html/stix.html");
   }
 });

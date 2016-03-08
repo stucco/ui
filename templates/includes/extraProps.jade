@@ -2,7 +2,10 @@
 span
   each key,index in Object.keys(model._values)
     if ((key !== "_id") && (key !== "description") && (key !== "vertexType") && (key !== "_type") && (key !== "inEdges") && (key !== "outEdges") && (key !== "name") && (key !== "sourceDocument"))
-      dt #{key}
+      if (key == "observableType") 
+        dt #{"Observable Type"}
+      else 
+        dt #{key}  
       - if(key.indexOf("Date") !== -1){
       -   val = new Date(model[key]).toUTCString()
       - }else if(key.indexOf("Time") !== -1){

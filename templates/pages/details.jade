@@ -51,12 +51,14 @@ section.page.alert-details
                 button(data-hook="clear-report" type="button") Clear Report
               td
                 a.download(data-hook="download-report" href="" download) Download Report
-          div.xml(data-hook="sourceDocument")      
+          div.xml(data-hook="showSourceDocument")
+            //textarea
+            pre(data-hook="sourceDocument")     
         dt &nbsp;
         dd &nbsp;
         dt Incoming Edges
         dd
-          ul.inEdgeList(data-hook="in-edge-list")
+          ul.inEdgeList(style="padding-left: 0;" data-hook="in-edge-list")
           nav
             ul.pager
               li.previous(data-hook="prev-InE-BtnContainer").disabled
@@ -65,7 +67,7 @@ section.page.alert-details
                 a(href="#", data-hook="next-InE-Btn") Next <span aria-hidden="true">&rarr;</span>
         dt Outgoing Edges
         dd
-          ul.outEdgeList(data-hook="out-edge-list")
+          ul.outEdgeList(style="padding-left: 0;" data-hook="out-edge-list")
           nav
             ul.pager
               li.previous(data-hook="prev-OutE-BtnContainer").disabled

@@ -93,7 +93,7 @@ var element_sequence = {
   "stix:Courses_Of_Action": 5,
   "stix:Campaigns": 6,
   "stix:Threat_Actors": 7
-}
+};
 
 exports.report = function() {
   try {
@@ -151,7 +151,7 @@ exports.report = function() {
           // making sure to insert it in order indicated by index object, or stix will invalidate it
           name = parent.nodeName;
           var parentIndex = element_sequence[name];
-          var children = root.children;
+          children = root.children;
           var length = children.length;
           if (length === 0) {
             root.appendChild(parent);
@@ -178,8 +178,9 @@ exports.report = function() {
            removing it, and addint to the root ... not sure why, but stix will not render other wise, 
            even if element is totally valid */
         var nodeIterator = doc.createNodeIterator(newElement, NodeFilter.SHOW_ELEMENT);
+        var currNode = null;
         while (currNode = nodeIterator.nextNode()) {
-          var attrs = currNode.attributes;
+          attrs = currNode.attributes;
           for (var j = 0; j < attrs.length; j++) {
             var attr = attrs[j];
             if (attr.prefix === "xmlns") {

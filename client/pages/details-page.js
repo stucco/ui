@@ -5,7 +5,6 @@ var hasClass = require('amp-has-class');
 var Blob = require('blob');
 var FileSaver = require('../helpers/FileSaver');
 var xmldom = require('xmldom').DOMParser;
-var pretty_data  = require('pretty-data');
 var reportBuilder = require("../helpers/report_builder");
 
 var PageView = require('./base');
@@ -30,7 +29,6 @@ var VulnerabilitySubView = require('../partials/vulnerability-details');
 var EdgeView = require('../partials/edge-details');
 var EdgeCollection = require('../models/edge-collection');
 
-
 module.exports = PageView.extend({
   pageTitle: 'Node Details',
   template: templates.pages.details,
@@ -39,7 +37,7 @@ module.exports = PageView.extend({
     'model.name': '[data-hook~=name]',
     'model.vertexType': '[data-hook~=vertexType]',
     'model.description': '[data-hook~=description]',
-    'model.sourceDocument': '[data-hook~=sourceDocument]'
+    'model.sourceDocument': '[data-hook~=sourceDocument]',
   },
   events: {
     'click [data-hook~=prev-InE-Btn]': 'previousInEPage',
@@ -222,6 +220,7 @@ module.exports = PageView.extend({
     this.model.outEdges.parentNodeId = strID;
 
     console.log("api get details and edges for node with id=" + strID);
+    console.log("and global me = ", window.me);
 
     this.currentInEPage = 0;
     this.currentOutEPage = 0;
@@ -333,44 +332,54 @@ module.exports = PageView.extend({
   showStix: function() {
     var checked = this.queryByHook('show-stix').checked;
     if (checked) {
-      this.model.sourceDocument = pretty_data.pd.xml(this.model.sourceDocument);
-      this.queryByHook('sourceDocument').setAttribute("style", "display: block");
+      this.model.sourceDocument = this.model.sourceDocument;
+      this.queryByHook('showSourceDocument').setAttribute("style", "display: block");
     }
     else {
-      this.queryByHook('sourceDocument').setAttribute("style", "display: none");
+      this.queryByHook('showSourceDocument').setAttribute("style", "display: none");
     }
   },
   download: function() {
-    var blob = new Blob([pretty_data.pd.xml(this.model.sourceDocument)], {type: 'text/xml;charset=utf-8'});
+    var blob = new Blob([this.model.sourceDocument], {type: 'text/xml;charset=utf-8'});
     FileSaver.saveAs(blob, 'stix.xml');
   },
-  addToReport: function() {
+  addToReport: function() {  
+    if (window.localStorage.getItem(this.model.name) === null) {
       try {
-        if (window.localStorage.getItem(this.model.name) === null) {
-          window.localStorage.setItem(this.model.name, this.model.sourceDocument);
-          if (window.localStorage.getItem("stucco_report_names") === null) {
-            window.localStorage.setItem("stucco_report_names", this.model.name);
-          } else {
-            var stucco_report_names = window.localStorage.getItem("stucco_report_names");
-            stucco_report_names = stucco_report_names + "##stucco##" + this.model.name;
-            window.localStorage.setItem("stucco_report_names", stucco_report_names);
-          }
-        }
+        var index = (window.localStorage.getItem("index") === null) ? 0 : Number(window.localStorage.getItem("index")) + 1;
+        window.localStorage.setItem(index, this.model.name);
+        window.localStorage.setItem(this.model.name, this.model.sourceDocument);
+        window.localStorage.setItem("index", index);
       } catch (e) {
         alert("Required local storage is unavailable!");
       }
+    }
   },
   downloadReport: function() {
     var report = reportBuilder.report();
     if (report !== null && report !== undefined) {
       window.localStorage.setItem("report", report);
-      var blob = new Blob([pretty_data.pd.xml(report.toString())], {type: 'text/xml;charset=utf-8'});
+      var blob = new Blob([report], {type: 'text/xml;charset=utf-8'});
       FileSaver.saveAs(blob, 'stix_report.xml');
     } else {
       alert("There are no items in this report!");
     }
   },
   clearReport: function() {
+  //  window.localStorage.clear();
+    if (window.localStorage.getItem("index") !== null) {
+      var index = Number(window.localStorage.getItem("index"));
+      for (var i = 0; i <= index; i++) {
+        var name = window.localStorage.getItem(i);
+        window.localStorage.removeItem(i);
+        window.localStorage.removeItem(name);
+      }
+      window.localStorage.removeItem("index");
+    }
+    if (window.localStorage.getItem("report") !== null) {
+      window.localStorage.removeItem("report");
+    }
+  /*  
     window.localStorage.removeItem("report");
     if (window.localStorage.getItem("stucco_report_names") !== null) {
       var stucco_report_names = window.localStorage.getItem("stucco_report_names").split("##stucco##");
@@ -379,10 +388,15 @@ module.exports = PageView.extend({
       }
       window.localStorage.removeItem("stucco_report_names");
     }
+  */  
   },
   showReport: function() {
     var report = reportBuilder.report(); 
-    window.localStorage.setItem("report", report);
-    window.open("/stix-to-html/stix.html");
+    if (report === null) {
+      alert("There are no items in this report!");
+    } else {
+      window.localStorage.setItem("report", report);
+      window.open("/stix-to-html/stix.html");
+    }
   }
 });

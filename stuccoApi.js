@@ -16,6 +16,7 @@ if (isRexster) {
 else {
   var graphRootPath = config.graphServer.graphRootPath;
   graphUri = 'http://' + graphHost + ':' + graphPort + '/' + graphRootPath;
+  console.log("graphUri = " + graphUri);
 }
 
 // maybe use [request](https://github.com/request/request) for pulling
@@ -229,6 +230,7 @@ exports.search = function (req, res) {
         console.error(error);
         return res.status(500).send({error: err, gremlinQuery: gremlinQ});
       }
+      console.log("response = ", response)
       status = response.statusCode;
       var results = (JSON.parse(body)).results;
       //console.info(">>> search() response:\n\t" + JSON.stringify(results));

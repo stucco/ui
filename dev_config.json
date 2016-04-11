@@ -8,17 +8,17 @@
     "secure": false
   },
   "http": {
-    "listen": "localhost",
+    "listen": "160.91.76.150",
     "port": 8000
   },
   "client": {
-    "apiUrl": "http://localhost:8000",
+    "apiUrl": "http://160.91.76.150:8000",
     "debugMode": true
   },
   "graphServer": {
     "graphHost": "localhost",
     "graphPort": 8080,
-    "graphRootPath": "DBConnectionService/rest/api", //only used by our db service.
+    "graphRootPath": "api", //only used by our db service.
     "graphName": "", //only used by rexster
     "isRexster": false
   },

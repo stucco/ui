@@ -3,7 +3,7 @@ var addClass = require('amp-add-class');
 var removeClass = require('amp-remove-class');
 var hasClass = require('amp-has-class');
 var Blob = require('blob');
-var FileSaver = require('../helpers/FileSaver');
+var FileSaver = require('filesaver.js/FileSaver');
 var xmldom = require('xmldom').DOMParser;
 var reportBuilder = require("../helpers/report-builder");
 

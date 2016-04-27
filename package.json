@@ -36,6 +36,7 @@
     "elasticsearch": "~5.0",
     "express": "~4.11",
     "favicon-setter": "~0.1",
+    "filesaver.js": "^0.2.0",
     "getconfig": "~1.0",
     "helmet": "~0.5",
     "jade": "~1.9",
@@ -45,7 +46,7 @@
     "semi-static": "~0.0",
     "serve-static": "~1.8",
     "stylizer": "~2.1",
-    "templatizer": "~1.1",
+    "templatizer": "^2.0.3",
     "underscore": "^1.8.3",
     "xhr": "~2.0",
     "xmldom": "^0.1.22"

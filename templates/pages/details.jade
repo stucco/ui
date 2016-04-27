@@ -38,19 +38,25 @@ section.page.alert-details
             tr
               td
                 form
-                  input(data-hook="show-stix" type="checkbox" style="margin-right: 5px;") 
-                  |Show STIX
+                  input(data-hook="show-stix", type="checkbox", style="margin-right: 5px;") 
+                  | Show STIX
               td  
-                a.download(data-hook="download" href="" download) Download STIX
-            tr
-              td
-                button(data-hook="add-to-report" type="button") Add To Report
-              td   
-                button(data-hook="show-report" type="button") Show Report
-              td   
-                button(data-hook="clear-report" type="button") Clear Report
-              td
-                a.download(data-hook="download-report" href="" download) Download Report
+                button.btn.btn-default(data-hook="download")
+                  span(class="glyphicon glyphicon-download", aria-hidden="true") 
+                  |  Download STIX
+          div.btn-group(role="group")
+            button.btn.btn-default(data-hook="add-to-report")
+              span(class="glyphicon glyphicon-plus", aria-hidden="true")
+              |  Add To Report
+            button.btn.btn-default(data-hook="show-report")
+              span(class="glyphicon glyphicon-book", aria-hidden="true")
+              |  Show Report
+            button.btn.btn-default(data-hook="clear-report")
+              span(class="glyphicon glyphicon-remove", aria-hidden="true")
+              |  Clear Report
+            button.btn.btn-default(data-hook="download-report")
+              span(class="glyphicon glyphicon-download-alt", aria-hidden="true") 
+              |  Download Report
           div.xml(data-hook="showSourceDocument")
             //textarea
             pre(data-hook="sourceDocument")     

@@ -116,9 +116,9 @@ var saveAs = saveAs || (function(view) {
 						target_view.location.href = object_url;
 					} else {
 						var new_tab = view.open(object_url, "_blank");
-						if (new_tab == undefined && is_safari) {
+						if (new_tab === undefined && is_safari) {
 							//Apple do not allow window.open, see http://bit.ly/1kZffRI
-							view.location.href = object_url
+							view.location.href = object_url;
 						}
 					}
 					filesaver.readyState = filesaver.DONE;
@@ -261,10 +261,10 @@ var saveAs = saveAs || (function(view) {
 // while `this` is nsIContentFrameMessageManager
 // with an attribute `content` that corresponds to the window
 
-if (typeof module !== "undefined" && module.exports) {
-  module.exports.saveAs = saveAs;
-} else if ((typeof define !== "undefined" && define !== null) && (define.amd != null)) {
-  define([], function() {
-    return saveAs;
-  });
-}
+//if (typeof module !== "undefined" && module.exports) {
+//  module.exports.saveAs = saveAs;
+//} else if ((typeof define !== "undefined" && define !== null) && (define.amd !== null)) {
+//  define([], function() {
+//    return saveAs;
+//  });
+//}

@@ -5,7 +5,7 @@ var hasClass = require('amp-has-class');
 var Blob = require('blob');
 var FileSaver = require('../helpers/FileSaver');
 var xmldom = require('xmldom').DOMParser;
-var reportBuilder = require("../helpers/report_builder");
+var reportBuilder = require("../helpers/report-builder");
 
 var PageView = require('./base');
 var NodeModel = require('../models/node-model');
@@ -351,7 +351,7 @@ module.exports = PageView.extend({
         window.localStorage.setItem(this.model.name, this.model.sourceDocument);
         window.localStorage.setItem("index", index);
       } catch (e) {
-        alert("Required local storage is unavailable!");
+        window.alert("Required local storage is unavailable!");
       }
     }
   },
@@ -362,7 +362,7 @@ module.exports = PageView.extend({
       var blob = new Blob([report], {type: 'text/xml;charset=utf-8'});
       FileSaver.saveAs(blob, 'stix_report.xml');
     } else {
-      alert("There are no items in this report!");
+      window.alert("There are no items in this report!");
     }
   },
   clearReport: function() {
@@ -393,7 +393,7 @@ module.exports = PageView.extend({
   showReport: function() {
     var report = reportBuilder.report(); 
     if (report === null) {
-      alert("There are no items in this report!");
+      window.alert("There are no items in this report!");
     } else {
       window.localStorage.setItem("report", report);
       window.open("/stix-to-html/stix.html");

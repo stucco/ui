@@ -221,7 +221,6 @@ exports.search = function (req, res) {
     var queryString = JSON.stringify(q);
     queryURL = graphUri + "/search?q=" + queryString;
   }
-  console.log("search() query = " + queryURL);
   
   xhr(queryURL,
     function (error, response, body) {
@@ -230,7 +229,6 @@ exports.search = function (req, res) {
         console.error(error);
         return res.status(500).send({error: err, gremlinQuery: gremlinQ});
       }
-      console.log("response = ", response)
       status = response.statusCode;
       var results = (JSON.parse(body)).results;
       //console.info(">>> search() response:\n\t" + JSON.stringify(results));

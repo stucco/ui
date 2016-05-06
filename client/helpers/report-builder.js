@@ -127,16 +127,19 @@ exports.report = function() {
         var name = element.nodeName;
         var newElement = doc.createElementNS(stix_elements[name].element.ns, stix_elements[name].element.name);
 
+        var j;
+        var attr;
+
         // copying attributes
         var attrs = element.attributes;
-        for (var j = 0; j < attrs.length; j++) {
-            var attr = attrs[j];
+        for (j = 0; j < attrs.length; j++) {
+            attr = attrs[j];
             newElement.setAttributeNS(attr.namespaceURI, attr.nodeName, attr.value);
         }
 
         // copying child nodes
         var children = element.children;
-        for (var j = 0; j < children.length; j++) {
+        for (j = 0; j < children.length; j++) {
           var child = children[j].cloneNode(true);
           newElement.appendChild(child);
         }
@@ -156,7 +159,7 @@ exports.report = function() {
           if (length === 0) {
             root.appendChild(parent);
           } else {
-            for (var j = 0; j < length; j++) {
+            for (j = 0; j < length; j++) {
               name = children[j].nodeName;
               var childIndex = element_sequence[name];
               if (childIndex < parentIndex) {
@@ -178,11 +181,11 @@ exports.report = function() {
            removing it, and addint to the root ... not sure why, but stix will not render other wise, 
            even if element is totally valid */
         var nodeIterator = doc.createNodeIterator(newElement, NodeFilter.SHOW_ELEMENT);
-        var currNode = null;
-        while (currNode = nodeIterator.nextNode()) {
+        var currNode = nodeIterator.nextNode();
+        while (currNode) {
           attrs = currNode.attributes;
-          for (var j = 0; j < attrs.length; j++) {
-            var attr = attrs[j];
+          for (j = 0; j < attrs.length; j++) {
+            attr = attrs[j];
             if (attr.prefix === "xmlns") {
               if (attr.localName !== "xsi") {
                 root.setAttributeNS(attr.namespaceURI, attr.nodeName, attr.value);
@@ -191,6 +194,7 @@ exports.report = function() {
               }
             }
           }
+          currNode = nodeIterator.nextNode();
         }
       }
       var newReport = new XMLSerializer().serializeToString(root);
@@ -199,7 +203,7 @@ exports.report = function() {
       return report;
     }
   } catch (e) {
-     alert("ERROR occurred during report building!");
+     window.alert("ERROR occurred during report building!");
      console.error(e);
      window.localStorage.clear();
   }

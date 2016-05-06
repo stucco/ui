@@ -36,6 +36,7 @@
     "elasticsearch": "~5.0",
     "express": "~4.11",
     "favicon-setter": "~0.1",
+    "filesaver.js": "^0.2.0",
     "getconfig": "~1.0",
     "helmet": "~0.5",
     "jade": "~1.9",

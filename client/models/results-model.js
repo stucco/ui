@@ -5,7 +5,7 @@ module.exports = AmpersandModel.extend({
   props: {
     _id: ['string', true, ''],
     vertexType: ['string', true, ''],
-    description: ['string', true, ''],
+    description: ['array', true, ''],
     name: ['string', true, '']
   },
   session: {

@@ -1,0 +1,487 @@
+g path {
+	shape-rendering: auto;
+}
+body {
+	font: 14px "Helvetica Neue", sans-serif;
+	margin: 0;
+}
+
+.chart {
+	fill: #fff;
+}
+
+.chart-title {
+	font-size: 12px;
+	font-weight: 300;
+	fill: #777;
+}
+.loading-message {
+	text-anchor: middle;
+	font-size: 12px;
+	font-weight: 300;
+	fill: #777;
+}
+
+.histogram-bar._overlay {
+	fill: #aaa;
+	stroke: #808080;
+	stroke-width: 1px;
+	opacity: 0;
+}
+
+.histogram-bar._overlay:hover {
+	opacity: 0.2;
+}
+
+.histogram-bar.temporal {
+	fill: #6baed6;
+	stroke: #5b9eb6;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.one {
+	fill: #aaa;
+	stroke: #808080;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.two {
+	fill: #6baed6;
+	stroke: #6baed6;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.A {
+	fill: #0F6729;
+	stroke: #0F6729;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.B {
+	fill: #367928;
+	stroke: #367928;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+.histogram-bar.C {
+	fill: #5E8C27;
+	stroke: #5E8C27;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.D {
+	fill: #7C9B27;
+	stroke: #7C9B27;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+/* d3-tip styles */
+
+.d3-tip {
+	line-height: 1.1;
+	font-size: 15px;
+	padding: 6px;
+	background: rgba(0,0,0,0.8);
+	color: #fff;
+	border-radius: 4px;
+	pointer-events: none;
+}
+
+.d3-tip .title {
+	color: #ffa500;
+	font-size: 1.1em;
+	line-height: 1.4;
+}
+
+.d3-tip .title:after {
+	color: #999;
+	content: "\00A0\2192\00A0";
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+	box-sizing: border-box;
+	display: inline;
+	font-size: 14px;
+	width: 100%;
+	line-height: 1;
+	color: rgba(0,0,0,0.8);
+	position: absolute;
+	pointer-events: none;
+}
+/* Northward tooltips */
+.d3-tip.n:after {
+	content: "\25BC";
+	margin: -3px 0 0 0;
+	top: 100%;
+	left: 0;
+	text-align: center;
+}
+/* Eastward tooltips */
+.d3-tip.e:after {
+	content: "\25C0";
+	margin: -4px 0 0 0;
+	top: 50%;
+	left: -8px;
+}
+/* Southward tooltips */
+.d3-tip.s:after {
+	content: "\25B2";
+	margin: 0 0 1px 0;
+	top: -12px;
+	left: 0;
+	text-align: center;
+}
+/* Westward tooltips */
+.d3-tip.w:after {
+	content: "\25B6";
+	margin: -4px 0 0 -1px;
+	top: 50%;
+	left: 100%;
+}
+/* Northwest tooltips */
+.d3-tip.nw:after {
+	content: "\25BC";
+	margin: -4px 0 0 0;
+	top: 100%;
+	left: 0;
+	text-align: right;
+}
+/* Northeast tooltips */
+.d3-tip.ne:after {
+	content: "\25BC";
+	margin: -4px 0 0 0;
+	top: 100%;
+	left: 0;
+	text-align: left;
+}
+
+/*Axis Styles*/
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #666;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-size: 12px;
+	font-weight: 300;
+	fill: #777;
+}
+
+.x.axis.upper {
+	text-transform: uppercase;
+}
+
+.x.axis.lower {
+	text-transform: lowercase;
+}
+
+/*Map Styles*/
+.land0 {
+	fill: #999;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land1 {
+	fill: #858585;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land2 {
+	fill: #707070;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land3 {
+	fill: #5c5c5c;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land4 {
+	fill: #474747;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land5 {
+	fill: #3d3d3d;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land6 {
+	fill: #333;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land7 {
+	fill: #252525;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land8 {
+	fill: #1f1f1f;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.landN {
+	fill: #ebebeb;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land0.selected {
+	fill: #b1c5fb;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land1.selected {
+	fill: #8ba8f9;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land2.selected {
+	fill: #648bf7;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land3.selected {
+	fill: #3d6ef5;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land4.selected {
+	fill: #1651f3;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land5.selected {
+	fill: #0b41d5;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land6.selected {
+	fill: #0935ae;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land7.selected {
+	fill: #072988;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.land8.selected {
+	fill: #051e61;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.landN.selected {
+	fill: #ebebeb;
+	stroke: #666;
+	stroke-width: 1px;
+}
+
+.boundary {
+	fill: none;
+	stroke: #666;
+	stroke-width: 0.5px;
+}
+
+/*Nav Styles*/
+nav {
+	width: 100%;
+	margin: 0 0 15px 0;
+	padding: 15px 10px;
+	background-color: #496873;
+}
+
+nav ul {
+	overflow: hidden;
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	list-style-type: none;
+	display: inline;
+	padding: 0 20px;
+}
+
+nav ul li a {
+	color: #eee;
+	text-align: center;
+	text-decoration: none;
+}
+
+nav ul li .active {
+	color: #fff;
+	font-weight: 800;
+}
+
+.ScatterHeatmapHybrid .markerCol {
+  stroke: #5B5B5B;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+  cursor: cell;
+}
+
+.ScatterHeatmapHybrid .markerCol:hover {
+  stroke: black;
+}
+
+.ScatterHeatmapHybrid .bin {
+  stroke: #5B5B5B;
+  stroke-width : px;
+  shape-rendering: crispEdges;
+}
+
+.ScatterHeatmapHybrid .point {
+  stroke: #FFF;
+  stroke-width: 1px;
+}
+
+.ScatterHeatmapHybrid .point:hover {
+  stroke: #000;
+  stroke-width : px;
+}
+
+.ScatterHeatmapHybrid .label {
+  fill: #999;
+  fill-opacity: 0.5;
+  font-size: 11px;
+  text-anchor: end;
+}
+
+.ScatterHeatmapHybrid .axis path,
+.ScatterHeatmapHybrid .axis line {
+  fill: none;
+  stroke: #666;
+  shape-rendering: crispEdges;
+}
+
+.ScatterHeatmapHybrid .axis text {
+  fill: #666;
+  font-size: 13px;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none ;
+  user-select: none;
+}
+
+.settings-menu {
+	background-color: #f2f2f2;
+	border-radius: 4px;
+	margin-top: -4px;
+	margin-left: 5px;
+	padding: 6px 15px;
+	border: 1px solid #d4d4d4;
+	left: -30px;
+}
+.settings-icon {
+	cursor: pointer;
+	left: -12px;
+}
+.settings-title {
+	height: 30px;
+	font-weight: bold;
+}
+.settings-option {
+	margin-bottom: 5px;
+}
+
+.settings-option label {
+	font-weight: 400;
+}
+.settings-option select {
+	float: right;
+	min-width: 100px;
+}
+.settings-option select option:hover {
+	background-color: #4677f8;
+	color: #fefefe;
+}
+
+.node {
+  stroke-width: 1.5px;
+  fill: #648BF7;
+}
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+.cocentricCircle{
+  stroke: #7f7f7f;
+  stroke-width: 3;
+  fill: none;
+}
+.topicStyle{
+  alignment-baseline: middle;
+  font-size: 12px;
+  font-weight: 300;
+  fill: #FFFAF0;
+}
+.barTopic{
+	fill-opacity: 0;
+  stroke-width: 3;
+}
+.barTopic.Selected{
+  stroke-width: 6;
+  stroke: #00ccff;
+}
+
+.lineMatch{
+  fill: none;
+  stroke-width: 4;
+	shape-rendering: geometricPrecision;
+}
+.lineMatch.Selected{
+  fill: none;
+  stroke-width: 10;
+}
+.text{
+  alignment-baseline: middle;
+}
+.enter.text{
+  fill: green;
+}
+.exit.text{
+  fill: red;
+}
+
+.scatter1 {
+	fill: #2171b5
+}
+.scatter2 {
+	fill: #7C9B27
+}
+.scatter3 {
+	fill: #E6550D
+}
+.scatter4 {
+	fill: #984EA3
+}

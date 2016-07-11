@@ -1,13 +1,22 @@
-STUCCO UI
-================
+Vis
+=======
 
-Web app for visualizing the STUCCO knowledge graph.
+Collection of React components for building visualizations.
+
+## Prequisites
+
+1. Node.js v4.2.3+
+2. React 15.1.0+
+
+
+## Installation
+
+Make sure [node.js](https://nodejs.org/) v4.2.3 or greater is installed. Then run: `npm install`.
 
 ## Usage
 
-1. Download [node.js](http://nodejs.org/). On a Mac, use [homebrew](http://brew.sh/): `brew install node`. On Ubuntu or other distributions, see [package manager instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions).
-1. Install dependencies and load data: `npm install`
-1. Start the web server: `npm start`
-1. Open http://localhost:3000 in a browser.
+To start the development server, run: `npm start`.
 
-Use `NODE_ENV` environment variable to set appropriate config (`dev` by default), which will determine the configuraiton file to be used (`dev_config.json`).
+To build (minification, etc.) the source for running in production, run: `npm run build`. The output will be in the `public` directory. To serve it, run: `npm run server`.
+
+To lint the code, run: `npm run lint`.

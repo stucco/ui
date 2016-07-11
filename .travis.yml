@@ -1,8 +1,0 @@
-language: node_js
-node_js:
- - "5"
- - "4"
-
-notifications:
-  slack: sava:lB0VBcWKom3VNlr126hyI04E
-

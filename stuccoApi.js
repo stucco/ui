@@ -253,7 +253,8 @@ exports.countNodes = function (req, res) {
     var q = req.query;
     var keys = Object.keys(q);
     var queryURL;
-    if (keys) {
+    if (keys && keys.length > 0) {
+      console.info("vertex count with keys:" + keys);
       var queryString = JSON.stringify(q);
       queryURL = graphUri + "/count/vertices?q=" + queryString;
     }

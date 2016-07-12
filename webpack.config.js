@@ -5,8 +5,8 @@ const HtmlPlugin = require('html-webpack-plugin')
 const merge = require('webpack-merge')
 
 const PATHS = {
-  lib: path.join(__dirname, 'src/components'),
-  example: path.join(__dirname, 'src')
+  lib: path.join(__dirname, 'src'),
+//  example: path.join(__dirname, 'examples')
 }
 const EXTERNALS = {
   react: {
@@ -52,7 +52,7 @@ const common = {
         test: /\.jsx?$/,
         loader: 'eslint',
         include: [
-          PATHS.example,
+//          PATHS.example,
           PATHS.lib
         ]
       }
@@ -88,10 +88,12 @@ const common = {
 if (TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     entry: {
-      example: PATHS.example
+      lib: PATHS.lib
+//      example: PATHS.example
     },
     devServer: {
-      contentBase: PATHS.example,
+//      contentBase: PATHS.example,
+      contentBase: PATHS.lib,
       historyApiFallback: true,
       hot: true,
       compress: true,
@@ -99,11 +101,12 @@ if (TARGET === 'start' || !TARGET) {
       progress: true,
       stats: 'errors-only',
       host: process.env.HOST || '0.0.0.0',
-      port: process.env.PORT || 8080
+      port: process.env.PORT || 8000
     },
     plugins: [
       new HtmlPlugin({
-        template: path.join(PATHS.example, 'index-template.html'),
+//        template: path.join(PATHS.example, 'index-template.html'),
+        template: path.join(PATHS.lib, 'index-template.html'),
         inject: 'body',
         filename: 'index.html'
       }),

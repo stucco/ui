@@ -5,9 +5,8 @@ import routes from './routes'
 import './css/flexboxgrid.min.css'
 import './css/vis.css'
 import './css/font-awesome.min.css'
-import './css/bootstrap.css'
-import './css/search.css'
 import './css/app.css'
+import './css/bootstrap.css'
 
 console.info('Serving examples from vis/examples')
 ReactDom.render(

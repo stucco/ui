@@ -19,7 +19,14 @@ class SearchBox extends React.Component {
   }
   handleSubmit (event) {
     event.preventDefault()
-    console.log('context = ', this.context)
+    var xhttp = new XMLHttpRequest()
+    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
+    xhttp.open('GET', 'http://localhost:8080/', true)
+    xhttp.send()
+    if (xhttp.readyState === 4 && xhttp.status === 200) {
+      var response = xhttp.responseText
+      console.log(response)
+    }
     this.context.router.push('/resultslist')
   }
   render () {

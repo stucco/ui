@@ -1,0 +1,13 @@
+{
+  "presets": ["es2015", "react"],
+  "plugins": [
+    "transform-object-assign",
+    "syntax-object-rest-spread",
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    }
+  }
+}

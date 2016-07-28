@@ -8,7 +8,6 @@ import './css/font-awesome.min.css'
 import './css/app.css'
 import './css/bootstrap.css'
 
-console.info('Serving examples from vis/examples')
 ReactDom.render(
   <div>{routes}</div>
   , document.getElementById('root')

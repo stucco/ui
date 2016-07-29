@@ -1,4 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router'
+
+import data from '../data/data'
 
 import cx from 'classnames'
 
@@ -19,21 +22,37 @@ class SearchBox extends React.Component {
   }
   handleSubmit (event) {
     event.preventDefault()
-    var xhttp = new XMLHttpRequest()
-    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
-    xhttp.open('GET', 'http://localhost:8080/', true)
-    xhttp.send()
-    if (xhttp.readyState === 4 && xhttp.status === 200) {
-      var response = xhttp.responseText
-      console.log(response)
+    // var xhttp = new XMLHttpRequest()
+    // xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
+    // xhttp.open('GET', 'http://localhost:8080/', true)
+    // xhttp.send()
+    // if (xhttp.readyState === 4 && xhttp.status === 200) {
+    //  var response = xhttp.responseText
+    //  console.log(response)
+    // }
+    // this.context.router.push('/resultslist')
+    console.log('starting search!!!!', this.state.value)
+    var response = []
+    var q = this.state.value.split('=')
+    var key = q[0]
+    var value = q[1]
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].hasOwnProperty(key)) {
+        if (data[i][key] === value) {
+          response.push(data[i])
+        }
+      }
     }
+    console.log(response)
     this.context.router.push('/resultslist')
+
+    return response
   }
   render () {
     return (
       <div>
         <div className='row'>
-          <form className='form-horizontal' onSubmit={this.handleSubmit} >
+          <form className='form-horizontal' autoComplete='on' >
             <div className='search-query-form'>
               <div className={cx('col-xs-6', 'col-xs-offset-2')}>
                 <div className='form-group'>
@@ -44,10 +63,10 @@ class SearchBox extends React.Component {
                   <input autoFocus='autoFocus' className={cx('input-lg', 'form-control')} name='search' placeholder='Search...' type='text' onChange={this.handleChange} />
                 </div>
               </div>
-              <div className='col-xs-2'>
-                <button type='submit' className={cx('btn', 'btn-lg', 'btn-primary')}>
-                  <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-search')}>Search</span>
-                </button>
+              <div className='col-xs-2' >
+                <Link to={{pathname: '/resultslist', query: {vertexType: 'malware'}}} className={cx('btn', 'btn-lg', 'btn-primary')} >
+                  <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-search')} >Search</span>
+                </Link>
               </div>
             </div>
           </form>
@@ -57,8 +76,8 @@ class SearchBox extends React.Component {
   }
 }
 
-SearchBox.contextTypes = {
-  router: React.PropTypes.object.isRequired
-}
+// SearchBox.propTypes = {
+//  name: React.PropTypes.string.isRequired
+// }
 
 export default SearchBox

@@ -1,41 +1,27 @@
 import React from 'react'
-
-// import cx from 'classnames'
+import { Link } from 'react-router'
+import cx from 'classnames'
 
 class Result extends React.Component {
-  constructor (props, context) {
-    super(props, context)
-    this.props = props
-    this.context = context
-  }
   render () {
     return (
       <li className='list-group-item'>
         <dl className='dl-horizontal-result'>
           <dt>
-            <a>Name</a>
+            <Link to='/details' data-vertex={this.props.vertex} >{this.props.vertex.name}</Link>
           </dt>
           <dd>
-            <span className='pull-right text-uppercase initialism'>Vertex Type</span>
-            <span>Description</span>
+            <span className={cx('pull-right', 'text-uppercase', 'initialism')} >{this.props.vertex.vertexType}</span>
+            <span>{this.props.vertex.description}</span>
           </dd>
         </dl>
       </li>
-/*
-      <li className='list-group-item'>
-        <dl className='dl-horizontal-result'>
-          <dt>
-            <a>{this.props.name}</a>
-          </dt>
-          <dd>
-            <span className='pull-right text-uppercase initialism'>{this.props.vertexType}</span>
-            <span>{this.props.description}</span>
-          </dd>
-        </dl>
-      </li>
-*/
     )
   }
+}
+
+Result.propTypes = {
+  vertex: React.PropTypes.object
 }
 
 export default Result

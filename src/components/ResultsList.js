@@ -2,13 +2,40 @@ import React from 'react'
 
 import cx from 'classnames'
 
+import data from '../data/data'
+
 import Result from './Result'
 
 class ResultsList extends React.Component {
-  constructor (props, context) {
-    super(props, context)
-    this.props = props
-    this.context = context
+  constructor () {
+    super()
+  //  this.props = props
+  //  console.log('this.props', this.props)
+  //  this.context = context
+    this.state = {
+      result: []
+    }
+  }
+  componentWillMount () {
+    console.log('about to mount')
+
+    var response = []
+  //  var q = this.state.value.split('=')
+  //  var key = q[0]
+  //  var value = q[1]
+    var key = 'vertexType'
+    var value = 'Malware'
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].hasOwnProperty(key)) {
+        if (data[i][key] === value) {
+          response.push(data[i])
+        }
+      }
+    }
+    console.log(response)
+
+    this.setState({result: response})
+    console.log(this.state)
   }
   render () {
     return (
@@ -40,7 +67,9 @@ class ResultsList extends React.Component {
             </div>
           </div>
         </div>
-        <Result />
+        <div>
+          {this.state.result.map((vertex, i) => <Result key={i} vertex={vertex} />)}
+        </div>
       </section>
     )
   }

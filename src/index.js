@@ -6,6 +6,7 @@ import './css/flexboxgrid.min.css'
 import './css/vis.css'
 import './css/font-awesome.min.css'
 import './css/app.css'
+import './css/amy.css'
 import './css/bootstrap.css'
 
 ReactDom.render(

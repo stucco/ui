@@ -11,7 +11,6 @@ export default class StixGraph extends React.Component {
   }
 
   mycustomfunction (stuff) {
-    
     console.log('Im a custom function' + stuff)
   }
 
@@ -37,7 +36,7 @@ export default class StixGraph extends React.Component {
             <rect id="CMP" x="312" y="282" width="100" height="100" rx="8"></rect>
             <rect id="ACT" x="0" y="282" width="100" height="100" rx="8"></rect>
           </g>
-          <g id="Labels" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(323.000000, 451.000000)" font-size="12" font-family="AvenirNext-Bold, Avenir Next" font-weight="bold">
+          <g id="Labels" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(323.000000, 451.000000)" fontSize="12" fontFamily="AvenirNext-Bold, Avenir Next" fontWeight="bold">
             <text id="OBSCount" fill="#4A4A4A">
               <tspan x="164" y="12">NUMBER</tspan>
             </text>

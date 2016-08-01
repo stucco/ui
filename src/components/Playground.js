@@ -27,7 +27,9 @@ export default class Playground extends React.Component {
 
 Playground.defaultProps = {
   data: sampleData,
-  graphSize: sampleData.length
+  graphSize: sampleData.length,
+  graphHeight: 750,
+  graphWidth: 750
 }
 
 Playground.propTypes = {

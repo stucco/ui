@@ -1,13 +1,35 @@
 import React from 'react'
+import StixGraph from './base/StixGraph.js'
+import sampleData from '../data/data.json'
 
-class Playground extends React.Component {
+export default class Playground extends React.Component {
+
+  constructor (props) { // LEARN: constructor called every time class is instantiated
+    super(props) // LEARN: calls the parent's constructor
+    this.state = {
+    }
+    console.log('CONSTRUCTOR playground STATE', this.state)
+    console.log('CONSTRUCTOR playground PROPS', this.props)
+  }
+
+  componentWillMount () { // LEARN: react lifecycle function called JUST BEFORE rendering
+  }
+
   render () {
     return (
       <div id='Playground'>
-        <p> I am a placeholder for a Playground </p>
+        <p> I am the playground component </p>
+        <StixGraph {...this.props} />
       </div>
     )
   }
 }
 
-export default Playground
+Playground.defaultProps = {
+  data: sampleData,
+  graphSize: sampleData.length
+}
+
+Playground.propTypes = {
+  ...StixGraph.propTypes
+}

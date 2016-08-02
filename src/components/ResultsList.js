@@ -9,22 +9,14 @@ import Result from './Result'
 class ResultsList extends React.Component {
   constructor () {
     super()
-  //  this.props = props
-  //  console.log('this.props', this.props)
-  //  this.context = context
     this.state = {
       result: []
     }
   }
   componentWillMount () {
-    console.log('about to mount')
-
     var response = []
-  //  var q = this.state.value.split('=')
-  //  var key = q[0]
-  //  var value = q[1]
-    var key = 'vertexType'
-    var value = 'Malware'
+    var key = Object.keys(this.props.location.query)[0]
+    var value = this.props.location.query[key]
     for (var i = 0; i < data.length; i++) {
       if (data[i].hasOwnProperty(key)) {
         if (data[i][key] === value) {
@@ -32,8 +24,6 @@ class ResultsList extends React.Component {
         }
       }
     }
-    console.log(response)
-
     this.setState({result: response})
     console.log(this.state)
   }
@@ -73,6 +63,11 @@ class ResultsList extends React.Component {
       </section>
     )
   }
+}
+
+ResultsList.propTypes = {
+  location: React.PropTypes.object,
+  query: React.PropTypes.object
 }
 
 export default ResultsList

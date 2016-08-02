@@ -1,6 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 class Details extends React.Component {
+  componentWillMount () {
+    console.log('props: ', this.props)
+  }
   render () {
     return (
       <div>
@@ -21,9 +25,9 @@ class Details extends React.Component {
             <div className="panel-body">
               <dl className="dl-horizontal">
                 <dt>Name</dt>
-                <dd ></dd>
+                <dd >{this.props.vertex.name}</dd>
                 <dt>Description</dt>
-                <dd ></dd>
+                <dd >{this.props.vertex.description}</dd>
                 <span ></span>
                 <dt>Source Document</dt>
                 <dd>
@@ -64,7 +68,7 @@ class Details extends React.Component {
                     </button>
                   </div>
                   <div className="xml">
-                    <pre></pre>
+                    <pre>{this.props.vertex.sourceDocument}</pre>
                   </div>
                 </dd>
                 <dt>&nbsp;</dt>
@@ -114,4 +118,12 @@ Details.propTypes = {
   vertex: React.PropTypes.object
 }
 
-export default Details
+const mapStateToProps = function (store) {
+  console.log('store -> ', store)
+  return {
+    vertex: store.vertex.vertex
+  }
+}
+
+export default connect(mapStateToProps)(Details)
+// export default Details

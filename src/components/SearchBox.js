@@ -9,6 +9,7 @@ class SearchBox extends React.Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
+      key: '',
       value: ''
     }
     this.context = context
@@ -17,8 +18,13 @@ class SearchBox extends React.Component {
   }
   handleChange (event) {
     console.log(event.target.value)
-    this.setState({value: event.target.value})
+    let query = event.target.value.split('=')
+    this.setState({key: query[0], value: query[1]})
     console.log('state.value = ', this.state.value)
+    console.log('state.key = ', this.state.key)
+  //  this.state.key = query[0]
+  //  this.state.value = query[1]
+    // console.log('store = ', store)
   }
   handleSubmit (event) {
     event.preventDefault()
@@ -49,6 +55,12 @@ class SearchBox extends React.Component {
     return response
   }
   render () {
+    console.log('from renderign: ', this.state)
+    const { key, value } = this.state
+    console.log(key)
+    console.log(value)
+    const query = {}
+    query[key] = value
     return (
       <div>
         <div className='row'>
@@ -64,7 +76,7 @@ class SearchBox extends React.Component {
                 </div>
               </div>
               <div className='col-xs-2' >
-                <Link to={{pathname: '/resultslist', query: {vertexType: 'malware'}}} className={cx('btn', 'btn-lg', 'btn-primary')} >
+                <Link to={{pathname: '/resultslist', query}} className={cx('btn', 'btn-lg', 'btn-primary')} >
                   <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-search')} >Search</span>
                 </Link>
               </div>

@@ -3,7 +3,7 @@ import React from 'react'
 class SideBar extends React.Component {
   render () {
     return (
-      <div id='SideBar'>
+      <div id='sidebar'>
         <p> I am a placeholder for a SideBar </p>
       </div>
     )

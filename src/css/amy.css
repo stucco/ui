@@ -1,3 +1,18 @@
+#header {
+  background-color: #61c788;
+}
+
+#sidebar{
+  background-color: #64c9a9;
+}
+
+#playground{
+  background-color: #67ccca;
+}
+
+#stixgraph{
+  background-color: lightgrey;
+}
 
 #IND {
   fill: #fcc438;

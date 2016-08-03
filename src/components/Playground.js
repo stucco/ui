@@ -31,7 +31,7 @@ export default class Playground extends React.Component {
 
   render () {
     return (
-      <div id='Playground'>
+      <div id='playground'>
         <p> I am the playground component </p>
         <StixGraph {...this.props} />
       </div>

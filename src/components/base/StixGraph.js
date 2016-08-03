@@ -206,7 +206,7 @@ export default class StixGraph extends React.Component {
     let graphHeight = this.props.graphHeight
     // #TODO: replace paths with svg rectangles from sketch
     return (
-      <div id='StixGraph'>
+      <div id='stixgraph'>
         <p> I am a graph of the stix ontology </p>
         <svg width={graphWidth} height={graphHeight} viewBox="300 408 1211 388" >
           <g id="Entities" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(300.000000, 408.000000)">

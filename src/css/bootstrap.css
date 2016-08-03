@@ -16,7 +16,7 @@ body {
 
 .xml {
   white-space: pre-wrap;
-  display: none;
+/*  display: none; */
 }
 
 .download {

@@ -70,6 +70,8 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "lodash": "^4.13.1",
+    "pretty-data": "^0.40.0",
+    "react-file-download": "^0.3.1",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2"
   }

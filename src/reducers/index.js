@@ -12,6 +12,22 @@ function vertex (state = {}, action) {
   }
 }
 
+function report (state = {}, action) {
+  switch (action.type) {
+    case 'ADD_TO_REPORT':
+      var newReport = {}
+      newReport[action.report.id] = action.report.xml
+      return Object.assign({}, state, newReport)
+    case 'GET_REPORT':
+      return state
+    case 'CLEAR_REPORT':
+      return {}
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
-  vertex
+  vertex,
+  report
 })

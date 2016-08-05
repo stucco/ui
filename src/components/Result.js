@@ -30,7 +30,7 @@ class Result extends React.Component {
       <li className='list-group-item'>
         <dl className='dl-horizontal-result'>
           <dt>
-            <Link to={'/details/' + this.props.vertex.name} onClick={this.handleDetails}>{this.props.vertex.name}</Link>
+            <Link to={'/details/' + encodeURIComponent(this.props.vertex.name)} onClick={this.handleDetails}>{this.props.vertex.name}</Link>
           </dt>
           <dd>
             <span className={cx('pull-right', 'text-uppercase', 'initialism')} >{this.props.vertex.vertexType}</span>

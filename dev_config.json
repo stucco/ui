@@ -1,0 +1,25 @@
+{
+  "isDev": true,
+  "isSecure": false,
+  "session": {
+    "secure": false
+  },
+  "http": {
+    "listen": "160.91.76.150",
+    "port": 8000
+  },
+  "client": {
+    "apiUrl": "http://160.91.76.150:8000",
+    "debugMode": true
+  },
+  "graphServer": {
+    "graphHost": "localhost",
+    "graphPort": 8080,
+    "graphRootPath": "api",
+    "graphName": "",
+    "isRexster": false
+  },
+  "indices": {
+    "fulltext": ["description", "comments", "details", "shortDescription", "solution", "removal", "behavior"]
+  }
+}

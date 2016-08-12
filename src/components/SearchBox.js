@@ -17,27 +17,11 @@ class SearchBox extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange (event) {
-    console.log(event.target.value)
     let query = event.target.value.split('=')
     this.setState({key: query[0], value: query[1]})
-    console.log('state.value = ', this.state.value)
-    console.log('state.key = ', this.state.key)
-  //  this.state.key = query[0]
-  //  this.state.value = query[1]
-    // console.log('store = ', store)
   }
   handleSubmit (event) {
     event.preventDefault()
-    // var xhttp = new XMLHttpRequest()
-    // xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
-    // xhttp.open('GET', 'http://localhost:8080/', true)
-    // xhttp.send()
-    // if (xhttp.readyState === 4 && xhttp.status === 200) {
-    //  var response = xhttp.responseText
-    //  console.log(response)
-    // }
-    // this.context.router.push('/resultslist')
-    console.log('starting search!!!!', this.state.value)
     var response = []
     var q = this.state.value.split('=')
     var key = q[0]
@@ -49,20 +33,16 @@ class SearchBox extends React.Component {
         }
       }
     }
-    console.log(response)
     this.context.router.push('/resultslist')
 
     return response
   }
   render () {
-    console.log('from renderign: ', this.state)
     const { key, value } = this.state
-    console.log(key)
-    console.log(value)
     const query = {}
     query[key] = value
     return (
-      <div>
+      <div className='container-fluid'>
         <div className='row'>
           <form className='form-horizontal' autoComplete='on' >
             <div className='search-query-form'>
@@ -87,9 +67,5 @@ class SearchBox extends React.Component {
     )
   }
 }
-
-// SearchBox.propTypes = {
-//  name: React.PropTypes.string.isRequired
-// }
 
 export default SearchBox

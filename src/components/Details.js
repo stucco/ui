@@ -1,19 +1,63 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import prettyData from 'pretty-data'
 import fileDownload from 'react-file-download'
 import { buildReport } from '../helpers/ReportBuilder'
+import { getEdges } from '../helpers/StuccoApi'
+import { connect } from 'react-redux'
+// import cx from 'classnames'
 
 import Property from './Property'
+import EdgeResult from './EdgeResult'
 import SourceDocument from './SourceDocument'
 
 class Details extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      showStix: false
+      showStix: false,
+      inEdges: [],
+      outEdges: []
     }
     this.handleShowStix = this.handleShowStix.bind(this)
+    this.getInEdgesCallback = this.getInEdgesCallback.bind(this)
+    this.getOutEdgesCallback = this.getOutEdgesCallback.bind(this)
+  }
+  getInEdgesCallback (res) {
+    this.setState({inEdges: res.send.results})
+  }
+  getOutEdgesCallback (res) {
+    this.setState({outEdges: res.send.results})
+  }
+  componentWillMount () {
+    var reqIn = {
+      params: {
+        id: this.props.vertex._id
+      },
+      query: {
+        pageSize: 10,
+        page: 0,
+        inEdges: true,
+        outEdges: false
+      }
+    }
+    getEdges(reqIn, {}, this.getInEdgesCallback)
+    var reqOut = {
+      params: {
+        id: this.props.vertex._id
+      },
+      query: {
+        pageSize: 10,
+        page: 0,
+        inEdges: false,
+        outEdges: true
+      }
+    }
+    getEdges(reqOut, {}, this.getOutEdgesCallback)
+  }
+  componentWillUnmount () {
+    if (window.localStorage.getItem('report') !== null) {
+      window.localStorage.removeItem('report')
+    }
   }
   handleShowStix () {
     this.setState({
@@ -56,8 +100,12 @@ class Details extends React.Component {
         fileDownload(prettyReport, 'stix-report.xml')
       }
     }
+    function handleShowReport () {
+      var prettyReport = prettyData.pd.xml(buildReport(report))
+      window.localStorage.setItem('report', prettyReport)
+    }
     return (
-      <div>
+      <div className='container-fluid'>
         <section className="page alert-details">
           <div className="panel panel-primary">
             <div className="panel-heading">
@@ -67,9 +115,9 @@ class Details extends React.Component {
                 </button>
               </div>
               <h3 className="panel-title">
-                <span ></span>
-                <span>&nbsp; &#10230; &nbsp;</span>
-                <span ></span>
+                <span >{this.props.vertex.vertexType}</span>
+                <span>&nbsp; ⟶ &nbsp;</span>
+                <span >{this.props.vertex._id}</span>
               </h3>
             </div>
             <div className="panel-body">
@@ -115,10 +163,10 @@ class Details extends React.Component {
                       <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
                       Add To Report
                     </button>
-                    <button className="btn btn-default">
+                    <a href='../stix-to-html/stix.html' target="_blank" className="btn btn-default" onClick={handleShowReport}>
                       <span aria-hidden="true" className="glyphicon glyphicon-book"></span>
                       Show Report
-                    </button>
+                    </a>
                     <button className="btn btn-default" onClick={handleClearReport}>
                       <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
                       Clear Report
@@ -136,7 +184,9 @@ class Details extends React.Component {
                 <dd>&nbsp;</dd>
                 <dt>Incoming Edges</dt>
                 <dd>
-                  <ul style={{paddingLeft: 0}} className="inEdgeList"></ul>
+                  <ul style={{paddingLeft: 0}} className="inEdgeList">
+                  {this.state.inEdges.map((vertex, i) => <EdgeResult type={'inEdges'} key={i} vertex={vertex[0]} />)}
+                  </ul>
                   <nav>
                     <ul className="pager">
                       <li className="previous disabled">
@@ -154,7 +204,9 @@ class Details extends React.Component {
                 </dd>
                 <dt>Outgoing Edges</dt>
                 <dd>
-                  <ul style={{paddingLeft: 0}} className="outEdgeList"></ul>
+                  <ul style={{paddingLeft: 0}} className="outEdgeList">
+                  {this.state.outEdges.map((vertex, i) => <EdgeResult type={'outEdges'} key={i} vertex={vertex[2]} />)}
+                  </ul>
                   <nav>
                     <ul className="pager">
                       <li className="previous disabled">

@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<link href="/stix-to-html/common.css" rel="stylesheet" type="text/css"/>
+		<link href="/stix-to-html/theme_default.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" language="javascript" src="/Saxonce/Saxonce.nocache.js"></script>
+		<script>
+			var onSaxonLoad = function() {
+				var file = window.localStorage.getItem("report");
+  	//		var parser = new DOMParser();
+  		//	var xml = parser.parseFromString(file, "text/xml");
+  		//	var xml = Saxon.requestXML("/stix-to-html/examples/STIX_Phishing_Indicator.xml")
+  		//	var xml = file;
+  		  var xml = Saxon.parseXML(file);
+  			var xsl = Saxon.requestXML("/stix-to-html/stix_to_html.xsl");
+  			var proc = Saxon.newXSLT20Processor(xsl);
+  			proc.updateHTMLDocument(xml);
+			};
+		</script>
+	</head>
+</html>
+

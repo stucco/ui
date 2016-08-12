@@ -7,16 +7,18 @@ import ResultsList from './components/ResultsList'
 import Home from './containers/Home'
 import Help from './containers/Help'
 import Search from './containers/Search'
+import RenderStix from './components/RenderStix'
 
 const reactRouterRoutes = (
   <Router history={browserHistory}>
     <Route path='/' component={App}>
-      <IndexRedirect to='home' />
+      <IndexRedirect to='search' />
       <Route path='home' component={Home} />
       <Route path='search' component={Search} />
       <Route path='resultslist' component={ResultsList} />
       <Route path='details/:id' component={Details} />
       <Route path='help' component={Help} />
+      <Route path='renderstix' component={RenderStix} />
     </Route>
   </Router>
 )

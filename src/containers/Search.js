@@ -12,14 +12,12 @@ class Search extends React.Component {
   render () {
     return (
       <div className='container-fluid'>
-        <main data-hook='page-container'>
-          <section className={cx('page', 'active')}>
-            <div className='search-query-title'>
-              <h1>Stucco</h1>
-            </div>
-            <SearchBox />
-          </section>
-        </main>
+        <section className={cx('page', 'active')}>
+          <div className='search-query-title'>
+            <h1>Stucco</h1>
+          </div>
+          <SearchBox />
+        </section>
       </div>
     )
   }

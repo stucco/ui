@@ -13,16 +13,12 @@ class Result extends React.Component {
   }
   handleDetails () {
     const vertex = this.props.vertex
-    console.log(vertex)
     const action = {
       type: 'SET_VERTEX',
       vertex: {
         vertex
       }
     }
-    console.log('handling details .... ')
-    console.log('Result props -> look for dispatch: ', this.props)
-    console.log('action -> ', action)
     this.props.dispatch(action)
   }
   render () {

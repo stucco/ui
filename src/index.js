@@ -6,9 +6,9 @@ import { createStore } from 'redux'
 
 import reducer from './reducers'
 
-import './css/flexboxgrid.min.css'
-import './css/vis.css'
-import './css/font-awesome.min.css'
+// import './css/flexboxgrid.min.css'
+// import './css/vis.css'
+// import './css/font-awesome.min.css'
 import './css/app.css'
 import './css/bootstrap.css'
 
@@ -24,3 +24,5 @@ ReactDom.render(
   </Provider>
   , document.getElementById('root')
 )
+
+export default store

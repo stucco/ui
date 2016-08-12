@@ -100,7 +100,7 @@ if (TARGET === 'start' || !TARGET) {
       inline: true,
       progress: true,
       stats: 'errors-only',
-      host: process.env.HOST || '0.0.0.0',
+      host: process.env.HOST || 'localhost',
       port: process.env.PORT || 8000
     },
     plugins: [

@@ -21,6 +21,7 @@ if (isRexster) {
 // Query a node based on an ID.
 // Usage: curl -XGET :3000/api/nodes/<id>/inEdges
 // Returns: JSON array of triples of objects associated with the requested ID, or an error object
+
 export function getEdges (req, res, callback) {
   var id = encodeURIComponent(req.params.id)
   var err
@@ -40,7 +41,9 @@ export function getEdges (req, res, callback) {
   var rexsterPaging
   var gremlinFiltering
   var queryString
-  if (req.query.inEdges) {
+
+  var type = req.query.type
+  if (type === 'inEdges') {
     if (isRexster) {
       gremlinQ = 'g.v("' + id + '")'
       rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true'
@@ -64,14 +67,16 @@ export function getEdges (req, res, callback) {
           console.error(error)
           res['status'] = 500
           res['send'] = {error: err, query: queryURL}
+
           return callback(res)
         }
         res['status'] = response.statusCode
         res['send'] = JSON.parse(body)
+
         return callback(res)
       }
     )
-  } else if (req.query.outEdges) {
+  } else if (type === 'outEdges') {
     if (isRexster) {
       gremlinQ = 'g.v("' + id + '")'
       rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true'
@@ -98,15 +103,20 @@ export function getEdges (req, res, callback) {
           console.error(error)
           res['status'] = 500
           res['send'] = {error: err, query: queryURL}
+
           return callback(res)
         }
         res['status'] = response.statusCode
         res['send'] = JSON.parse(body)
+
         return callback(res)
       }
     )
   } else {
     console.error('Unknown edge type in request ' + JSON.stringify(req.query) + '\'!')
+    res['send']['results'] = []
+
+    return callback(res)
   }
 }
 
@@ -189,11 +199,7 @@ export function search (req, res, callback) {
 
   var queryURL
   if (isRexster) {
-    // Set the gremlin query.
     var gremlinQ = '?script=g.V("' + key + '","' + val + '")'
-  //  if (_.contains(config.indices.fulltext, key)) {
-  //    gremlinQ = '?script=g.query().has("' + key + '",CONTAINS,"' + val + '").vertices()'
-  //  }
     var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true'
     queryURL = graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging
   } else {
@@ -216,10 +222,79 @@ export function search (req, res, callback) {
         res['status'] = status
       }
       res['send'] = JSON.parse(body)
+      console.log('found: ' + res['send'])
       return callback(res)
     }
   )
 }
+
+/*
+export function search (req, res) {
+  console.log(req)
+  var status = 200
+  var q = req.query
+  var err
+
+  var pageSize = 20
+  if (req.query.pageSize) {
+    pageSize = Number(req.query.pageSize)
+  }
+  var page = 0
+  if (req.query.page) {
+    page = Number(req.query.page)
+  }
+  var start = Number(pageSize * page)
+  var end = Number(start + pageSize)
+
+  // Get the first key - other key/values are ignored
+  var keys = Object.keys(q)
+  if (!keys) {
+    err = 'Malformed search query: no query defined.'
+    console.warn(err)
+    return res.status(500).send({error: err})
+  }
+  var key = keys[0]
+  var val = q[key]
+  if (!val) {
+    err = 'Malformed search query: no value defined. Query: ' + JSON.stringify(q)
+    console.warn(err)
+    return res.status(500).send({error: err})
+  }
+
+  var queryURL
+  if (isRexster) {
+    // Set the gremlin query.
+    var gremlinQ = '?script=g.V("' + key + '","' + val + '")'
+  //  if (_.contains(config.indices.fulltext, key)) {
+  //    gremlinQ = '?script=g.query().has("' + key + '",CONTAINS,"' + val + '").vertices()'
+  //  }
+    var rexsterPaging = '&rexster.offset.start=' + start + '&rexster.offset.end=' + end + '&returnTotal=true'
+    queryURL = graphUri + '/tp/gremlin' + gremlinQ + rexsterPaging
+  } else {
+    var queryString = JSON.stringify(q)
+    queryURL = graphUri + '/search?q=' + queryString
+  }
+  xhr(queryURL,
+    function (error, response, body) {
+      if (error) {
+        err = 'Error executing search query: ' + error
+        console.error(error)
+        res['status'] = 500
+        res['send'] = {error: err, query: queryURL}
+        return res
+      }
+      status = response.statusCode
+      if ((JSON.parse(body)).count === 0) {
+        res['status'] = 404
+      } else {
+        res['status'] = status
+      }
+      res['send'] = JSON.parse(body)
+      return res
+    }
+  )
+}
+*/
 
 // Get the count of nodes or edges in the graph
 // Usage: curl -XGET :3000/api/count

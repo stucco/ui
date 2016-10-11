@@ -2,57 +2,23 @@ import React from 'react'
 import prettyData from 'pretty-data'
 import fileDownload from 'react-file-download'
 import { buildReport } from '../helpers/ReportBuilder'
-import { getEdges } from '../helpers/StuccoApi'
 import { connect } from 'react-redux'
-// import cx from 'classnames'
+import cx from 'classnames'
 
 import Property from './Property'
-import EdgeResult from './EdgeResult'
+import EdgeResultsList from './EdgeResultsList'
 import SourceDocument from './SourceDocument'
+
+import { ADD_TO_REPORT, CLEAR_REPORT } from '../redux/actions'
 
 class Details extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      showStix: false,
-      inEdges: [],
-      outEdges: []
+      showStix: false
     }
+
     this.handleShowStix = this.handleShowStix.bind(this)
-    this.getInEdgesCallback = this.getInEdgesCallback.bind(this)
-    this.getOutEdgesCallback = this.getOutEdgesCallback.bind(this)
-  }
-  getInEdgesCallback (res) {
-    this.setState({inEdges: res.send.results})
-  }
-  getOutEdgesCallback (res) {
-    this.setState({outEdges: res.send.results})
-  }
-  componentWillMount () {
-    var reqIn = {
-      params: {
-        id: this.props.vertex._id
-      },
-      query: {
-        pageSize: 10,
-        page: 0,
-        inEdges: true,
-        outEdges: false
-      }
-    }
-    getEdges(reqIn, {}, this.getInEdgesCallback)
-    var reqOut = {
-      params: {
-        id: this.props.vertex._id
-      },
-      query: {
-        pageSize: 10,
-        page: 0,
-        inEdges: false,
-        outEdges: true
-      }
-    }
-    getEdges(reqOut, {}, this.getOutEdgesCallback)
   }
   componentWillUnmount () {
     if (window.localStorage.getItem('report') !== null) {
@@ -79,20 +45,10 @@ class Details extends React.Component {
       fileDownload(prettySourceDocument, vertexName + '.xml')
     }
     function handleAddToReport () {
-      var action = {
-        type: 'ADD_TO_REPORT',
-        report: {
-          xml: prettySourceDocument,
-          id: id
-        }
-      }
-      dispatch(action)
+      dispatch(ADD_TO_REPORT(prettySourceDocument, id))
     }
     function handleClearReport () {
-      var action = {
-        type: 'CLEAR_REPORT'
-      }
-      dispatch(action)
+      dispatch(CLEAR_REPORT)
     }
     function handleDownloadReport () {
       if (report !== null && report !== undefined && Object.keys(report).length !== 0) {
@@ -106,22 +62,22 @@ class Details extends React.Component {
     }
     return (
       <div className='container-fluid'>
-        <section className="page alert-details">
-          <div className="panel panel-primary">
-            <div className="panel-heading">
-              <div className="pull-right">
-                <button type="button" aria-label="Close" className="close">
-                  <span aria-hidden="true">&times;</span>
+        <section className={cx('page', 'alert-details')}>
+          <div className={cx('panel', 'panel-primary')}>
+            <div className='panel-heading'>
+              <div className='pull-right'>
+                <button type='button' aria-label='Close' className='close'>
+                  <span aria-hidden='true'>&times;</span>
                 </button>
               </div>
-              <h3 className="panel-title">
+              <h3 className='panel-title'>
                 <span >{this.props.vertex.vertexType}</span>
                 <span>&nbsp; ⟶ &nbsp;</span>
-                <span >{this.props.vertex._id}</span>
+                <span >{this.props.vertex.name}</span>
               </h3>
             </div>
-            <div className="panel-body">
-              <dl className="dl-horizontal">
+            <div className='panel-body'>
+              <dl className='dl-horizontal'>
                 <dt>Name</dt>
                 <dd >{this.props.vertex.name}</dd>
                 <dt>Description</dt>
@@ -130,7 +86,7 @@ class Details extends React.Component {
                   {
                     this.mapObject(this.props.vertex, function (key, value) {
                       if (key !== 'description' && key !== 'name' && key !== 'sourceDocument' && key !== '_id') {
-                        if (value.constructor === Array) {
+                        if (value.dtructor === Array) {
                           value = value.toString()
                         }
                         return <Property key={key} propertyName={key} propertyValue={value} />
@@ -145,34 +101,34 @@ class Details extends React.Component {
                       <tr>
                         <td>
                           <form>
-                            <input type="checkbox" style={{marginRight: '5px'}} onClick={this.handleShowStix} />
+                            <input type='checkbox' style={{marginRight: '5px'}} onClick={this.handleShowStix} />
                             Show STIX
                           </form>
                         </td>
                         <td>
-                          <button className="btn btn-default" onClick={handleDownloadStix}>
-                            <span aria-hidden="true" className="glyphicon glyphicon-download"></span>
+                          <button className={cx('btn', 'btn-default')} onClick={handleDownloadStix}>
+                            <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-download')}></span>
                             Download STIX
                           </button>
                         </td>
                       </tr>
                     </tbody >
                   </table>
-                  <div role="group" className="btn-group">
-                    <button className="btn btn-default" onClick={handleAddToReport}>
-                      <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
+                  <div role='group' className='btn-group'>
+                    <button className={cx('btn', 'btn-default')} onClick={handleAddToReport}>
+                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-plus')}></span>
                       Add To Report
                     </button>
-                    <a href='../stix-to-html/stix.html' target="_blank" className="btn btn-default" onClick={handleShowReport}>
-                      <span aria-hidden="true" className="glyphicon glyphicon-book"></span>
+                    <a href='../stix-to-html/stix.html' target='_blank' className={cx('btn', 'btn-default')} onClick={handleShowReport}>
+                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-book')}></span>
                       Show Report
                     </a>
-                    <button className="btn btn-default" onClick={handleClearReport}>
-                      <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
+                    <button className={cx('btn', 'btn-default')} onClick={handleClearReport}>
+                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-remove')}></span>
                       Clear Report
                     </button>
-                    <button className="btn btn-default" onClick={handleDownloadReport}>
-                      <span aria-hidden="true" className="glyphicon glyphicon-download-alt"></span>
+                    <button className={cx('btn', 'btn-default')} onClick={handleDownloadReport}>
+                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-download-alt')}></span>
                       Download Report
                     </button>
                   </div>
@@ -183,41 +139,9 @@ class Details extends React.Component {
                 <dt>&nbsp;</dt>
                 <dd>&nbsp;</dd>
                 <dt>Incoming Edges</dt>
-                <dd>
-                  <ul style={{paddingLeft: 0}} className="inEdgeList">
-                  {this.state.inEdges.map((vertex, i) => <EdgeResult type={'inEdges'} key={i} vertex={vertex[0]} />)}
-                  </ul>
-                  <nav>
-                    <ul className="pager">
-                      <li className="previous disabled">
-                        <a href="#">
-                          <span aria-hidden="true">&larr;</span>
-                          Previous
-                        </a>
-                      </li>
-                      <li className="next">
-                        <a href="#">Next <span aria-hidden="true">&rarr;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                </dd>
+                <EdgeResultsList type={'inEdges'} id={this.props.vertex._id} />
                 <dt>Outgoing Edges</dt>
-                <dd>
-                  <ul style={{paddingLeft: 0}} className="outEdgeList">
-                  {this.state.outEdges.map((vertex, i) => <EdgeResult type={'outEdges'} key={i} vertex={vertex[2]} />)}
-                  </ul>
-                  <nav>
-                    <ul className="pager">
-                      <li className="previous disabled">
-                        <a href="#"><span aria-hidden="true">&larr;</span> Previous</a>
-                      </li>
-                      <li className="next">
-                        <a href="#">Next <span aria-hidden="true">&rarr;</span></a>
-                      </li>
-                    </ul>
-                  </nav>
-                </dd>
+                <EdgeResultsList type={'outEdges'} id={this.props.vertex._id} />
               </dl>
             </div>
           </div>

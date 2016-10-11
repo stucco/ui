@@ -29,7 +29,9 @@ class Result extends React.Component {
             <Link to={'/details/' + encodeURIComponent(this.props.vertex.name)} onClick={this.handleDetails}>{this.props.vertex.name}</Link>
           </dt>
           <dd>
-            <span className={cx('pull-right', 'text-uppercase', 'initialism')} >{this.props.vertex.vertexType}</span>
+            <span className={cx('pull-right', 'text-uppercase', 'initialism')} >
+              {(this.props.vertex.hasOwnProperty('observableType') && this.props.vertex.vertexType !== 'IP') ? this.props.vertex.observableType : this.props.vertex.vertexType}
+            </span>
             <span>{this.props.vertex.description}</span>
           </dd>
         </dl>
@@ -42,7 +44,5 @@ Result.propTypes = {
   vertex: React.PropTypes.object,
   dispatch: React.PropTypes.func
 }
-
-// export default Result
 
 export default connect()(Result)

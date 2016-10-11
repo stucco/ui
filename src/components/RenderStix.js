@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import stix from '../stix-to-html/stix'
 
 class RenderStix extends React.Component {
   render () {

@@ -13,7 +13,7 @@ class Property extends React.Component {
 
 Property.propTypes = {
   propertyName: React.PropTypes.string,
-  propertyValue: React.PropTypes.string
+  propertyValue: React.PropTypes.any
 }
 
 export default Property

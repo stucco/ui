@@ -1,0 +1,12 @@
+search-query-title {
+  margin-top: 50px;
+  text-align: center;
+}
+
+search-query-title h1 {
+  letter-spacing: .2em;
+}
+
+search-query-form {
+  margin-top: 30px;
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/",
+    "page": "./pages/home",
+    "chunk": "main"
+  },
+  {
+    "path": "/help",
+    "page": "./pages/Help"
+  },
+  {
+    "path": "/resultslist/search/:key=:value&page=:pNumber&pageSize=:pSize",
+    "page": "./pages/ResultsList",
+    "data": {
+      "vertex": "http://localhost:8080/api/search?q={key:value,page:pNumber,pageSize:pSize}"
+    },
+    "chunk": "main"
+  },
+  {
+    "path": "/details/:id",
+    "page": "./pages/Details",
+    "data": {
+      "vertex": "http://localhost:8080/api/vertex/id"
+    },
+    "chunk": "main"
+  },
+  {
+    "path": "/error",
+    "page": "./pages/Error",
+    "chunk": "main"
+  }
+]

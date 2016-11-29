@@ -20,7 +20,6 @@ function toggleDiv(divid, spanID)
 } // end of function toggleDiv()
 
 
-<!-- toggle top-level Observables -->
 function toggleDiv(divid, spanID) {
     if (document.getElementById(divid).style.display == 'none') {
         document.getElementById(divid).style.display = 'block';
@@ -37,7 +36,6 @@ function toggleDiv(divid, spanID) {
 }
 
 
-<!-- onload, make a clean copy of all top level Observables for compositions before they are manipulated at runtime -->
 function embedCompositions() {
     var divCompBaseList = getElementsByClass('baseobserv');
     var divCompCopyList = getElementsByClass('copyobserv');
@@ -53,7 +51,6 @@ function embedCompositions() {
     return false;
 }
 
-<!-- copy object from clean src copy to dst destination and then toggle visibility -->
 function embedObject(container, targetId, expandedContentContainerId) {
 
     //var copy = pristineCopies[targetId].cloneNode(true);
@@ -95,14 +92,12 @@ function embedObject(container, targetId, expandedContentContainerId) {
     }
     */
     
-    <!-- finally, toggle the visibility state of the div  -->
     toggle(container);
     
     return false;
 }
 
 var pristineCopies = {};
-<!-- onload, make a clean copy of all id'd objects/actions for runtime copying -->
 function runtimeCopyObjects() {
     var referenceItems = document.querySelector(".reference > *");
     
@@ -134,7 +129,6 @@ function runtimeCopyObjects() {
     return false;
 }
 
-<!-- identify all elements in the document which have the parameterized class applied -->
 function getElementsByClass(inClass) {
     var children = document.body.getElementsByTagName('*');
     var elements = [],
@@ -148,7 +142,6 @@ function getElementsByClass(inClass) {
     return elements;
 }
 
-<!-- toggle visibility of a container element -->
 function toggle(containerElement) {
   // now using a shim to support classList in IE8/9
   containerElement.classList.toggle("collapsed");

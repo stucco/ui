@@ -1,6 +1,3 @@
-//Note that this is being parsed with [ALCE](https://github.com/walmartlabs/ALCE), 
-// which means that comments are ok.
-
 {
   "isDev": true,
   "isSecure": false,
@@ -18,11 +15,9 @@
   "graphServer": {
     "graphHost": "localhost",
     "graphPort": 8080,
-    "graphRootPath": "api", //only used by our db service.
-    "graphName": "", //only used by rexster
+    "graphRootPath": "api",
+    "graphName": "",
     "isRexster": false
-  },
-  "indices": {
-    "fulltext": ["description", "comments", "details", "shortDescription", "solution", "removal", "behavior"]
   }
 }
+ 

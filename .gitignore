@@ -33,3 +33,12 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
+# Compiled output
+public/dist
+public/index.html
+public/sitemap.xml
+
+# Node.js and NPM
+node_modules
+npm-debug.log
+

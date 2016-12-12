@@ -4,7 +4,7 @@ const AssetsPlugin = require('assets-webpack-plugin')
 const pkg = require('./package.json')
 const dev_config = require('./dev_config.json')
 
-const HOST = 'localhost' //dev_config.http.listen
+const HOST = dev_config.http.listen
 const PORT = dev_config.http.port
 
 const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release')

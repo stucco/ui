@@ -4,7 +4,7 @@ const app = express()
 const dev_config = require('./dev_config.json')
 
 var PORT = dev_config.http.port
-var HOST = 'localhost' // dev_config.http.listen
+var HOST = dev_config.http.listen
 
 var URL = 'http://' + HOST + ':' + PORT
 

@@ -7,7 +7,6 @@ function decodeParam(val) {
 
   try {
     var value = decodeURIComponent(val)
-    console.log("decoded value: ", value)
     return value
   } catch (err) {
     if (err instanceof URIError) {
@@ -23,9 +22,7 @@ function decodeParam(val) {
 // matchURI({ path: '/posts/:id' }, '/dummy') => null
 // matchURI({ path: '/posts/:id' }, '/posts/123') => { id: 123 }
 function matchURI(route, path) {
-  console.log(route.pattern, " ", path)
   const match = route.pattern.exec(path)
-  console.log("match = ", match)
   if (!match) {
     return null
   }
@@ -65,7 +62,6 @@ function resolve(routes, context) {
           Object.keys(params).forEach((k) => {
             url = url.replace(`${k}`, params[k])
           })
-          console.log('about to render ... fetching data .... ')
           return fetch(encodeURI(url), { method }).then(resp => resp.json())
         }),
       ]).then(([Page, ...data]) => {

@@ -17,6 +17,7 @@ class Result extends React.Component {
   }
 
   handleDetails () {
+    console.log('props from result: ', this.props)
     const vertex = this.props.vertex
     this.props.dispatch(SET_VERTEX(vertex))
   }

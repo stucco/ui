@@ -1,12 +1,6 @@
 // Read configuration from dev_config.json (or production_config.json)
 import xhr from 'request'
-//var xhr = require('request')
 import config from '!json!../dev_config'
-// var config = require('../dev_config.json')
-//var xhr = require('request')
-//var config = require('../dev_config.json')
-
-console.log("config: ", config)
 
 var graphHost = config.graphServer.graphHost
 var graphPort = config.graphServer.graphPort
@@ -146,7 +140,6 @@ export function getNode (req, res, callback) {
       if (error) {
         err = 'Error obtaining node: ' + error
         console.error(error)
-        console.log("error .... ")
         res['status'] = 500
         res['send'] = {error: err, node: id}
 
@@ -156,7 +149,6 @@ export function getNode (req, res, callback) {
       // TODO: status code other than 200 - redirect page to results
       res['status'] = status
       res['send'] = (JSON.parse(body)).results
-      console.log("RESULT: ", results)
 
       return callback(res)
     }
@@ -225,7 +217,6 @@ export function search (req, res, callback) {
         res['status'] = status
       }
       res['send'] = JSON.parse(body)
-      console.log('found: ' + res['send'])
       return callback(res)
     }
   )
@@ -314,7 +305,6 @@ export function countNodes (req, res) {
     var keys = Object.keys(q)
     var queryURL
     if (keys && keys.length > 0) {
-      console.info('vertex count with keys:' + keys)
       var queryString = JSON.stringify(q)
       queryURL = graphUri + '/count/vertices?q=' + queryString
     } else {

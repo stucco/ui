@@ -6,7 +6,8 @@
   },
   {
     "path": "/help",
-    "page": "./pages/Help"
+    "page": "./pages/Help",
+    "chunk": "main"
   },
   {
     "path": "/resultslist/search/:key=:value&page=:pNumber&pageSize=:pSize",

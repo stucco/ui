@@ -62,6 +62,7 @@ function resolve(routes, context) {
           Object.keys(params).forEach((k) => {
             url = url.replace(`${k}`, params[k])
           })
+          console.log(encodeURI(url))
           return fetch(encodeURI(url), { method }).then(resp => resp.json())
         }),
       ]).then(([Page, ...data]) => {

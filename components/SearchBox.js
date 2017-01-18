@@ -17,11 +17,19 @@ class SearchBox extends React.Component {
       page: 0
     }
     this.transition = this.transition.bind(this)
+    this.enterTransition = this.transition.bind(this)
     this.focus = this.focus.bind(this)
   }
 
   focus () {
     this.textInput.focus()
+  }
+
+  enterTransition (event) {
+    if (event.key == 'Enter') {
+      console.log('in enterTransition ... ')
+      transition(event)
+    }
   }
 
   transition (event) {
@@ -46,13 +54,13 @@ class SearchBox extends React.Component {
                     <div className={cx('alert', 'alert-danger')}>This field is required.</div>
                   </div>
                   <label className='sr-only'>Search query</label>
-                  <input autoFocus='autoFocus' className={cx('input-lg', 'form-control')} name='search' placeholder='Search...' type='text' ref={(input) => this.textInput = input} />
+                  <input autoFocus='autoFocus' className={cx('input-lg', 'form-control')} name='search' placeholder='Search...' type='text' ref={(input) => this.textInput = input} onKeyPress={this.enterTransition} />
                 </div>
               </div>
               <div className='col-xs-2' >
-                <div className={cx('btn', 'btn-lg', 'btn-primary')} onClick={this.transition}>
+                <form className={cx('btn', 'btn-lg', 'btn-primary')} onClick={this.transition}>
                   <span style={{ariaHidden: 'true'}} className={cx('glyphicon', 'glyphicon-search')}></span> Search
-                </div>
+                </form>
               </div>
             </div>
           </form>

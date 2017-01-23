@@ -29,6 +29,7 @@ const config = {
     '!!style!css!react-mdl/extra/material.min.css',
     'react-mdl/extra/material.min.js',
     /* The main entry point of your JavaScript application */
+    'bootstrap-loader',
     './main.js',
   ],
 
@@ -67,6 +68,9 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
       __DEV__: isDebug,
+    }),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery'
     }),
     // Emit a JSON file with assets paths
     // https://github.com/sporto/assets-webpack-plugin#options
@@ -130,7 +134,7 @@ const config = {
         loader: 'url-loader?limit=10000',
       },
       {
-        test: /\.(eot|ttf|wav|mp3)$/,
+        test: /\.(eot|ttf|wav|mp3|pdf)$/,
         loader: 'file-loader',
       }
     ]

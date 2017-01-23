@@ -10,6 +10,14 @@
     "chunk": "main"
   },
   {
+    "path": "/ontology/stucco",
+    "page": "./pages/StuccoOntology"
+  },
+  {
+    "path": "/ontology/stix",
+    "page": "./pages/StixOntology"
+  },
+  {
     "path": "/resultslist/search/:key=:value&page=:pNumber&pageSize=:pSize",
     "page": "./pages/ResultsList",
     "data": {

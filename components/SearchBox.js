@@ -36,6 +36,9 @@ class SearchBox extends React.Component {
     let input = inputText.split(/\s*=\s*/)
     let key = input[0]
     let value = input[1]
+    if (value.includes(":")) {
+      value = '\"' + value + '\"'
+    }
     let url = "/resultslist/search/" + key + "=" + value + "&page=0&pageSize=20"
     event.preventDefault();
     history.push({ pathname: url });

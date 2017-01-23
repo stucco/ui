@@ -21,10 +21,10 @@ class Help extends React.Component {
         <h4>Ontology:</h4>
         <ul>
           <li>
-            <a href='/ontology/stix'>STIX ontology</a>
+            <a href='/ontology/stix'><strong style={fieldStyle}>STIX ontology</strong></a>
           </li>
           <li>
-            <a href='/ontology/stucco'>Stucco ontology</a>
+            <a href='/ontology/stucco'><strong style={fieldStyle}>Stucco ontology</strong></a>
           </li>
         </ul>
         <h4>Current vertex types are:</h4>

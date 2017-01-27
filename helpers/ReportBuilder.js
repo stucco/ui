@@ -50,7 +50,7 @@ var stixElements = {
       'ns': 'http://stix.mitre.org/stix-1'
     }
   },
-  'coa:CourseOfAction': {
+  'coa:Course_Of_Action': {
     'element': {
       'name': 'stix:Course_Of_Action',
       'ns': 'http://stix.mitre.org/stix-1'
@@ -70,7 +70,7 @@ var stixElements = {
       'ns': 'http://stix.mitre.org/stix-1'
     }
   },
-  'ta:ThreatActor': {
+  'ta:Threat_Actor': {
     'element': {
       'name': 'stix:Threat_Actor',
       'ns': 'http://stix.mitre.org/stix-1'

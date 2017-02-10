@@ -26,10 +26,10 @@
     "chunk": "main"
   },
   {
-    "path": "/details/:id",
+    "path": "/details/:name=:vertName&id=:vertId",
     "page": "./pages/Details",
     "data": {
-      "vertex": "http://localhost:8080/api/vertex/id"
+      "vertex": "http://localhost:8080/api/vertex/name=vertName&id=vertId"
     },
     "chunk": "main"
   },

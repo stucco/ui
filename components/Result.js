@@ -17,14 +17,13 @@ class Result extends React.Component {
   }
 
   handleDetails () {
-    console.log('props from result: ', this.props)
     const vertex = this.props.vertex
     this.props.dispatch(SET_VERTEX(vertex))
   }
 
   transition (event) {
     this.handleDetails()
-    let url = "/details/" + this.props.vertex._id
+    let url = "/details/name=" + this.props.vertex.name + "&id=" + this.props.vertex._id 
     event.preventDefault();
     history.push({ pathname: url });
   }

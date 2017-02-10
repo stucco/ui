@@ -21,6 +21,7 @@ console.log(graphUri)
 
 export function getEdges (req, res, callback) {
   var id = encodeURIComponent(req.params.id)
+  var name = req.params.name
   var err
   var pageSize = 10
   if (req.query.pageSize) {
@@ -53,8 +54,10 @@ export function getEdges (req, res, callback) {
       }
       queryURL = graphUri + '/tp/gremlin?script=' + gremlinQ
     } else {
+      console.log("stuccoApi name: " + name)
       queryString = JSON.stringify({'page': page, 'pageSize': pageSize})
-      queryURL = graphUri + '/inEdges/' + id + '?q=' + queryString
+      console.log("stuccoApi query string: " + queryString)
+      queryURL = graphUri + '/inEdges/name=' + name + '&id=' + id + '?q=' + queryString
     }
     console.log('getEdges() query = ' + queryURL)
     xhr(queryURL,
@@ -89,7 +92,8 @@ export function getEdges (req, res, callback) {
       queryURL = graphUri + '/tp/gremlin?script=' + gremlinQ
     } else {
       queryString = JSON.stringify({'page': page, 'pageSize': pageSize})
-      queryURL = graphUri + '/outEdges/' + id + '?q=' + queryString
+      queryURL = graphUri + '/outEdges/name=' + name + '&id=' + id + '?q=' + queryString
+      console.log("stuccoApi query string: " + queryString)
     }
     console.log('getEdges() query = ' + queryURL)
 

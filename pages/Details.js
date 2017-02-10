@@ -143,9 +143,9 @@ class Details extends React.Component {
                 <dt>&nbsp;</dt>
                 <dd>&nbsp;</dd>
                 <dt>Incoming Edges</dt>
-                <EdgeResultsList type={'inEdges'} id={this.props.vertex.results._id} />
+                <EdgeResultsList type={'inEdges'} id={this.props.vertex.results._id} name={this.props.vertex.results.name} />
                 <dt>Outgoing Edges</dt>
-                <EdgeResultsList type={'outEdges'} id={this.props.vertex.results._id} />
+                <EdgeResultsList type={'outEdges'} id={this.props.vertex.results._id} name={this.props.vertex.results.name} />
               </dl>
             </div>
           </div>

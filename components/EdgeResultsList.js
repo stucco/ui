@@ -9,8 +9,10 @@ class EdgesResultList extends React.Component {
     super(props)
     let type = props.type
     let id = props.id
+    let name = props.name
     this.state = {
       id: id,
+      name: name,
       type: type,
       page: 0,
       edges: []
@@ -30,7 +32,8 @@ class EdgesResultList extends React.Component {
   getEdges () {
     let reqIn = {
       params: {
-        id: this.state.id
+        id: this.state.id,
+        name: this.state.name
       },
       query: {
         pageSize: 10,

@@ -16,6 +16,23 @@ const babelConfig = Object.assign({}, pkg.babel, {
   cacheDirectory: useHMR,
 })
 
+const EXTERNALS = {
+  react: {
+    root: 'React',
+    commonjs: 'react',
+    commonjs2: 'react',
+    amd: 'react'
+  },
+  'react-dom': {
+    root: 'ReactDOM',
+    commonjs: 'react-dom',
+    commonjs2: 'react-dom',
+    amd: 'react-dom'
+  },
+  d3: 'd3',
+  'd3-tip': 'd3-tip'
+}
+
 // Webpack configuration (main.js => public/dist/main.{hash}.js)
 // http://webpack.github.io/docs/configuration.html
 const config = {
@@ -134,8 +151,18 @@ const config = {
         loader: 'url-loader?limit=10000',
       },
       {
-        test: /\.(eot|ttf|wav|mp3|pdf)$/,
+        test: /\.(svg|eot|ttf|wav|mp3|pdf)$/,
         loader: 'file-loader',
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
       }
     ]
   },

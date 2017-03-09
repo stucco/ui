@@ -119,22 +119,22 @@ class Details extends React.Component {
                     </tbody >
                   </table>
                   <div role='group' className='btn-group'>
-                    <button className={cx('btn', 'btn-default')} onClick={handleAddToReport}>
+                    <a className={cx('btn', 'btn-default')} onClick={handleAddToReport}>
                       <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-plus')}></span>
                       Add To Report
-                    </button>
-                    <a href='../stix-to-html/stix.html' target='_blank' className={cx('btn', 'btn-default')} onClick={handleShowReport}>
+                    </a>
+                    <a className={cx('btn', 'btn-default')} onClick={handleClearReport}>
+                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-remove')}></span>
+                      Clear Report
+                    </a>
+                    <a className={cx('btn', 'btn-default')} onClick={handleDownloadReport}>
+                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-download-alt')}></span>
+                      Download Report
+                    </a>
+                    <a href='../stix-to-html/stix.html' target='_blank' className={cx('btn', 'btn-default')} role='button' onClick={handleShowReport}>
                       <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-book')}></span>
                       Show Report
                     </a>
-                    <button className={cx('btn', 'btn-default')} onClick={handleClearReport}>
-                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-remove')}></span>
-                      Clear Report
-                    </button>
-                    <button className={cx('btn', 'btn-default')} onClick={handleDownloadReport}>
-                      <span aria-hidden='true' className={cx('glyphicon', 'glyphicon-download-alt')}></span>
-                      Download Report
-                    </button>
                   </div>
                   <div>
                     {this.state.showStix ? <SourceDocument sourceDocument={prettySourceDocument} /> : null}

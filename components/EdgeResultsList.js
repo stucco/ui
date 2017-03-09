@@ -1,8 +1,11 @@
 import React from 'react'
 
+import { Pagination } from 'react-bootstrap'
 import { getEdges } from '../helpers/StuccoApi'
 
 import EdgeResult from './EdgeResult'
+
+import cx from 'classnames'
 
 class EdgesResultList extends React.Component {
   constructor (props) {
@@ -19,16 +22,15 @@ class EdgesResultList extends React.Component {
     }
 
     this.getEdgs = this.getEdges.bind(this)
-    this.nextPage = this.nextPage.bind(this)
-    this.previousPage = this.previousPage.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
 
     this.getEdges()
   }
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.id !== this.state.id) {
-      this.setState({id: nextProps.id, type: nextProps.type, page: 0}, this.getEdges)
-    }
-  }
+//  componentWillReceiveProps (nextProps) {
+//    if (nextProps.id !== this.state.id) {
+//      this.setState({id: nextProps.id, type: nextProps.type, page: 0}, this.getEdges)
+//    }
+//  }
   getEdges () {
     let reqIn = {
       params: {
@@ -43,35 +45,40 @@ class EdgesResultList extends React.Component {
     }
     getEdges(reqIn, {}, function (res) { return this.setState({edges: res.send.results}) }.bind(this))
   }
-  nextPage () {
-    this.setState({page: ++this.state.page}, this.getEdges)
+
+  handleSelect(eventKey) {
+    console.log("eventKey: ", eventKey)
+    console.log("state page: ", this.state.page)
+    let page = eventKey - 1
+    console.log("page: ", page)
+    this.setState({page: page}, this.getEdges)
+    console.log("new state: ", this.state.page)
+    this.getEdges()
   }
-  previousPage () {
-    if (this.state.page > 0) {
-      this.setState({page: --this.state.page}, this.getEdges)
-    }
-  }
+
   render () {
     let type = this.state.type
     return (
       <dd>
         <ul style={{paddingLeft: 0}} className="inEdgeList">
           {this.state.edges.map(function (edge, i) { if (Object.keys(edge[2]).length !== 0) { return <EdgeResult type={type} key={i} vertex={edge[2]} /> } })}
-        </ul>
-        <nav>
-          <ul className="pager">
-            <li className="previous" onClick={this.previousPage}>
-              <a href="#">
-                <span aria-hidden="true">&larr;</span>
-                Previous
-              </a>
-            </li>
-            <li className="next" onClick={this.nextPage}>
-              <a href="#">Next <span aria-hidden="true">&rarr;</span>
-              </a>
-            </li>
+        </ul> 
+        <div className='text-center'>
+          <ul>
+            <Pagination
+              className={cx("pagination", "pagination-sm")}
+              prev={ <span aria-hidden='true'>&larr; Previous</span> }
+              next={ <span aria-hidden='true'>Next &rarr;</span> }
+              first={ <span aria-hidden='true'>&larr; First</span> }
+              last={ <span aria-hidden='true'>Last &rarr;</span> }
+              ellipsis
+              boundaryLinks
+              items={10}
+              maxButtons={5}
+              activePage={parseInt(this.state.page) + 1}
+              onSelect={this.handleSelect} />
           </ul>
-        </nav>
+        </div>
       </dd>
     )
   }

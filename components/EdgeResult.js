@@ -5,7 +5,7 @@ import Link from './Link'
 
 import { connect } from 'react-redux'
 import { SET_VERTEX } from '../redux/actions'
- 
+
 class EdgeResult extends React.Component {
   render () {
     const vertex = this.props.vertex
@@ -13,21 +13,19 @@ class EdgeResult extends React.Component {
     function handleDetails () {
       dispatch(SET_VERTEX(vertex))
     }
-
-    "/details/name=" + this.props.vertex.name + "&id=" + this.props.vertex._id 
-    
+    "/details/vertexType=" + this.props.vertex.vertexType + "&name=" + this.props.vertex.name + "&id=" + this.props.vertex._id
     return (
       <li className='listGroupItem' >
-        <Link to={'/details/name=' + vertex.name + "&id=" + vertex._id } onClick={handleDetails}>
+        <Link to={"/details/vertexType=" + vertex.vertexType + "&name=" + vertex.name + "&id=" + vertex._id} onClick={handleDetails}>
           {(this.props.type === 'inEdges') ? <span>&nbsp; ⟵ &nbsp;</span> : <span>&nbsp; ⟶ &nbsp;</span>}
           <span href=''></span>
           <span>&nbsp; &nbsp;</span>
           <span>{vertex.name}</span>
-          <span>&nbsp; &nbsp;</span>
-          <span>{vertex.description}</span>
-          <span>&nbsp; &nbsp;</span>
-          <span className={cx('pull-right', 'text-uppercase', 'initialism')} >{(vertex.hasOwnProperty('observableType') && vertex.vertexType !== 'IP') ? vertex.observableType : vertex.vertexType}</span>
         </Link>
+        <span>&nbsp; &nbsp;</span>
+        <span>{vertex.description}</span>
+        <span>&nbsp; &nbsp;</span>
+        <span className={cx('pull-right', 'text-uppercase', 'initialism')} >{(vertex.hasOwnProperty('observableType') && vertex.vertexType !== 'IP') ? vertex.observableType : vertex.vertexType}</span>
       </li>
     )
   }

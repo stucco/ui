@@ -18,22 +18,22 @@
     "page": "./pages/StixOntology"
   },
   {
-    "path": "/resultslist/search/:key=:value&page=:pNumber&pageSize=:pSize",
+    "path": "/resultslist/search/:sourceProject(stucco|situ)?/:key=:value&page=:pNumber&pageSize=:pSize",
     "page": "./pages/ResultsList",
     "data": {
-      "vertex": "http://localhost:8080/api/search?q={key:value,page:pNumber,pageSize:pSize}"
+      "vertex": "http://localhost:8080/api/search?q={project:sourceProject,key:value,page:pNumber,pageSize:pSize}"
     },
     "chunk": "main"
   },
-  {
-    "path": "/details/:name=:vertName&id=:vertId",
+  { 
+    "path": "/details/:vertexType=:vertType&:name=:vertName&id=:vertId",
     "page": "./pages/Details",
     "data": {
-      "vertex": "http://localhost:8080/api/vertex/name=vertName&id=vertId"
+      "vertex": "http://localhost:8080/api/vertex/vertexType=vertType&name=vertName&id=vertId"
     },
     "chunk": "main"
   },
-  {
+  { 
     "path": "/error",
     "page": "./pages/Error",
     "chunk": "main"

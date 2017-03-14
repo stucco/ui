@@ -143,9 +143,9 @@ class Details extends React.Component {
                 <dt>&nbsp;</dt>
                 <dd>&nbsp;</dd>
                 <dt>Incoming Edges</dt>
-                <EdgeResultsList type={'inEdges'} id={this.props.vertex.results._id} name={this.props.vertex.results.name} />
+                <EdgeResultsList type={'inEdges'} source={this.props.route.params.source} id={this.props.vertex.results._id} name={this.props.vertex.results.name} vertexType={(this.props.vertex.results.hasOwnProperty('observableType') && (this.props.vertex.results.vertexType !== 'IP')) ? this.props.vertex.results.observableType : this.props.vertex.results.vertexType} />
                 <dt>Outgoing Edges</dt>
-                <EdgeResultsList type={'outEdges'} id={this.props.vertex.results._id} name={this.props.vertex.results.name} />
+                <EdgeResultsList type={'outEdges'} source={this.props.route.params.source} id={this.props.vertex.results._id} name={this.props.vertex.results.name} vertexType={(this.props.vertex.results.hasOwnProperty('observableType') && (this.props.vertex.results.vertexType !== 'IP')) ? this.props.vertex.results.observableType : this.props.vertex.results.vertexType} />
               </dl>
             </div>
           </div>

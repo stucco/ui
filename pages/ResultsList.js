@@ -5,36 +5,43 @@ import history from '../core/history'
 
 import { search } from '../helpers/StuccoApi'
 
+import { Pager } from 'react-bootstrap'
 import Result from '../components/Result'
 import Layout from '../components/Layout'
 import Link from '../components/Link'
 
 
 class ResultsList extends React.Component {
-  render () {
-    let vertex = this.props.vertex
-    let key = this.props.route.params.key
-    let value = this.props.route.params.value
-    let page = this.props.route.params.pNumber
-    let pageSize = this.props.route.params.pSize
-    function handleClickNext (event) {
-      event.preventDefault()
-      ++page
-      transition()
-    }
-    
-    function handleClickPrevious (event) {
-      event.preventDefault()
-      if (page > 0) {
-        --page
-      }
-      transition()
+  constructor(props) {
+    super(props)
+    this.state = {
+      page: 0
     }
 
-    function transition () {
-      let url = "/resultslist/search/" + key + "=" + value + "&page=" + page + "&pageSize=20"
-      history.push({ pathname: url })
+    this.handleSelect = this.handleSelect.bind(this)
+    this.renderPrevious = this.renderPrevious.bind(this)
+    this.renderNext = this.renderNext.bind(this)
+  }
+
+  handleSelect() {
+    let url = "/resultslist/search/" + this.props.route.params.key + "=" + this.props.route.params.value + "&page=" + this.state.page + "&pageSize=20"
+    history.push({ pathname: url })
+  }
+
+  renderNext() {
+    let page = this.state.page + 1
+    this.setState({page: page}, function () { this.handleSelect() })
+  }
+
+  renderPrevious() {
+    let page = this.state.page
+    if (page > 0) {
+      page = page - 1
+      this.setState({page: page}, function () { this.handleSelect() })
     }
+  }
+ 
+  render () {
     return (
       <Layout className='container-fluid'>
         <section className={cx('page', 'active')}>
@@ -54,20 +61,19 @@ class ResultsList extends React.Component {
               </div>
               <div className='panel-body'>
                 <ul className='results-list'>
-                  {this.props.vertex.results.map((vertex, i) => <Result key={i} vertex={vertex} />)}
+                  {this.props.vertex.results.map((vertex, i) => <Result source={this.props.route.params.source} key={i} vertex={vertex} />)}
                 </ul>
               </div>
-              <div className='panel-footer'>
-                <nav>
-                  <ul className='pager'>
-                    <li className='previous'>
-                      <a onClick={handleClickPrevious}><span aria-hidden='true'>&larr;</span> Previous</a>
-                    </li>
-                    <li className='next'>
-                      <a onClick={handleClickNext}>Next <span aria-hidden='true'>&rarr;</span></a>
-                    </li>
+              <div className={cx('panel-footer', 'text-center')} style={{backgroundColor: '#f5f5f5', textAlign: 'center'}}>
+                <div className='text-center'>
+                  <ul>
+                    <Pager>
+                      <Pager.Item previous href="#" onSelect={this.renderPrevious} >&larr; Previous Page</Pager.Item>
+                      <span> {this.state.page + 1} </span>
+                      <Pager.Item next href="#" onSelect={this.renderNext}>Next Page &rarr;</Pager.Item>
+                    </Pager>
                   </ul>
-                </nav>
+                </div>
               </div>
             </div>
           </div>

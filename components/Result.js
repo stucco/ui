@@ -10,7 +10,8 @@ class Result extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      vertex: this.props.vertex
+      vertex: this.props.vertex,
+      source: this.props.source
     }
     this.handleDetails = this.handleDetails.bind(this)
     this.transition = this.transition.bind(this)
@@ -23,7 +24,7 @@ class Result extends React.Component {
 
   transition (event) {
     this.handleDetails()
-    let url = "/details/name=" + this.props.vertex.name + "&id=" + this.props.vertex._id 
+    let url = encodeURI("/details/vertexType=" + this.props.vertex.vertexType + "&name=" + this.props.vertex.name + "&id=" + this.props.vertex._id)
     event.preventDefault();
     history.push({ pathname: url });
   }
@@ -31,9 +32,9 @@ class Result extends React.Component {
   render () {
     return (
       <li className='list-group-item'>
-        <dl className='dl-horizontal-result'>
+        <dl className='dl-horizontal-result'> 
           <dt>
-            <a onClick={this.transition}>{this.props.vertex.name}</a>
+            <a style={{cursor: 'pointer'}} onClick={this.transition}>{this.props.vertex.name}</a>
           </dt>
           <dd>
             <span className={cx('pull-right', 'text-uppercase', 'initialism')} >

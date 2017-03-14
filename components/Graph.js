@@ -9,9 +9,9 @@ class Graph extends React.Component {
   	super()
   }
   render () {
-    return ( 
+    return (  
       <div > 
-        <CytoscapeGraph graph={stuccoOntology} />
+        <CytoscapeGraph graph={stuccoOntology} /> 
       </div>
     ) 
   }

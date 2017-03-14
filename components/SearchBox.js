@@ -5,7 +5,8 @@ import cx from 'classnames'
 
 import Link from './Link'
 
-import { SET_VERTEX } from '../redux/actions'
+import { connect } from 'react-redux'
+import { SET_SOURCE } from '../redux/actions'
 
   const properties = {
       name: 'Name',
@@ -34,7 +35,8 @@ class SearchBox extends React.Component {
     this.transition = this.transition.bind(this)
     this.handKeyPress = this.handKeyPress.bind(this)
     this.focus = this.focus.bind(this)
-    this.radioCheck = this.radioCheck.bind(this)
+
+    this.props.dispatch(SET_SOURCE('stucco'))
   }
 
   focus () {
@@ -49,21 +51,18 @@ class SearchBox extends React.Component {
 
   transition (event) {
     let value = ReactDOM.findDOMNode(this.textInput).value
-    let url = "/resultslist/search/" + this.state.source + "/" + this.state.key + "=" + value + "&page=0&pageSize=20"
+    let url = "/resultslist/search/" + this.state.key + "=" + value + "&page=0&pageSize=20"
     event.preventDefault();
     history.push({ pathname: url });
-  }
-
-  radioCheck (event) {
-    console.log("in console ... " , event)
-    console.log(event.currentTarget.value)
-    this.setState({source: event.currentTarget.value})
-  }
+  } 
 
   handleClick (event) {
-    console.log(event)
     this.setState({title: properties[event]})
     this.setState({key: event})
+  }
+
+  handleDetails () {
+    dispatch(SET_VERTEX(vertex))
   }
 
   render () {
@@ -75,18 +74,6 @@ class SearchBox extends React.Component {
               <div className={cx('col-xs-6', 'col-xs-offset-2')}>
                 <div className='form-group'>
                   <div className='input-group'>
-                    <div className={cx("radio", "input-group-addon")} style={{borderColor: '#2e6da4', backgroundColor: '#337ab7', color: '#fff'}}>
-                      <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="stucco" defaultChecked  onChange={this.radioCheck}/>
-                        Stucco
-                      </label>
-                    </div>
-                    <div className={cx("radio", "input-group-addon")} style={{borderColor: '#2e6da4', backgroundColor: '#337ab7', color: '#fff'}} >
-                      <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="situ" onChange={this.radioCheck} />
-                        Situ
-                      </label>
-                    </div>
                     <div className={cx("btn", "btn-default", "dropdown-toggle", "dropdown", 'input-group-addon')} style={{borderColor: '#2e6da4'}}>
                       <div type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         &nbsp;{ this.state.title }&nbsp;
@@ -113,4 +100,4 @@ class SearchBox extends React.Component {
   }
 }
 
-export default SearchBox
+export default connect()(SearchBox)

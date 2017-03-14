@@ -21,7 +21,9 @@ console.log(graphUri)
 
 export function getEdges (req, res, callback) {
   var id = encodeURIComponent(req.params.id)
-  var name = req.params.name
+  var name = encodeURIComponent(req.params.name)
+  var vertexType = req.params.vertexType
+
   var err
   var pageSize = 10
   if (req.query.pageSize) {
@@ -57,7 +59,7 @@ export function getEdges (req, res, callback) {
       console.log("stuccoApi name: " + name)
       queryString = JSON.stringify({'page': page, 'pageSize': pageSize})
       console.log("stuccoApi query string: " + queryString)
-      queryURL = graphUri + '/inEdges/name=' + name + '&id=' + id + '?q=' + queryString
+      queryURL = graphUri + '/inEdges/vertexType=' + vertexType + '&name=' + name + '&id=' + id + '?q=' + queryString
     }
     console.log('getEdges() query = ' + queryURL)
     xhr(queryURL,
@@ -67,11 +69,13 @@ export function getEdges (req, res, callback) {
           console.error(error)
           res['status'] = 500
           res['send'] = {error: err, query: queryURL}
+          console.log("In edges: ", res)
 
           return callback(res)
         }
         res['status'] = response.statusCode
         res['send'] = JSON.parse(body)
+        console.log("In edges: ", res)
 
         return callback(res)
       }
@@ -92,7 +96,7 @@ export function getEdges (req, res, callback) {
       queryURL = graphUri + '/tp/gremlin?script=' + gremlinQ
     } else {
       queryString = JSON.stringify({'page': page, 'pageSize': pageSize})
-      queryURL = graphUri + '/outEdges/name=' + name + '&id=' + id + '?q=' + queryString
+      queryURL = graphUri + '/outEdges/vertexType=' + vertexType + '&name=' + name + '&id=' + id + '?q=' + queryString
       console.log("stuccoApi query string: " + queryString)
     }
     console.log('getEdges() query = ' + queryURL)
@@ -109,6 +113,7 @@ export function getEdges (req, res, callback) {
         }
         res['status'] = response.statusCode
         res['send'] = JSON.parse(body)
+        console.log("Out edges: ", res)
 
         return callback(res)
       }

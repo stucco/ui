@@ -18,10 +18,10 @@
     "page": "./pages/StixOntology"
   },
   {
-    "path": "/resultslist/search/:sourceProject(stucco|situ)?/:key=:value&page=:pNumber&pageSize=:pSize",
+    "path": "/resultslist/search/:key=:value&page=:pNumber&pageSize=:pSize",
     "page": "./pages/ResultsList",
     "data": {
-      "vertex": "http://localhost:8080/api/search?q={project:sourceProject,key:value,page:pNumber,pageSize:pSize}"
+      "vertex": "http://localhost:8080/api/search?q={key:value,page:pNumber,pageSize:pSize}"
     },
     "chunk": "main"
   },

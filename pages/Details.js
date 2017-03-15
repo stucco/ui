@@ -65,6 +65,7 @@ class Details extends React.Component {
       window.localStorage.setItem('report', prettyReport)
     }
     return (
+
       <Layout className='container-fluid'>
         <section className={cx('page', 'alert-details')}>
           <div className={cx('panel', 'panel-primary')}>
@@ -81,23 +82,35 @@ class Details extends React.Component {
               </h3>
             </div>
             <div className='panel-body'>
-              <dl className='dl-horizontal'>
-                <dt>Name</dt>
-                <dd >{this.props.vertex.results.name}</dd>
-                <dt>Description</dt>
-                <dd >{this.props.vertex.results.description}</dd>
-                <span >
-                  {
-                    this.mapObject(this.props.vertex.results, function (key, value) {
-                      if (key !== 'description' && key !== 'name' && key !== 'sourceDocument' && key !== '_id') {
-                        if (value.dtructor === Array) {
-                          value = value.toString()
-                        }
-                        return <Property key={key} propertyName={key} propertyValue={value} />
+              <div className="row" style={{alignItems: 'center', display: 'flex'}}>
+                <div className="col-md-10">
+                  <dl className='dl-horizontal'>
+                    <dt>Name</dt>
+                    <dd >{this.props.vertex.results.name}</dd>
+                    <dt>Description</dt>
+                    <dd >{this.props.vertex.results.description}</dd>
+                    <span >
+                      {
+                        this.mapObject(this.props.vertex.results, function (key, value) {
+                          if (key !== 'description' && key !== 'name' && key !== 'sourceDocument' && key !== '_id') {
+                            if (value.dtructor === Array) {
+                              value = value.toString()
+                            }
+                            return <Property key={key} propertyName={key} propertyValue={value} />
+                          }
+                        })
                       }
-                    })
-                  }
-                </span>
+                    </span>
+                  </dl>
+                </div>
+                {
+                  (this.props.vertex.results.hasOwnProperty("score")) ?
+                        <div className={cx("col-xs-1", "col-md-2", "text-center")}>
+                          <div className={cx("alert", "alert-danger")} role="alert" style={{lineHeight: '150%', verticalAlign: 'middle', fontSize: '36px'}}><strong>{this.props.vertex.results.score}</strong></div>
+                        </div> : null   
+                }
+              </div>
+              <dl className='dl-horizontal'>
                 <dt>Source Document</dt>
                 <dd>
                   <table style={{textAlign: 'left', width: '450px', height: '70px'}}>

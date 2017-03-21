@@ -306,11 +306,12 @@ export function search (req, res) {
 // Optional parameters:
 //  * t: type: vertex (default) or edge
 // Returns: JSON object of {"count": <count>}
-export function countNodes (req, res) {
+export function countNodes (req, res, callback) {
   if (isRexster) {
     // count(req, res, 'node')
   } else {
     var q = req.query
+    console.log("query: ", q)
     var keys = Object.keys(q)
     var queryURL
     if (keys && keys.length > 0) {
@@ -327,10 +328,14 @@ export function countNodes (req, res) {
           console.error(error)
           res['status'] = 500
           res['send'] = {error: err}
-          return res
+          
+          return callback(res)
         }
         res['status'] = response.statusCode
         res['send'] = {count: (JSON.parse(body)).count}
+        console.log("returning back with count: " + res)
+
+        return callback(res)
       }
     )
   }

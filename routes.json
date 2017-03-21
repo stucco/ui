@@ -35,7 +35,6 @@
   },
   { 
     "path": "/error",
-    "page": "./pages/Error",
-    "chunk": "main"
+    "page": "./pages/Error"
   }
 ]

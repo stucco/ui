@@ -1,3 +1,7 @@
+.vert-result {
+	word-wrap: break-word;
+}
+
 g path {
 	shape-rendering: auto;
 }
@@ -5,7 +9,10 @@ body {
 	font: 14px "Helvetica Neue", sans-serif;
 	margin: 0;
 }
-
+.brush .handle path{
+  fill: #eee;
+  stroke: #666;
+}
 .chart {
 	fill: #fff;
 }
@@ -24,16 +31,31 @@ body {
 
 .histogram-bar._overlay {
 	fill: #aaa;
-	stroke: #808080;
-	stroke-width: 1px;
+	stroke-width: 0px;
 	opacity: 0;
 }
-
+/*.histogram-bar._overlay.brushed {
+	cursor: crosshair;
+}*/
+/*.histogram-bar._overlay.brushed.selection {
+	cursor: move;
+}*/
+/*.histogram-bar._overlay.brushed:hover {
+	opacity: 0;
+	stroke-width: 0px;
+	pointer-events: none;
+}*/
 .histogram-bar._overlay:hover {
 	opacity: 0.2;
 }
-
 .histogram-bar.temporal {
+	fill: #666;
+	stroke: #444;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.temporal.selected {
 	fill: #6baed6;
 	stroke: #5b9eb6;
 	stroke-width: 1px;
@@ -77,6 +99,33 @@ body {
 .histogram-bar.D {
 	fill: #7C9B27;
 	stroke: #7C9B27;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.Z {
+	fill: #ffffcc;
+	stroke: #ffffcc;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.Y {
+	fill: #a1dab4;
+	stroke: #a1dab4;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+.histogram-bar.X {
+	fill: #41b6c4;
+	stroke: #41b6c4;
+	stroke-width: 1px;
+	opacity: 0.8;
+}
+
+.histogram-bar.W {
+	fill: #225ea8;
+	stroke: #225ea8;
 	stroke-width: 1px;
 	opacity: 0.8;
 }
@@ -342,7 +391,7 @@ nav ul li .active {
 }
 
 .ScatterHeatmapHybrid .markerCol {
-  stroke: #5B5B5B;
+  stroke: #fefefe;
   stroke-width: 1px;
   shape-rendering: crispEdges;
   cursor: cell;
@@ -353,19 +402,17 @@ nav ul li .active {
 }
 
 .ScatterHeatmapHybrid .bin {
-  stroke: #5B5B5B;
-  stroke-width : px;
+	stroke: #fefefe;
   shape-rendering: crispEdges;
 }
 
 .ScatterHeatmapHybrid .point {
-  stroke: #FFF;
-  stroke-width: 1px;
+	shape-rendering: geometricPrecision;
 }
 
 .ScatterHeatmapHybrid .point:hover {
-  stroke: #000;
-  stroke-width : px;
+	stroke: #676;
+	stroke-width: 2px;
 }
 
 .ScatterHeatmapHybrid .label {
@@ -392,18 +439,19 @@ nav ul li .active {
   user-select: none;
 }
 
+.settings-container {
+	float: right
+}
 .settings-menu {
 	background-color: #f2f2f2;
 	border-radius: 4px;
 	margin-top: -4px;
-	margin-left: 5px;
+	margin-left: -15px;
 	padding: 6px 15px;
 	border: 1px solid #d4d4d4;
-	left: -30px;
 }
 .settings-icon {
 	cursor: pointer;
-	left: -12px;
 }
 .settings-title {
 	height: 30px;
@@ -449,9 +497,9 @@ nav ul li .active {
 	fill-opacity: 0;
   stroke-width: 3;
 }
-.barTopic.Selected{
+.selected.barTopic{
   stroke-width: 6;
-  stroke: #00ccff;
+  /*stroke: #00ccff;*/
 }
 
 .lineMatch{
@@ -459,9 +507,10 @@ nav ul li .active {
   stroke-width: 4;
 	shape-rendering: geometricPrecision;
 }
-.lineMatch.Selected{
+.lineMatch.selected{
   fill: none;
-  stroke-width: 10;
+  stroke-width: 6;
+	/*stroke: #00ccff;*/
 }
 .text{
   alignment-baseline: middle;
@@ -473,15 +522,70 @@ nav ul li .active {
   fill: red;
 }
 
-.scatter1 {
-	fill: #2171b5
+.scatter1 circle {
+	fill: #2171b5;
+	clip-path: url(#clip);
 }
-.scatter2 {
-	fill: #7C9B27
+.scatter2 circle {
+	fill: #7C9B27;
+	clip-path: url(#clip);
 }
-.scatter3 {
-	fill: #E6550D
+.scatter3 circle {
+	fill: #E6550D;
+	clip-path: url(#clip);
 }
-.scatter4 {
-	fill: #984EA3
+.scatter4 circle {
+	fill: #984EA3;
+	clip-path: url(#clip);
+}
+
+button {
+	color: #ecf0f1;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 10px;
+	margin: 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+}
+button:hover {
+  cursor: pointer;
+}
+button.disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+.info {
+	margin: 7px;
+}
+
+.scatter5 circle {
+	fill: #edf8b1;
+	stroke: #2c7fb8;
+	stroke-width: 2px;
+}
+
+.Hybrid .columnMarker {
+	stroke: #fff;
+	cursor: cell;
+}
+
+.Hybrid rect {
+	stroke: #fff;
+}
+
+.Hybrid circle {
+	shape-rendering: geometricPrecision;
+}
+
+.Hybrid circle:hover {
+	stroke: #676;
+	stroke-width: 2px;
+}
+
+rect {
+	shape-rendering: crispEdges;
 }

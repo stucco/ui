@@ -22,7 +22,10 @@ import history from './core/history'
 import './css/app.css'
 import './css/react-static-link.css'
 import './css/bootstrap.min.css'
+import './css/vis.css'
+import './css/error.css'
 
+import './components/vis/data/cytoscape-graph/data.json'
 let routes = require('./routes.json') // Loaded with utils/routes-loader.js
 const container = document.getElementById('container')
 

@@ -18,6 +18,7 @@ import stix from 'raw-loader!../stix-to-html/stix.html'
 class Details extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
       showStix: false
     }
@@ -39,12 +40,14 @@ class Details extends React.Component {
       return callback(key, object[key])
     })
   }
+
   render () {
     const prettySourceDocument = prettyData.pd.xml(this.props.vertex.results.sourceDocument)
     const vertexName = this.props.vertex.results.name
     const id = this.props.vertex.results._id
     const dispatch = this.props.dispatch
     const report = this.props.report
+    let color
     function handleDownloadStix () {
       fileDownload(prettySourceDocument, vertexName + '.xml')
     }
@@ -64,8 +67,17 @@ class Details extends React.Component {
       var prettyReport = prettyData.pd.xml(buildReport(report))
       window.localStorage.setItem('report', prettyReport)
     }
+    if (this.props.vertex.results.hasOwnProperty('score')) {
+      if (this.props.vertex.results.score < 0.1) 
+        color = "#999"
+      else if (this.props.vertex.results.score < 0.2)
+        color = "#666"
+      else if (this.props.vertex.results.score < 0.6)
+        color = "ffa500"
+      else  
+        conlor = "#f00"
+    }
     return (
-
       <Layout className='container-fluid'>
         <section className={cx('page', 'alert-details')}>
           <div className={cx('panel', 'panel-primary')}>
@@ -105,9 +117,11 @@ class Details extends React.Component {
                 </div>
                 {
                   (this.props.vertex.results.hasOwnProperty("score")) ?
-                        <div className={cx("col-xs-1", "col-md-2", "text-center")}>
-                          <div className={cx("alert", "alert-danger")} role="alert" style={{lineHeight: '150%', verticalAlign: 'middle', fontSize: '36px'}}><strong>{this.props.vertex.results.score}</strong></div>
-                        </div> : null   
+                    <div className={cx("col-xs-1", "col-md-2", "text-center")}>
+                      <div style={{lineHeight: '150%', verticalAlign: 'middle', fontSize: '2vw'}}>
+                        <span style={{color: color}}><strong>{this.props.vertex.results.score}</strong></span>
+                      </div>
+                    </div> : null   
                 }
               </div>
               <dl className='dl-horizontal'>

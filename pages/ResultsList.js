@@ -14,30 +14,30 @@ import Link from '../components/Link'
 class ResultsList extends React.Component {
   constructor(props) {
     super(props)
+    var page = this.props.route.params.pNumber
     this.state = {
-      page: 0
+      page: page
     }
-
     this.handleSelect = this.handleSelect.bind(this)
     this.renderPrevious = this.renderPrevious.bind(this)
     this.renderNext = this.renderNext.bind(this)
   }
 
-  handleSelect() {
-    let url = "/resultslist/search/" + this.props.route.params.key + "=" + this.props.route.params.value + "&page=" + this.state.page + "&pageSize=20"
+  handleSelect(page) {
+    let url = encodeURI("/resultslist/search/" + this.props.route.params.key + "=" + this.props.route.params.value + "&page=" + page + "&pageSize=20")
     history.push({ pathname: url })
   }
 
   renderNext() {
-    let page = this.state.page + 1
-    this.setState({page: page}, function () { this.handleSelect() })
+    let page = Number(this.props.route.params.pNumber) + 1
+    this.handleSelect(page)
   }
 
   renderPrevious() {
-    let page = this.state.page
+    let page = Number(this.props.route.params.pNumber)
     if (page > 0) {
       page = page - 1
-      this.setState({page: page}, function () { this.handleSelect() })
+      this.handleSelect(page)
     }
   }
  
@@ -69,7 +69,7 @@ class ResultsList extends React.Component {
                   <ul>
                     <Pager>
                       <Pager.Item previous href="#" onSelect={this.renderPrevious} >&larr; Previous Page</Pager.Item>
-                      <span> {this.state.page + 1} </span>
+                      <span> {Number(this.props.route.params.pNumber) + 1} </span>
                       <Pager.Item next href="#" onSelect={this.renderNext}>Next Page &rarr;</Pager.Item>
                     </Pager>
                   </ul>

@@ -1,0 +1,261 @@
+{
+  "elements": [
+            { 
+              "data": { "id": "Threat_Actor", "name": "Threat Actor" },
+              "label": "Threat Actor",
+              "renderedPosition": { "x": -105, "y": 0 },
+              "style": {
+                "background-image": "./images/threatActor.hover.png"
+              }
+            },
+            {
+              "data": { "id": "Campaign", "name": "Campaign" },
+              "renderedPosition": { "x": -75, "y": 0 },
+              "labelValign": "Campaign",  
+              "style": {
+                "background-image": "./images/campaign.hover.png"
+              }
+            },
+            { 
+              "data": { "id": "TTP", "name": "TTP", "parent": "ttp" },
+              "renderedPosition": { "x": -45, "y": 0 },
+              "labelValign": "TTP",
+              "style": {
+                "background-image": "./images/ttp.hover.png"
+              }
+            },
+            { 
+              "data": { "id": "Exploit_Target", "name": "Exploit Target", "parent": "et" },
+              "renderedPosition": { "x": -15, "y": 0 },
+              "labelValign": "Exploit Target",
+              "style": {
+                "background-image": "./images/circleNode.hover.png"
+              }
+            },
+            { 
+              "data": { "id": "Course_Of_Action", "name": "Course Of Action" },
+              "renderedPosition": { "x": 15, "y": 0 },
+              "labelValign": "Course Of Action",
+              "style": {
+                "background-image": "./images/coa.hover.png"
+              }
+            },
+            { 
+              "data": { "id": "Incident", "name": "Incident" },
+              "renderedPosition": { "x": 45, "y": 0 },
+              "labelValign": "Incident",
+              "style": {
+                "background-image": "./images/incident.hover.png"
+              }
+            },
+            { 
+              "data": { "id": "Indicator", "name": "Indicator" },
+              "renderedPosition": { "x": 75, "y": 0 },
+              "labelValign": "Indicator",
+              "style": {
+                "background-image": "./images/indicator.hover.png"
+              }
+            },
+            { 
+              "data": { "id": "Observable", "name": "Observable", "parent": "observable" },
+              "renderedPosition": { "x": 105, "y": 0 },
+              "labelValign": "Observable",
+              "style": {
+                "background-image": "./images/observable.hover.png"
+              }
+            },
+            {
+              "data": {"id": "ttp"}
+            },
+            {
+              "data": {"id": "et"}
+            },
+            {
+              "data": {"id": "observable"}
+            },
+            { 
+              "data": {
+                "id": "RelatedCampaign(*)",
+                "source": "Indicator", 
+                "target": "Campaign"  
+              }
+            },
+            {
+              "data": {
+                "id": "Observable(*)",
+                "source": "Indicator",
+                "target": "observable"
+              },
+              "classes": "straight"
+            },
+            {
+              "data": {
+                "id": "IndicatedTTP(*)",
+                "source": "Indicator",
+                "target": "ttp"
+              }
+            },
+            {
+              "data": {
+                "id": "SuggestedCOA(*)",
+                "source": "Indicator",
+                "target": "Course_Of_Action"
+              }
+            },
+            {
+              "data": {
+                "id": "RelatedTTP(*)",
+                "source": "Campaign",
+                "target": "ttp"
+              },
+              "classes": "straight"
+            },
+            {
+              "data": {
+                "id": "RelatedIncident(*)",
+                "source": "Campaign",
+                "target": "Incident"
+              }
+            },
+            {
+              "data": {
+                "id": "HistoricalCampaign(*)",
+                "source": "Threat_Actor",
+                "target": "Campaign"
+              },
+              "classes": "straight"
+            },
+            {
+              "data": {
+                "id": "Attribute(*)",
+                "source": "Campaign",
+                "target": "Threat_Actor"
+              }
+            },
+            {
+              "data": {
+                "id": "ObservedTTP(*)",
+                "source": "Threat_Actor",
+                "target": "ttp"
+              }
+            },
+            {
+              "data": {
+                "id": "PotenticalCOA(*)",
+                "source": "et",
+                "target": "Course_Of_Action"
+              },
+              "classes": "straight"
+            },
+            {
+              "data": {
+                "id": "ParameterObservable(*)",
+                "source": "Course_Of_Action",
+                "target": "observable"
+              }
+            },
+            {
+              "data": {
+                "id": "RelatedIndicator(*)",
+                "source": "Incident",
+                "target": "Indicator"
+              },
+              "classes": "straight"
+            },
+            {
+              "data": {
+                "id": "LeveragedTTP(*)",
+                "source": "Incident",
+                "target": "ttp"
+              }
+            },
+            {
+              "data": {
+                "id": "COATaken(*)",
+                "source": "Incident",
+                "target": "Course_Of_Action"
+              },
+              "classes": "straight"
+            },
+            {
+              "data": {
+                "id": "COARequested(*)",
+                "source": "Incident",
+                "target": "Course_Of_Action"
+              }
+            },
+            {
+              "data": {
+                "id": "RelatedThreatActor(*)",
+                "source": "Incident",
+                "target": "Threat_Actor"
+              }
+            },
+            {
+              "data": {
+                "id": "RelatedObservable(*)",
+                "source": "Incident",
+                "target": "observable"
+              }
+            },
+            {
+              "data": {
+                "id": "RelatedObservable(*)",
+                "source": "Incident",
+                "target": "observable"
+              }
+            },
+            {
+              "data": {
+                "id": "ExploitTarget(*)",
+                "source": "ttp",
+                "target": "et"
+              },
+              "classes": "straight"
+            }
+          ],
+          "layout": {
+            "name": "preset"
+          },
+          "style": [
+            {
+              "selector": "node",
+              "style": {
+                "content": "data(name)",
+                "font-size": "3px",
+                "text-valign": "center",
+                "height": 15,
+                "width": 15,
+                "background-color": "white",
+                "background-fit": "cover",
+                "padding": 0.5
+              }
+            },
+            {
+              "selector": "$node > node",
+              "style": {
+                "background-color": "white"
+              }
+            },
+            {
+              "selector": "edge",
+              "style": {
+                "width": 0.5,
+                "line-color": "#000000",
+                "target-arrow-shape": "triangle",
+                "curve-style": "unbundled-bezier",
+                "control-point-distances": 50,
+                "control-point-weights": 0.5
+              }
+            },
+            {
+              "selector": "edge.straight",
+              "style": {
+                "width": 0.5,
+                "line-color": "#000000",
+                "target-arrow-shape": "triangle",
+                "curve-style": "bezier"
+              }
+            }
+          ]
+        }

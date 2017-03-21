@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { format } from 'd3-format'
 
+import { countNodes } from '../helpers/StuccoApi'
 import { HistogramChart, Settings } from './vis/src'
 import { randomStackedHistogramData, histogramData, temporalHistogramData, stackedHistogramData } from './vis/data/exampleData'
 
@@ -50,13 +51,13 @@ const onBarClick = (event, data) => {
 class Histogram extends React.Component {
   constructor (props) {
     super(props)
-
     this.onChart1Enter = this.onChart1Enter.bind(this)
     this.onChart1Leave = this.onChart1Leave.bind(this)
     this.onBrush = this._onBrush.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.brushedVals = []
-    this.temporalData = getTemporalSelection(this.brushedVals)
+    this.updateHistogram = this.updateHistogram.bind(this)
+    this.temporalData = this.handleClick(7)
 
     let id = 'histogram_endpoint'
     let sortBy = JSON.parse(localStorage.getItem(id + '_sortBy'))
@@ -72,7 +73,8 @@ class Histogram extends React.Component {
         type: 'x',
         orient: 'bottom'
       },
-      randomData: randomStackedHistogramData()
+      randomData: randomStackedHistogramData(),
+      temporalData: this.temporalData
     }
 
     this.settings = {
@@ -149,7 +151,6 @@ class Histogram extends React.Component {
     }
   }
   _onBrush (brushedVals) {
-    console.log('On brush called')
     console.log(brushedVals)
     this.brushedVals = brushedVals
     this.temporalData = getTemporalSelection(this.brushedVals)
@@ -197,7 +198,37 @@ class Histogram extends React.Component {
 
   handleClick(days) {
     console.log(days)
+    let req = {
+      query: {
+        days: days
+      }
+    }
+    let ret = {}
+    countNodes(req, ret, this.updateHistogram)
   }
+
+  updateHistogram(ret) {
+    let count = ret.send.count
+    var bins = []
+    for (var i = 0; i < count.length; i++) {
+      var today = new Date()
+      today.setDate(today.getDate() - i)
+      bins[i] = {
+        x: today,
+        y: count[i]
+      }
+    }
+    console.log(bins)
+    bins = bins.reverse()
+    let newData = [
+      {
+        name: 'temporal',
+        type: 'temporal',
+        bins: bins
+      }
+    ]
+    this.setState({temporalData: newData})
+  } 
 
   render () {
     var histogramStyle = {
@@ -205,15 +236,19 @@ class Histogram extends React.Component {
     }
     return (
       <div className='container-fluid'>
-        <div className='row'>
-          <div className={cx('col-xs-12')} style={{textAlign: 'center'}} >
-            <HistogramChart xScaleType='time'
-              width={800} height={200} data={this.temporalData} tipFunction={toolTipFunction}
-              addOverlay brushed onBrush={this.onBrush} />
-            <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(30)}>30 Days</button>
-            <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(14)}>14 Days</button>
-            <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(7)}>1 Week</button>
-            <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(1)}>1 Day</button>
+        <div className='row' style={{overflow: 'hidden'}}>
+          <div className={cx('col-xs-12', 'align-bottom')}>
+              <div style={{textAlign: 'center', lineHeight: '300px'}}>
+                <HistogramChart xScaleType='time'
+                  width={600} height={150} data={this.state.temporalData} tipFunction={toolTipFunction}
+                  addOverlay brushed onBrush={this.onBrush} />
+              </div>
+              <div style={{textAlign: 'center'}}>
+                <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(30)}>30 Days</button>
+                <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(14)}>14 Days</button>
+                <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(7)}>1 Week</button>
+                <button type="submit" className={cx('btn', 'btn-default')} onClick={() => this.handleClick(1)}>1 Day</button>
+              </div>
           </div>
         </div>
       </div>

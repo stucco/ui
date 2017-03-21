@@ -27,7 +27,7 @@ class Help extends React.Component {
             <a href='/ontology/stucco'><strong style={fieldStyle}>Stucco ontology</strong></a>
           </li>
         </ul>
-        <h4>Current vertex types are:</h4>
+        <h4>Current vertex types:</h4>
         <ul>
           <li>
             <a href='/resultslist/search/vertexType=Campaign&page=0&pageSize=20'><strong style={fieldStyle}>Campaign</strong></a>: Describes sets of Incidents and/or TTPs with a shared intent.
@@ -70,6 +70,279 @@ class Help extends React.Component {
           </li>
           <li>
             <a href='/resultslist/search/vertexType=Malware&page=0&pageSize=20'><strong style={fieldStyle}>Malware</strong></a>: Any malicious software. This can refer to either a stored binary or a running instance. Malware can contain code to launch an exploit. Malware can itself be an asset that an attacker uses in future attacks (eg. a backdoor left on a compromised system.) or can automatically launch additional attacks on behalf of the original attacker. Malware can be hosted by or communicate with servers controlled by the attacker. Malware can contain code to load other malware. Malware can reuse components from other malware samples.
+          </li>
+        </ul>
+        <h4>Current Observable types:</h4>
+        <ul>
+          <li>
+            <a href='/resultslist/search/observableType=API&page=0&pageSize=20'><strong style={fieldStyle}>API</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=ARP Cache&page=0&pageSize=20'><strong style={fieldStyle}>ARP Cache</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=AS&page=0&pageSize=20'><strong style={fieldStyle}>AS</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Account&page=0&pageSize=20'><strong style={fieldStyle}>Account</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Address&page=0&pageSize=20'><strong style={fieldStyle}>Address</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Archive File&page=0&pageSize=20'><strong style={fieldStyle}>Archive File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Artifact&page=0&pageSize=20'><strong style={fieldStyle}>Artifact</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Code&page=0&pageSize=20'><strong style={fieldStyle}>Code</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Custom&page=0&pageSize=20'><strong style={fieldStyle}>Custom</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=DNS Cache&page=0&pageSize=20'><strong style={fieldStyle}>DNS Cache</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=DNS Query&page=0&pageSize=20'><strong style={fieldStyle}>DNS Query</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=DNS Record&page=0&pageSize=20'><strong style={fieldStyle}>DNS Record</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Device&page=0&pageSize=20'><strong style={fieldStyle}>Device</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Disk&page=0&pageSize=20'><strong style={fieldStyle}>Disk</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Disk Partition&page=0&pageSize=20'><strong style={fieldStyle}>Disk Partition</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Domain Name&page=0&pageSize=20'><strong style={fieldStyle}>Domain Name</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Email Message&page=0&pageSize=20'><strong style={fieldStyle}>Email Message</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Event&page=0&pageSize=20'><strong style={fieldStyle}>Event</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=File&page=0&pageSize=20'><strong style={fieldStyle}>File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=GUI&page=0&pageSize=20'><strong style={fieldStyle}>GUI</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=GUI Dialogbox&page=0&pageSize=20'><strong style={fieldStyle}>GUI Dialogbox</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=GUI Window&page=0&pageSize=20'><strong style={fieldStyle}>GUI Window</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=HTTP Session&page=0&pageSize=20'><strong style={fieldStyle}>HTTP Session</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Hostname&page=0&pageSize=20'><strong style={fieldStyle}>Hostname</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Image File&page=0&pageSize=20'><strong style={fieldStyle}>Image File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Library&page=0&pageSize=20'><strong style={fieldStyle}>Library</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Link&page=0&pageSize=20'><strong style={fieldStyle}>Link</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Linux Package&page=0&pageSize=20'><strong style={fieldStyle}>Linux Package</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Memory&page=0&pageSize=20'><strong style={fieldStyle}>Memory</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Mutex&page=0&pageSize=20'><strong style={fieldStyle}>Mutex</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Connection&page=0&pageSize=20'><strong style={fieldStyle}>Network Connection</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Flow&page=0&pageSize=20'><strong style={fieldStyle}>Network Flow</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Packet&page=0&pageSize=20'><strong style={fieldStyle}>Network Packet</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Route&page=0&pageSize=20'><strong style={fieldStyle}>Network Route</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Route Entry&page=0&pageSize=20'><strong style={fieldStyle}>Network Route Entry</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Socket&page=0&pageSize=20'><strong style={fieldStyle}>Network Socket</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Network Subnet&page=0&pageSize=20'><strong style={fieldStyle}>Network Subnet</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Observable Composition&page=0&pageSize=20'><strong style={fieldStyle}>Observable Composition</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=PDF File&page=0&pageSize=20'><strong style={fieldStyle}>PDF File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Pipe&page=0&pageSize=20'><strong style={fieldStyle}>Pipe</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Port&page=0&pageSize=20'><strong style={fieldStyle}>Port</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Process&page=0&pageSize=20'><strong style={fieldStyle}>Process</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Product&page=0&pageSize=20'><strong style={fieldStyle}>Product</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=SMS Message&page=0&pageSize=20'><strong style={fieldStyle}>SMS Message</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Semaphore&page=0&pageSize=20'><strong style={fieldStyle}>Semaphore</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Socket Address&page=0&pageSize=20'><strong style={fieldStyle}>Socket Address</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=System&page=0&pageSize=20'><strong style={fieldStyle}>System</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=URI&page=0&pageSize=20'><strong style={fieldStyle}>URI</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=URL History&page=0&pageSize=20'><strong style={fieldStyle}>URL History</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Unix File&page=0&pageSize=20'><strong style={fieldStyle}>Unix File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Unix Network Route Entry&page=0&pageSize=20'><strong style={fieldStyle}>Unix Network Route Entry</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Unix Pipe&page=0&pageSize=20'><strong style={fieldStyle}>Unix Pipe</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Unix Process&page=0&pageSize=20'><strong style={fieldStyle}>Unix Process</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Unix User Account&page=0&pageSize=20'><strong style={fieldStyle}>Unix User Account</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Unix Volume&page=0&pageSize=20'><strong style={fieldStyle}>Unix Volume</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=User Account&page=0&pageSize=20'><strong style={fieldStyle}>User Account</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=User Session&page=0&pageSize=20'><strong style={fieldStyle}>User Session</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Volume&page=0&pageSize=20'><strong style={fieldStyle}>Volume</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Whois&page=0&pageSize=20'><strong style={fieldStyle}>Whois</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Computer Account&page=0&pageSize=20'><strong style={fieldStyle}>Windows Computer Account</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Critical Section&page=0&pageSize=20'><strong style={fieldStyle}>Windows Critical Section</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Driver&page=0&pageSize=20'><strong style={fieldStyle}>Windows Driver</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Event&page=0&pageSize=20'><strong style={fieldStyle}>Windows Event</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Event Log&page=0&pageSize=20'><strong style={fieldStyle}>Windows Event Log</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Executable File&page=0&pageSize=20'><strong style={fieldStyle}>Windows Executable File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows File&page=0&pageSize=20'><strong style={fieldStyle}>Windows File</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Filemapping&page=0&pageSize=20'><strong style={fieldStyle}>Windows Filemapping</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Handle&page=0&pageSize=20'><strong style={fieldStyle}>Windows Handle</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Hook&page=0&pageSize=20'><strong style={fieldStyle}>Windows Hook</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Kernel&page=0&pageSize=20'><strong style={fieldStyle}>Windows Kernel</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Kernel Hook&page=0&pageSize=20'><strong style={fieldStyle}>Windows Kernel Hook</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Mailslot&page=0&pageSize=20'><strong style={fieldStyle}>Windows Mailslot</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Memory Page Region&page=0&pageSize=20'><strong style={fieldStyle}>Windows Memory Page Region</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Mutex&page=0&pageSize=20'><strong style={fieldStyle}>Windows Mutex</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Network Route Entry&page=0&pageSize=20'><strong style={fieldStyle}>Windows Network Route Entry</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Network Share&page=0&pageSize=20'><strong style={fieldStyle}>Windows Network Share</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Pipe&page=0&pageSize=20'><strong style={fieldStyle}>Windows Pipe</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Prefetch&page=0&pageSize=20'><strong style={fieldStyle}>Windows Prefetch</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Process&page=0&pageSize=20'><strong style={fieldStyle}>Windows Process</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Registry Key&page=0&pageSize=20'><strong style={fieldStyle}>Windows Registry Key</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Semaphore&page=0&pageSize=20'><strong style={fieldStyle}>Windows Semaphore</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Service&page=0&pageSize=20'><strong style={fieldStyle}>Windows Service</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows System&page=0&pageSize=20'><strong style={fieldStyle}>Windows System</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows System Restore&page=0&pageSize=20'><strong style={fieldStyle}>Windows System Restore</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Task&page=0&pageSize=20'><strong style={fieldStyle}>Windows Task</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Thread&page=0&pageSize=20'><strong style={fieldStyle}>Windows Thread</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows User Account&page=0&pageSize=20'><strong style={fieldStyle}>Windows User Account</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Volume&page=0&pageSize=20'><strong style={fieldStyle}>Windows Volume</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=Windows Waitable Timer&page=0&pageSize=20'><strong style={fieldStyle}>Windows Waitable Timer</strong></a>
+          </li>
+          <li>
+            <a href='/resultslist/search/observableType=X509 Certificate&page=0&pageSize=20'><strong style={fieldStyle}>X509 Certificate</strong></a>
           </li>
         </ul>
         <h4>Vertex fields:</h4>

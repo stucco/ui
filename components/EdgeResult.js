@@ -7,14 +7,10 @@ import { connect } from 'react-redux'
 import { SET_VERTEX } from '../redux/actions'
 
 class EdgeResult extends React.Component {
-  constructor (props) {
-    super(props)
-    console.log("edges result props: " + props)
-  }
   render () {
     return (
       <li className='listGroupItem' >
-        <Link to={encodeURI("/details/vertexType=" + this.props.vertex.vertexType + "&name=" + this.props.vertex.name + "&id=" + this.props.vertex._id)} >
+        <Link to={encodeURI('/details/vertexType=' + this.props.vertex.vertexType + '&name=' + this.props.vertex.name + '&id=' + this.props.vertex._id)} >
           {(this.props.type === 'inEdges') ? <span>&nbsp; ⟵ &nbsp;</span> : <span>&nbsp; ⟶ &nbsp;</span>}
           <span href=''></span>
           <span>&nbsp; &nbsp;</span>

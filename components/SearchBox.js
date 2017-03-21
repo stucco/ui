@@ -35,8 +35,6 @@ class SearchBox extends React.Component {
     this.transition = this.transition.bind(this)
     this.handKeyPress = this.handKeyPress.bind(this)
     this.focus = this.focus.bind(this)
-
-    this.props.dispatch(SET_SOURCE('stucco'))
   }
 
   focus () {

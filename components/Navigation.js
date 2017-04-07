@@ -3,8 +3,8 @@ import cx from 'classnames'
 
 import Link from './Link'
 
-import expandImg from './vis/data/images/icon.expand.png'
-import collapseImg from './vis/data/images/icon.collapse.png'
+//import expandImg from './vis/data/images/icon.expand.png'
+//import collapseImg from './vis/data/images/icon.collapse.png'
 
 class Navigation extends React.Component {
 
@@ -43,6 +43,14 @@ class Navigation extends React.Component {
             <li className={cx('nav', 'navbar-nav')}>
               <Link to='/help' className='navbar-brand'>Help</Link>
             </li>
+          </ul>
+        </div>
+      </nav>
+    );
+  }
+}
+
+/*
             <li className={cx('nav', 'navbar-nav', 'navbar-right')} onClick={ this.expand }> 
               {
                 (this.state.expand) 
@@ -50,11 +58,6 @@ class Navigation extends React.Component {
                   : <img className="navbar-brand" src={ expandImg } />
               }
             </li>
-          </ul>
-        </div>
-      </nav>
-    );
-  }
-}
+*/
 
 export default Navigation
